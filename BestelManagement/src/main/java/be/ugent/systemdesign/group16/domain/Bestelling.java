@@ -15,7 +15,7 @@ import lombok.Setter;
 @Getter
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor()
 public class Bestelling {
 	
 	private Integer bestellingId;

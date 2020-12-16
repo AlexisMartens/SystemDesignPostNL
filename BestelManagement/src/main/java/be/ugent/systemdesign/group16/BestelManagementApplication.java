@@ -94,6 +94,16 @@ public class BestelManagementApplication {
 			log.info(">Find one Bestelling by id {} from database.", 0);
 			Bestelling bestellingById = repo.findOne(0);
 			logBestellingen(Collections.unmodifiableList(Arrays.asList(bestellingById)));
+			
+			Integer newBestellingId = 5;
+			log.info(">Save new Bestelling with id {} to database.", newBestellingId);
+			Bestelling newbestelling = new Bestelling(newBestellingId,"Pakket",new Adres("Jan Vander Broek", "7000", "kaastraat 150", "Gent", "Belgie"), new Adres("Hans Landeghem", "4564", "geefstraat 4", "Geverghem", "Belgie"), LocalDate.of(2020,5,4), BestellingStatus.AANGEMAAKT, true, false, null );
+			repo.save(newbestelling);
+			
+			log.info(">Find all Bestellingen with status Aangemaakt.");
+			List<Bestelling> bestellingen = repo.findAllNietVerwerkt();
+			logBestellingen(bestellingen);
+			
 		};
 	}
 

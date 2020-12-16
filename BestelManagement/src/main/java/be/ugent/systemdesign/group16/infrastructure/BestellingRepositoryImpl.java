@@ -39,7 +39,7 @@ public class BestellingRepositoryImpl implements BestellingRepository {
 	}
 	
 	private BestellingDataModel mapToBestellingDataModel(Bestelling _b) {
-		return new BestellingDataModel(_b.getBestellingId(),_b.getTypeBestelling(),_b.getAfzender().getNaam(), _b.getAfzender().getPostcode(), _b.getAfzender().getStraat(), _b.getAfzender().getPlaats(), _b.getAfzender().getLand(), _b.getOntvanger().getNaam(), _b.getOntvanger().getPostcode(), _b.getOntvanger().getStraat(), _b.getOntvanger().getPlaats(), _b.getOntvanger().getLand(), _b.getAanmaakDatum(), _b.getStatus().name(), _b.isSpoed(), _b.isExtern(), _b.getExterneLeveringService().name());
+		return new BestellingDataModel(_b.getBestellingId(),_b.getTypeBestelling(),_b.getAfzender().getNaam(), _b.getAfzender().getPostcode(), _b.getAfzender().getStraat(), _b.getAfzender().getPlaats(), _b.getAfzender().getLand(), _b.getOntvanger().getNaam(), _b.getOntvanger().getPostcode(), _b.getOntvanger().getStraat(), _b.getOntvanger().getPlaats(), _b.getOntvanger().getLand(), _b.getAanmaakDatum(), _b.getStatus().name(), _b.isSpoed(), _b.isExtern(), _b.getExterneLeveringService() == null? null : _b.getExterneLeveringService().name());
 	}
 	
 	private Bestelling mapToBestelling(BestellingDataModel _b) {
