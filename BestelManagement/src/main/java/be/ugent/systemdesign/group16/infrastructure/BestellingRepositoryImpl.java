@@ -4,13 +4,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import be.ugent.systemdesign.group16.domain.Adres;
 import be.ugent.systemdesign.group16.domain.Bestelling;
 import be.ugent.systemdesign.group16.domain.BestellingRepository;
 import be.ugent.systemdesign.group16.domain.ExterneLeveringService;
-import be.ugent.systemdesign.group16.domain.bestellingStatus;
+import be.ugent.systemdesign.group16.domain.BestellingStatus;
 
+@Repository
 public class BestellingRepositoryImpl implements BestellingRepository {
 
 	@Autowired
@@ -30,7 +32,7 @@ public class BestellingRepositoryImpl implements BestellingRepository {
 
 	@Override
 	public List<Bestelling> findAllNietVerwerkt() {
-		return bestellingDMRepo.findByStatus(bestellingStatus.AANGEMAAKT.name())
+		return bestellingDMRepo.findByStatus(BestellingStatus.AANGEMAAKT.name())
 				.stream()
 				.map(elt -> mapToBestelling(elt))
 				.collect(Collectors.toList());
@@ -64,10 +66,10 @@ public class BestellingRepositoryImpl implements BestellingRepository {
 						.build()
 						)
 				.aanmaakDatum(_b.getAanmaakDatum())
-				.status(bestellingStatus.valueOf(_b.getStatus()))
+				.status(BestellingStatus.valueOf(_b.getStatus()))
 				.spoed(_b.getSpoed())
 				.extern(_b.getExtern())
-				.externeLeveringService(ExterneLeveringService.valueOf(_b.getExterneLeveringService()))
+				.externeLeveringService( (_b.getExterneLeveringService() != null) ? ExterneLeveringService.valueOf(_b.getExterneLeveringService() ) : null)
 				.build();
 		
 		return b;

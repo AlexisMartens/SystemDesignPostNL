@@ -1,6 +1,10 @@
 package be.ugent.systemdesign.group16;
 
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +49,51 @@ public class BestelManagementApplication {
 			  
 			log.info(">Find all Bestellingen from database."); List<BestellingDataModel>
 			bestellingenAll = repo.findAll(); logBestellingDataModels(bestellingenAll);
+			
+			log.info(">Find all bestellingen by status {} from database.",BestellingStatus.AANGEMAAKT);
+			List<BestellingDataModel> inpatientsByStatus = repo.findByStatus(BestellingStatus.AANGEMAAKT.toString());
+			logBestellingDataModels(inpatientsByStatus);
+		
+			Integer newBestellingId = 5;
+			log.info(">Save new Bestelling with id {} to database.", newBestellingId);
+			BestellingDataModel newBestelling = new BestellingDataModel(newBestellingId,"Pakket","Jan Vander Broek", "7000", "kaastraat 150", "Gent", "Belgie", "Hans Landeghem", "4564", "geefstraat 4", "Geverghem", "Belgie", LocalDate.of(2020,5,4), BestellingStatus.AANGEMAAKT.name(), true, false, null );
+			repo.saveAndFlush(newBestelling);
+			
+			log.info(">Find Bestelling by id {} from database.", newBestellingId);
+			Optional<BestellingDataModel> bestellingById= repo.findById(newBestellingId);
+			  bestellingById.ifPresentOrElse( (value) -> {
+			  logBestellingDataModels(Collections.unmodifiableList(Arrays.asList(value)));
+			  }, () -> { logBestellingDataModels(Collections.emptyList()); } );
+			  
+			log.info(">Delete Bestelling by id {} from database.", newBestellingId);
+			repo.deleteById(newBestellingId);
+		};
+	}
+	
+	private static void logBestellingen(List<Bestelling> bestellingen) {
+		log.info("-Number of bestellingen found: {}", bestellingen.size());
+		for(Bestelling bestelling : bestellingen) {
+			log.info("--bestellingId {};"
+					+ " Type {}, naamAfzender {}, straatAfzender {}, postcodeAfzender {},"
+					+ " naamOntvanger {}, straatOntvanger {}, postcodeOntvanger {}, status {},"
+					+ " spoed {}, extern {}, externeLeveringService {}."
+					,
+					bestelling.getBestellingId(),
+					bestelling.getTypeBestelling(), bestelling.getAfzender().getNaam(), bestelling.getAfzender().getStraat(),
+					bestelling.getAfzender().getPostcode(), bestelling.getOntvanger().getNaam(), bestelling.getOntvanger().getStraat(), 
+				bestelling.getOntvanger().getPostcode(), bestelling.getStatus(), bestelling.isSpoed(),
+				bestelling.isExtern(), bestelling.getExterneLeveringService());
+		}
+	}
+	
+	@Bean
+	CommandLineRunner testBestellingRepository(BestellingRepository repo) {
+		return (args) -> {
+			log.info("$Testing BestellingRepository.");
+			
+			log.info(">Find one Bestelling by id {} from database.", 0);
+			Bestelling bestellingById = repo.findOne(0);
+			logBestellingen(Collections.unmodifiableList(Arrays.asList(bestellingById)));
 		};
 	}
 

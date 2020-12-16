@@ -28,7 +28,7 @@ public class Bestelling {
 	
 	private LocalDate aanmaakDatum;
 	
-	private bestellingStatus status;
+	private BestellingStatus status;
 	
 	private boolean spoed;
 	
@@ -42,7 +42,7 @@ public class Bestelling {
 		afzender = new Adres(_naamAfzender, _postcodeAfzender, _straatAfzender, _plaatsAfzender, _landAfzender);
 		ontvanger = new Adres(_naamOntvanger, _postcodeOntvanger, _straatOntvanger, _plaatsOntvanger, _landOntvanger);
 		aanmaakDatum = LocalDate.now();
-		status=bestellingStatus.AANGEMAAKT;
+		status=BestellingStatus.AANGEMAAKT;
 		spoed=_spoed;
 		extern=_extern;
 		try {
@@ -58,6 +58,6 @@ public class Bestelling {
 	}
 	
 	public void Verwerk() {
-		status=bestellingStatus.VERWERKT;
+		status=BestellingStatus.VERWERKT;
 	}
 }
