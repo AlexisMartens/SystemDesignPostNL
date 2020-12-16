@@ -45,16 +45,39 @@ public class Bestelling {
 		status=BestellingStatus.AANGEMAAKT;
 		spoed=_spoed;
 		extern=_extern;
-		try {
-			externeLeveringService=ExterneLeveringService.valueOf(_externeLeveringService);
-		} catch (IllegalArgumentException e) {
-			throw new GeenBestaandeExterneLeveringServiceException();
+		if(extern) {
+			try {
+				externeLeveringService=ExterneLeveringService.valueOf(_externeLeveringService);
+			} catch (IllegalArgumentException e) {
+				throw new GeenBestaandeExterneLeveringServiceException();
+			}
 		}
 		if(!ontvanger.isCorrectAdres()) {
 			throw new GeenGeldigeOntvangerException();
 		}
 		
 		
+	}
+	
+	public Bestelling(Bestelling _retour) {
+		bestellingId=_retour.bestellingId;
+		typeBestelling=_retour.typeBestelling;
+		afzender = _retour.ontvanger;
+		ontvanger = _retour.afzender;
+		aanmaakDatum = LocalDate.now();
+		status=BestellingStatus.AANGEMAAKT;
+		spoed=_retour.spoed;
+		extern=_retour.extern;
+		if(extern) {
+			try {
+				externeLeveringService=ExterneLeveringService.valueOf(_retour.externeLeveringService == null ? null : _retour.externeLeveringService.name() );
+			} catch (IllegalArgumentException e) {
+				throw new GeenBestaandeExterneLeveringServiceException();
+			}
+		}
+		if(!ontvanger.isCorrectAdres()) {
+			throw new GeenGeldigeOntvangerException();
+		}
 	}
 	
 	public void Verwerk() {
