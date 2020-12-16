@@ -58,17 +58,23 @@ public class Bestelling {
 		
 	}
 	
-	public Bestelling(Bestelling _retour) {
-		typeBestelling=_retour.typeBestelling;
-		afzender = _retour.ontvanger;
-		ontvanger = _retour.afzender;
+	public Bestelling(Bestelling _bestelling, boolean retour) {
+		typeBestelling=_bestelling.typeBestelling;
+		if(retour) {
+			afzender = _bestelling.ontvanger;
+			ontvanger = _bestelling.afzender;
+		}
+		else {
+			ontvanger = _bestelling.ontvanger;
+			afzender = _bestelling.afzender;
+		}
 		aanmaakDatum = LocalDate.now();
 		status=BestellingStatus.AANGEMAAKT;
-		spoed=_retour.spoed;
-		extern=_retour.extern;
+		spoed=_bestelling.spoed;
+		extern=_bestelling.extern;
 		if(extern) {
 			try {
-				externeLeveringService=ExterneLeveringService.valueOf(_retour.externeLeveringService == null ? null : _retour.externeLeveringService.name() );
+				externeLeveringService=ExterneLeveringService.valueOf(_bestelling.externeLeveringService == null ? null : _bestelling.externeLeveringService.name() );
 			} catch (IllegalArgumentException e) {
 				throw new GeenBestaandeExterneLeveringServiceException();
 			}

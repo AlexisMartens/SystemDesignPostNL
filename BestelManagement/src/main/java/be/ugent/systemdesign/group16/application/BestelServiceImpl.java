@@ -13,15 +13,10 @@ public class BestelServiceImpl implements BestelService {
 	BestellingRepository repo;
 	
 	@Override
-	public Response plaatsBestelling( String _typeBestelling, String _naamOntvanger,
-			String _postcodeOntvanger, String _straatOntvanger, String _plaatsOntvanger, String _landOntvanger,
-			String _naamAfzender, String _postcodeAfzender, String _straatAfzender, String _plaatsAfzender,
-			String _landAfzender, boolean _spoed, boolean _extern, String _externeLeveringService) {
+	public Response plaatsBestelling( Bestelling _b) {
 		Integer bestelId;
 		try {
-			Bestelling b = new Bestelling(_typeBestelling, _naamOntvanger, _postcodeOntvanger, _straatOntvanger, _plaatsOntvanger, _landOntvanger,
-					_naamAfzender, _postcodeAfzender, _straatAfzender, _plaatsAfzender,
-					_landAfzender, _spoed, _extern, _externeLeveringService);
+			Bestelling b = new Bestelling(_b, false);
 			repo.save(b);
 			bestelId = b.getBestellingId();
 		} catch (GeenGeldigeOntvangerException e) {
@@ -38,7 +33,7 @@ public class BestelServiceImpl implements BestelService {
 	public Response plaatsRetour(Integer _bestellingId) {
 		try {
 			Bestelling b = repo.findOne(_bestellingId);
-			Bestelling retour = new Bestelling(b);
+			Bestelling retour = new Bestelling(b, true);
 			repo.save(retour);
 		} catch (BestellingNotFoundException e) {
 			return new Response(ResponseStatus.FAIL,"Geen bestelling om retour te sturen voor id "+_bestellingId);
