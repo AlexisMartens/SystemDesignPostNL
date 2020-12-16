@@ -13,15 +13,17 @@ public class BestelServiceImpl implements BestelService {
 	BestellingRepository repo;
 	
 	@Override
-	public Response plaatsBestelling(Integer _bestellingId, String _typeBestelling, String _naamOntvanger,
+	public Response plaatsBestelling( String _typeBestelling, String _naamOntvanger,
 			String _postcodeOntvanger, String _straatOntvanger, String _plaatsOntvanger, String _landOntvanger,
 			String _naamAfzender, String _postcodeAfzender, String _straatAfzender, String _plaatsAfzender,
 			String _landAfzender, boolean _spoed, boolean _extern, String _externeLeveringService) {
+		Integer bestelId;
 		try {
-			Bestelling b = new Bestelling(_bestellingId, _typeBestelling, _naamOntvanger, _postcodeOntvanger, _straatOntvanger, _plaatsOntvanger, _landOntvanger,
+			Bestelling b = new Bestelling(_typeBestelling, _naamOntvanger, _postcodeOntvanger, _straatOntvanger, _plaatsOntvanger, _landOntvanger,
 					_naamAfzender, _postcodeAfzender, _straatAfzender, _plaatsAfzender,
 					_landAfzender, _spoed, _extern, _externeLeveringService);
 			repo.save(b);
+			bestelId = b.getBestellingId();
 		} catch (GeenGeldigeOntvangerException e) {
 			return new Response(ResponseStatus.FAIL,"Verkeerd afleveradres");
 		}
@@ -29,7 +31,7 @@ public class BestelServiceImpl implements BestelService {
 			return new Response(ResponseStatus.FAIL,"Onbestaande Externe Leverings Service");
 		}
 		
-		return new Response(ResponseStatus.SUCCESS,"id: "+_bestellingId);
+		return new Response(ResponseStatus.SUCCESS,"id: "+bestelId);
 	}
 
 	@Override

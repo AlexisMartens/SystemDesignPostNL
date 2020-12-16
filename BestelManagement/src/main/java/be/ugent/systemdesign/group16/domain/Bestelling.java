@@ -36,8 +36,7 @@ public class Bestelling {
 	
 	private ExterneLeveringService externeLeveringService;
 	
-	public Bestelling(Integer _bestellingId, String _typeBestelling, String _naamOntvanger, String _postcodeOntvanger, String _straatOntvanger, String _plaatsOntvanger, String _landOntvanger, String _naamAfzender, String _postcodeAfzender, String _straatAfzender, String _plaatsAfzender, String _landAfzender, boolean _spoed, boolean _extern, String _externeLeveringService) {
-		bestellingId=_bestellingId;
+	public Bestelling(String _typeBestelling, String _naamOntvanger, String _postcodeOntvanger, String _straatOntvanger, String _plaatsOntvanger, String _landOntvanger, String _naamAfzender, String _postcodeAfzender, String _straatAfzender, String _plaatsAfzender, String _landAfzender, boolean _spoed, boolean _extern, String _externeLeveringService) {
 		typeBestelling=_typeBestelling;
 		afzender = new Adres(_naamAfzender, _postcodeAfzender, _straatAfzender, _plaatsAfzender, _landAfzender);
 		ontvanger = new Adres(_naamOntvanger, _postcodeOntvanger, _straatOntvanger, _plaatsOntvanger, _landOntvanger);
@@ -60,7 +59,6 @@ public class Bestelling {
 	}
 	
 	public Bestelling(Bestelling _retour) {
-		bestellingId=_retour.bestellingId;
 		typeBestelling=_retour.typeBestelling;
 		afzender = _retour.ontvanger;
 		ontvanger = _retour.afzender;

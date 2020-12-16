@@ -54,10 +54,10 @@ public class BestelManagementApplication {
 			List<BestellingDataModel> inpatientsByStatus = repo.findByStatus(BestellingStatus.AANGEMAAKT.toString());
 			logBestellingDataModels(inpatientsByStatus);
 		
-			Integer newBestellingId = 5;
-			log.info(">Save new Bestelling with id {} to database.", newBestellingId);
-			BestellingDataModel newBestelling = new BestellingDataModel(newBestellingId,"Pakket","Jan Vander Broek", "7000", "kaastraat 150", "Gent", "Belgie", "Hans Landeghem", "4564", "geefstraat 4", "Geverghem", "Belgie", LocalDate.of(2020,5,4), BestellingStatus.AANGEMAAKT.name(), true, false, null );
+			log.info(">Save new Bestelling to database.");
+			BestellingDataModel newBestelling = new BestellingDataModel(null,"Pakket","Jan Vander Broek", "7000", "kaastraat 150", "Gent", "Belgie", "Hans Landeghem", "4564", "geefstraat 4", "Geverghem", "Belgie", LocalDate.of(2020,5,4), BestellingStatus.AANGEMAAKT.name(), true, false, null );
 			repo.saveAndFlush(newBestelling);
+			Integer newBestellingId = newBestelling.getBestellingId();
 			
 			log.info(">Find Bestelling by id {} from database.", newBestellingId);
 			Optional<BestellingDataModel> bestellingById= repo.findById(newBestellingId);
@@ -95,10 +95,11 @@ public class BestelManagementApplication {
 			Bestelling bestellingById = repo.findOne(0);
 			logBestellingen(Collections.unmodifiableList(Arrays.asList(bestellingById)));
 			
-			Integer newBestellingId = 5;
-			log.info(">Save new Bestelling with id {} to database.", newBestellingId);
-			Bestelling newbestelling = new Bestelling(newBestellingId,"Pakket",new Adres("Jan Vander Broek", "7000", "kaastraat 150", "Gent", "Belgie"), new Adres("Hans Landeghem", "4564", "geefstraat 4", "Geverghem", "Belgie"), LocalDate.of(2020,5,4), BestellingStatus.AANGEMAAKT, true, false, null );
+			
+			log.info(">Save new Bestelling to database.");
+			Bestelling newbestelling = new Bestelling(null,"Pakket",new Adres("Jan Vander Broek", "7000", "kaastraat 150", "Gent", "Belgie"), new Adres("Hans Landeghem", "4564", "geefstraat 4", "Geverghem", "Belgie"), LocalDate.of(2020,5,4), BestellingStatus.AANGEMAAKT, true, false, null );
 			repo.save(newbestelling);
+			Integer newBestellingId = newbestelling.getBestellingId();
 			
 			log.info(">Find all Bestellingen with status Aangemaakt.");
 			List<Bestelling> bestellingen = repo.findAllNietVerwerkt();
