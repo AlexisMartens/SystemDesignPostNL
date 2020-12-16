@@ -24,14 +24,26 @@ public class BestelManagementApplication {
 	
 	private static void logBestellingDataModels(List<BestellingDataModel> bestellingen) {
 		log.info("-Number of bestellingen found: {}", bestellingen.size());
+		for(BestellingDataModel bestelling : bestellingen) {
+			log.info("--bestellingId {};"
+					+ " Type {}, naamAfzender {}, straatAfzender {}, postcodeAfzender {},"
+					+ " naamOntvanger {}, straatOntvanger {}, postcodeOntvanger {}, status {},"
+					+ " spoed {}, extern {}, externeLeveringService {}."
+					,
+					bestelling.getBestellingId(),
+					bestelling.getTypeBestelling(), bestelling.getNaamAfzender(), bestelling.getStraatAfzender(),
+					bestelling.getPostcodeAfzender(), bestelling.getNaamOntvanger(), bestelling.getStraatOntvanger(), 
+				bestelling.getPostcodeOntvanger(), bestelling.getStatus(), bestelling.getSpoed(),
+				bestelling.getExtern(), bestelling.getExterneLeveringService());
+		}
 	}
 	
 	@Bean
 	CommandLineRunner testBestellingDataModelRepository(BestellingDataModelRepository repo) {
 		return (args) ->{
-			log.info("$Testing InpatientDataModelJPARepository.");
+			log.info("$Testing BestellingDataModelJPARepository.");
 			  
-			log.info(">Find all inpatients from database."); List<BestellingDataModel>
+			log.info(">Find all Bestellingen from database."); List<BestellingDataModel>
 			bestellingenAll = repo.findAll(); logBestellingDataModels(bestellingenAll);
 		};
 	}
