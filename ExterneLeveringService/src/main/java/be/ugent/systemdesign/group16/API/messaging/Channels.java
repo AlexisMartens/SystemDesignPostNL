@@ -9,7 +9,12 @@ public interface Channels {
 
 	static final String EXTERNE_BESTELLING_EVENT = "externe_bestelling_event";
 	
+	static final String UPDATE_TRACK_AND_TRACE_EVENT = "update_track_and_trace_event";
+	
 	@Input(EXTERNE_BESTELLING_EVENT)
 	SubscribableChannel ExterneBestellingEvent();
+	
+	@Output(UPDATE_TRACK_AND_TRACE_EVENT)
+	MessageChannel UpdateTrackAndTrace();
 	
 }
