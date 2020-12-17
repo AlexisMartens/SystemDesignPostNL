@@ -4,6 +4,7 @@ package be.ugent.systemdesign.group16.domain;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import be.ugent.systemdesign.group16.domain.seedwork.AggregateRoot;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,7 +17,7 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor()
-public class Bestelling {
+public class Bestelling extends AggregateRoot {
 	
 	private Integer bestellingId;
 	
@@ -54,6 +55,7 @@ public class Bestelling {
 		if(!ontvanger.isCorrectAdres()) {
 			throw new GeenGeldigeOntvangerException();
 		}
+		addDomainEvent(new NieuweTrackAndTraceDomainEvent(bestellingId.toString(), status.name()));
 		
 		
 	}
@@ -82,6 +84,7 @@ public class Bestelling {
 		if(!ontvanger.isCorrectAdres()) {
 			throw new GeenGeldigeOntvangerException();
 		}
+		addDomainEvent(new NieuweTrackAndTraceDomainEvent(bestellingId.toString(), status.name()));
 	}
 	
 	public void Verwerk() {

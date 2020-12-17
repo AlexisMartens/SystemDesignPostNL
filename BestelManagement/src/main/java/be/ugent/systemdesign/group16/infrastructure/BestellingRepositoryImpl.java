@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Repository;
 
 import be.ugent.systemdesign.group16.domain.Adres;
@@ -18,6 +19,9 @@ public class BestellingRepositoryImpl implements BestellingRepository {
 	@Autowired
 	private BestellingDataModelRepository bestellingDMRepo;
 	
+	@Autowired
+	ApplicationEventPublisher eventPublisher;
+	
 	@Override
 	public Bestelling findOne(Integer id) {
 		BestellingDataModel dm = bestellingDMRepo.findById(id).orElseThrow(BestellingNotFoundException::new);
@@ -28,6 +32,9 @@ public class BestellingRepositoryImpl implements BestellingRepository {
 	public void save(Bestelling _b) {
 		BestellingDataModel dataModel = mapToBestellingDataModel(_b);		
 		bestellingDMRepo.save(dataModel);
+		
+		_b.getDomainEvents().forEach(domainEvent -> eventPublisher.publishEvent(domainEvent));
+		_b.clearDomainEvents();
 	}
 
 	@Override
