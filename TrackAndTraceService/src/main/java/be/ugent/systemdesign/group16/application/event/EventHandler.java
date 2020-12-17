@@ -20,4 +20,9 @@ public class EventHandler {
 		Response response = service.MaakTrackAndTrace(Integer.parseInt(event.getBestellingId()), event.getStatus());
 		log.info("-response status[{}] message[{}]", response.getStatus(), response.getMessage());
 	}
+	
+	public void handleUpdateTrackAndTrace(UpdateTrackAndTraceEvent event) {
+		Response response = service.UpdateTrackAndTrace(event.getBestellingId(), event.getNaam(), event.getPostcode(), event.getStraat(), event.getPlaats(), event.getLand(), event.getStatus());
+		log.info("-response status[{}] message[{}]", response.getStatus(), response.getMessage());
+	}
 }

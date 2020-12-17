@@ -12,4 +12,9 @@ public interface Channels {
 	@Input(NIEUWE_TRACKANDTRACE_EVENT)
 	SubscribableChannel NieuweTrackAndTraceEvent();
 	
+	static final String UPDATE_TRACK_AND_TRACE_EVENT = "update_track_and_trace_event";
+	
+	@Input(UPDATE_TRACK_AND_TRACE_EVENT)
+	SubscribableChannel UpdateTrackAndTrace();
+	
 }

@@ -17,9 +17,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 import be.ugent.systemdesign.group16.API.messaging.Channels;
 import be.ugent.systemdesign.group16.application.ExterneLeveringService;
-import be.ugent.systemdesign.group16.domain.BestellingStatus;
-import be.ugent.systemdesign.group16.infrastructure.BestellingDataModel;
-import be.ugent.systemdesign.group16.infrastructure.BestellingDataModelRepository;
 
 @EnableAsync
 @EnableBinding(Channels.class)
