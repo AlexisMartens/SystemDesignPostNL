@@ -15,13 +15,13 @@ import be.ugent.systemdesign.group16.domain.NieuweTrackAndTraceDomainEvent;
 public class BestellingEventListener {
 	private static final Logger log = LoggerFactory.getLogger(BestellingEventListener.class);
 	
-	//@Autowired
-	//EventDispatcher eventDispatcher;
+	@Autowired
+	EventDispatcher eventDispatcher;
 	
 	@Async
 	@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
 	public void handleInpatientHasLeftAsync(NieuweTrackAndTraceDomainEvent event) {
 		log.info(">handle NieuweTrackAnndTrace Async of event created at {}, with new status {} and id {}", event.getCreatedTime(), event.getStatus(), event.getBestellingId());
-		//eventDispatcher.publishInpatientEvent(event);
+		eventDispatcher.publishNieuweTrackAndTraceEvent(event);
 	}
 }

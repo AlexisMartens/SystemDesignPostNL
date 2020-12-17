@@ -25,7 +25,7 @@ public class TrackAndTraceServiceController {
 	TrackAndTraceService service;
 	
 	@GetMapping("/{id}")
-	public TrackAndTrace noteIntakeComplete(@PathVariable("id") Integer id) {
+	public TrackAndTrace GetTrackAndTrace(@PathVariable("id") Integer id) {
 		return service.GetTrackAndTrace(id);
 	}
 }

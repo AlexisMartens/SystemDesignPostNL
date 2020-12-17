@@ -15,12 +15,11 @@ public class TrackAndTraceServiceImpl implements TrackAndTraceService {
 	TrackAndTraceRepository repo;
 	
 	@Override
-	public Response MaakTrackAndTrace(Integer bestellingId, String naam, String postcode, String straat, String plaats,
-			String land, String status) {
+	public Response MaakTrackAndTrace(Integer bestellingId, String status) {
 		if(repo.existsById(bestellingId)) {
 			return new Response(ResponseStatus.FAIL, "id "+bestellingId);
 		}
-		repo.save(new TrackAndTrace(bestellingId, naam, postcode, straat, plaats,land, status));
+		repo.save(new TrackAndTrace(bestellingId, status));
 		return new Response(ResponseStatus.SUCCESS, "id "+bestellingId);
 	}
 

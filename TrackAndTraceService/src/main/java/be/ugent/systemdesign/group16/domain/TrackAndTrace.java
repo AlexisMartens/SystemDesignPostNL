@@ -29,6 +29,11 @@ public class TrackAndTrace {
 	
 	private String status;
 	
+	public TrackAndTrace(Integer bestellingId, String status) {
+		this.bestellingId=bestellingId;
+		this.status=status;
+	}
+	
 	public void update(String _naam, String _postcode, String _straat,
 			String _plaats, String _land, String _status) {
 		naam=_naam;
