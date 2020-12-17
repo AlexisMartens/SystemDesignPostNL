@@ -20,6 +20,9 @@ public class BestelServiceImpl implements BestelService {
 		try {
 			Bestelling b = new Bestelling(_b, false);
 			repo.save(b);
+			_b.setBestellingId(b.getBestellingId());
+			b.Verwerk();
+			repo.save(b);
 			bestelId = b.getBestellingId();
 		} catch (GeenGeldigeOntvangerException e) {
 			return new Response(ResponseStatus.FAIL,"Verkeerd afleveradres");
@@ -37,6 +40,8 @@ public class BestelServiceImpl implements BestelService {
 			Bestelling b = repo.findOne(_bestellingId);
 			Bestelling retour = new Bestelling(b, true);
 			repo.save(retour);
+			//b.Verwerk();
+			//repo.save(b);
 		} catch (BestellingNotFoundException e) {
 			return new Response(ResponseStatus.FAIL,"Geen bestelling om retour te sturen voor id "+_bestellingId);
 		}catch (GeenGeldigeOntvangerException e) {

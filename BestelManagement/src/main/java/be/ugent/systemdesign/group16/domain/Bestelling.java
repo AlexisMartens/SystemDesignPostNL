@@ -55,9 +55,6 @@ public class Bestelling extends AggregateRoot {
 		if(!ontvanger.isCorrectAdres()) {
 			throw new GeenGeldigeOntvangerException();
 		}
-		addDomainEvent(new NieuweTrackAndTraceDomainEvent(bestellingId.toString(), status.name()));
-		
-		
 	}
 	
 	public Bestelling(Bestelling _bestelling, boolean retour) {
@@ -79,15 +76,16 @@ public class Bestelling extends AggregateRoot {
 				externeLeveringService=ExterneLeveringService.valueOf(_bestelling.externeLeveringService == null ? null : _bestelling.externeLeveringService.name() );
 			} catch (IllegalArgumentException e) {
 				throw new GeenBestaandeExterneLeveringServiceException();
-			}
+			} 
 		}
 		if(!ontvanger.isCorrectAdres()) {
 			throw new GeenGeldigeOntvangerException();
 		}
-		addDomainEvent(new NieuweTrackAndTraceDomainEvent(bestellingId.toString(), status.name()));
+		
 	}
 	
 	public void Verwerk() {
+		addDomainEvent(new NieuweTrackAndTraceDomainEvent(bestellingId.toString(), status.name()));
 		status=BestellingStatus.VERWERKT;
 	}
 }

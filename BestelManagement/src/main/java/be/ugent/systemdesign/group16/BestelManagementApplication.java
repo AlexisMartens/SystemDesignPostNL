@@ -12,10 +12,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import be.ugent.systemdesign.group16.infrastructure.*;
+import be.ugent.systemdesign.group16.application.BestelService;
+import be.ugent.systemdesign.group16.application.Response;
 import be.ugent.systemdesign.group16.domain.*;
 
+@EnableAsync
 @SpringBootApplication
 public class BestelManagementApplication {
 
@@ -107,5 +111,25 @@ public class BestelManagementApplication {
 			
 		};
 	}
+	
+	private static void logResponse(Response response) {
+		log.info("-response status[{}] message[{}]", response.status, response.message);
+	}
 
+	@Bean
+	CommandLineRunner testBestelService(BestelService service) {
+		return (args) -> {
+			log.info("$Testing BestelService.");
+			
+			log.info(">Maak nieuwe Bestelling");
+			Bestelling newBestelling = new Bestelling(null,"Pakket",new Adres("Jan Vander Broek", "7000", "kaastraat 150", "Gent", "Belgie"), new Adres("Hans Landeghem", "4564", "geefstraat 4", "Geverghem", "Belgie"), LocalDate.of(2020,5,4), BestellingStatus.AANGEMAAKT, true, false, null );
+			Response response = service.plaatsBestelling(newBestelling);
+			logResponse(response);
+			
+			log.info(">maak retour bestelling voor id {}", newBestelling.getBestellingId());
+			//response = service.plaatsRetour(newBestelling.getBestellingId());
+			//logResponse(response);
+		};
+	}
+	
 }

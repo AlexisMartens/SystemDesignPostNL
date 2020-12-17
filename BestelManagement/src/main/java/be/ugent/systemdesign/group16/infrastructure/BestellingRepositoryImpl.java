@@ -32,6 +32,7 @@ public class BestellingRepositoryImpl implements BestellingRepository {
 	public void save(Bestelling _b) {
 		BestellingDataModel dataModel = mapToBestellingDataModel(_b);		
 		bestellingDMRepo.save(dataModel);
+		_b.setBestellingId(dataModel.getBestellingId());
 		
 		_b.getDomainEvents().forEach(domainEvent -> eventPublisher.publishEvent(domainEvent));
 		_b.clearDomainEvents();
