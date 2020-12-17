@@ -2,10 +2,12 @@ package be.ugent.systemdesign.group16.application;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import be.ugent.systemdesign.group16.domain.*;
 import be.ugent.systemdesign.group16.infrastructure.BestellingNotFoundException;
 
+@Transactional
 @Service
 public class BestelServiceImpl implements BestelService {
 

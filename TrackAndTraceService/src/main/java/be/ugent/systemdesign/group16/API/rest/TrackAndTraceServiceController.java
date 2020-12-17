@@ -1,0 +1,31 @@
+package be.ugent.systemdesign.group16.API.rest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import be.ugent.systemdesign.group16.application.Response;
+import be.ugent.systemdesign.group16.application.ResponseStatus;
+import be.ugent.systemdesign.group16.application.TrackAndTraceService;
+import be.ugent.systemdesign.group16.domain.TrackAndTrace;
+
+@RestController
+@RequestMapping(path="api/TrackAndTrace")
+@CrossOrigin(origins="*")
+public class TrackAndTraceServiceController {
+
+	@Autowired
+	TrackAndTraceService service;
+	
+	@GetMapping("/{id}")
+	public TrackAndTrace noteIntakeComplete(@PathVariable("id") Integer id) {
+		return service.GetTrackAndTrace(id);
+	}
+}
