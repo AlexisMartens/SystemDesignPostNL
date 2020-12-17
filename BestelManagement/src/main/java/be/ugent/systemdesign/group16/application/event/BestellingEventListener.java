@@ -21,7 +21,7 @@ public class BestellingEventListener {
 	@Async
 	@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
 	public void handleInpatientHasLeftAsync(NieuweTrackAndTraceDomainEvent event) {
-		log.info(">handle InpatientHasLeft Async of event created at {}, with new status {}", event.getCreatedTime(), event.getStatus());
+		log.info(">handle NieuweTrackAnndTrace Async of event created at {}, with new status {} and id {}", event.getCreatedTime(), event.getStatus(), event.getBestellingId());
 		//eventDispatcher.publishInpatientEvent(event);
 	}
 }

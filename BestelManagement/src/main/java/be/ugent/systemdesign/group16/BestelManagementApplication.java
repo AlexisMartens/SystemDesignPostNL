@@ -127,8 +127,8 @@ public class BestelManagementApplication {
 			logResponse(response);
 			
 			log.info(">maak retour bestelling voor id {}", newBestelling.getBestellingId());
-			//response = service.plaatsRetour(newBestelling.getBestellingId());
-			//logResponse(response);
+			response = service.plaatsRetour(newBestelling.getBestellingId());
+			logResponse(response);
 		};
 	}
 	

@@ -36,18 +36,20 @@ public class BestelServiceImpl implements BestelService {
 
 	@Override
 	public Response plaatsRetour(Integer _bestellingId) {
+		Integer bestelId = null; 
 		try {
 			Bestelling b = repo.findOne(_bestellingId);
 			Bestelling retour = new Bestelling(b, true);
 			repo.save(retour);
-			//b.Verwerk();
-			//repo.save(b);
+			bestelId = retour.getBestellingId();
+			retour.Verwerk();
+			repo.save(retour);
 		} catch (BestellingNotFoundException e) {
-			return new Response(ResponseStatus.FAIL,"Geen bestelling om retour te sturen voor id "+_bestellingId);
+			return new Response(ResponseStatus.FAIL,"Geen bestelling om retour te sturen voor id " + bestelId);
 		}catch (GeenGeldigeOntvangerException e) {
 			return new Response(ResponseStatus.FAIL,"Verkeerd afleveradres");
 		}
-		return new Response(ResponseStatus.SUCCESS,"id: "+_bestellingId);
+		return new Response(ResponseStatus.SUCCESS,"id: "+bestelId);
 	}
 
 }
