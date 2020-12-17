@@ -39,6 +39,8 @@ public class BestellingDataModel {
 	private String plaatsOntvanger;
 	private String landOntvanger;
 	
+	private boolean ophalen;
+	
 	private LocalDate aanmaakDatum;
 	
 	private String status;

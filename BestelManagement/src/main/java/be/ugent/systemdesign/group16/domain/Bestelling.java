@@ -27,6 +27,8 @@ public class Bestelling extends AggregateRoot {
 	
 	private Adres afzender;
 	
+	private boolean ophalen;
+	
 	private LocalDate aanmaakDatum;
 	
 	private BestellingStatus status;

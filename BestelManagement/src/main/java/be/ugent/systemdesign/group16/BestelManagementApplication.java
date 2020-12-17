@@ -62,7 +62,7 @@ public class BestelManagementApplication {
 			logBestellingDataModels(inpatientsByStatus);
 		
 			log.info(">Save new Bestelling to database.");
-			BestellingDataModel newBestelling = new BestellingDataModel(null,"Pakket","Jan Vander Broek", "7000", "kaastraat 150", "Gent", "Belgie", "Hans Landeghem", "4564", "geefstraat 4", "Geverghem", "Belgie", LocalDate.of(2020,5,4), BestellingStatus.AANGEMAAKT.name(), true, false, null );
+			BestellingDataModel newBestelling = new BestellingDataModel(null,"Pakket","Jan Vander Broek", "7000", "kaastraat 150", "Gent", "Belgie", "Hans Landeghem", "4564", "geefstraat 4", "Geverghem", "Belgie", false, LocalDate.of(2020,5,4), BestellingStatus.AANGEMAAKT.name(), true, false, null );
 			repo.saveAndFlush(newBestelling);
 			Integer newBestellingId = newBestelling.getBestellingId();
 			
@@ -104,7 +104,7 @@ public class BestelManagementApplication {
 			
 			
 			log.info(">Save new Bestelling to database.");
-			Bestelling newbestelling = new Bestelling(null,"Pakket",new Adres("Jan Vander Broek", "7000", "kaastraat 150", "Gent", "Belgie"), new Adres("Hans Landeghem", "4564", "geefstraat 4", "Geverghem", "Belgie"), LocalDate.of(2020,5,4), BestellingStatus.AANGEMAAKT, true, false, null );
+			Bestelling newbestelling = new Bestelling(null,"Pakket",new Adres("Jan Vander Broek", "7000", "kaastraat 150", "Gent", "Belgie"), new Adres("Hans Landeghem", "4564", "geefstraat 4", "Geverghem", "Belgie"), false, LocalDate.of(2020,5,4), BestellingStatus.AANGEMAAKT, true, false, null );
 			repo.save(newbestelling);
 			Integer newBestellingId = newbestelling.getBestellingId();
 			
@@ -125,7 +125,7 @@ public class BestelManagementApplication {
 			log.info("$Testing BestelService.");
 			
 			log.info(">Maak nieuwe Bestelling");
-			Bestelling newBestelling = new Bestelling(null,"Pakket",new Adres("Jan Vander Broek", "7000", "kaastraat 150", "Gent", "Belgie"), new Adres("Hans Landeghem", "4564", "geefstraat 4", "Geverghem", "Belgie"), LocalDate.of(2020,5,4), BestellingStatus.AANGEMAAKT, true, false, null );
+			Bestelling newBestelling = new Bestelling(null,"Pakket",new Adres("Jan Vander Broek", "7000", "kaastraat 150", "Gent", "Belgie"), new Adres("Hans Landeghem", "4564", "geefstraat 4", "Geverghem", "Belgie"), false, LocalDate.of(2020,5,4), BestellingStatus.AANGEMAAKT, true, false, null );
 			Response response = service.plaatsBestelling(newBestelling);
 			logResponse(response);
 			

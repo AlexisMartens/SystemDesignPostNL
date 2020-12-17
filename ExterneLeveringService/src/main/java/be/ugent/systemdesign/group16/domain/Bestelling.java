@@ -18,28 +18,27 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BestellingDataModel {
+public class Bestelling {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Getter
 	private Integer bestellingId;
 	
 	private String typeBestelling;
-	
-	private String naamAfzender;
-	private String postcodeAfzender;
-	private String straatAfzender;
-	private String plaatsAfzender;
-	private String landAfzender;
 	
 	private String naamOntvanger;
 	private String postcodeOntvanger;
 	private String straatOntvanger;
 	private String plaatsOntvanger;
 	private String landOntvanger;
+
+	private String naamAfzender;
+	private String postcodeAfzender;
+	private String straatAfzender;
+	private String plaatsAfzender;
+	private String landAfzender;
 	
-	private LocalDate aanmaakDatum;
+	private Boolean ophalen;
 	
 	private String status;
 	
