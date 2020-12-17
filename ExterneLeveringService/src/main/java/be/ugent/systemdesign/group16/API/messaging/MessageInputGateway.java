@@ -6,7 +6,7 @@ import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
 import be.ugent.systemdesign.group16.application.event.EventHandler;
-import be.ugent.systemdesign.group16.application.event.NieuweTrackAndTraceDomainEvent;
+import be.ugent.systemdesign.group16.application.event.ExterneBestellingDomainEvent;
 
 @Component
 public class MessageInputGateway {
@@ -17,8 +17,8 @@ public class MessageInputGateway {
 	@Autowired
 	Channels channels;
 	
-	@StreamListener(Channels.NIEUWE_TRACKANDTRACE_EVENT)
-	public void consumeNieuweTrackAndTrraceEvent(NieuweTrackAndTraceDomainEvent event) {
-		eventHandler.handleNewTrackAndTrace(event);
+	@StreamListener(Channels.EXTERNE_BESTELLING_EVENT)
+	public void consumeExterneBestellingEvent(ExterneBestellingDomainEvent event) {
+		eventHandler.handleExterneLevering(event);
 	}
 }

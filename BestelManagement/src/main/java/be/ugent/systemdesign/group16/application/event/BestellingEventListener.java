@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
+import be.ugent.systemdesign.group16.domain.ExterneBestellingDomainEvent;
 import be.ugent.systemdesign.group16.domain.NieuweTrackAndTraceDomainEvent;
 
 @Service
@@ -20,8 +21,16 @@ public class BestellingEventListener {
 	
 	@Async
 	@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-	public void handleInpatientHasLeftAsync(NieuweTrackAndTraceDomainEvent event) {
-		log.info(">handle NieuweTrackAnndTrace Async of event created at {}, with new status {} and id {}", event.getCreatedTime(), event.getStatus(), event.getBestellingId());
+	public void handleNieuweTrackAndTraceAsync(NieuweTrackAndTraceDomainEvent event) {
+		log.info(">handle NieuweTrackAndTrace Async of event created at {}, with new status {} and id {}", event.getCreatedTime(), event.getStatus(), event.getBestellingId());
 		eventDispatcher.publishNieuweTrackAndTraceEvent(event);
+	}
+	
+	@Async
+	@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+	public void handleExterneBestellingAsync(ExterneBestellingDomainEvent event) {
+		log.info(">handle ExterneBestelling Async of event created at {}, with new status {} and id {}", event.getCreatedTime(), event.getStatus(), event.getBestellingId());
+		//eventDispatcher.publishNieuweTrackAndTraceEvent(event);
+		eventDispatcher.publishExterneBestellingEvent(event);
 	}
 }
