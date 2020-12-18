@@ -1,9 +1,11 @@
 package be.ugent.systemdesign.group16.application;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import be.ugent.systemdesign.group16.application.event.UpdateTrackAndTraceEvent;
 import be.ugent.systemdesign.group16.domain.Bestelling;
 import be.ugent.systemdesign.group16.domain.BestellingRepository;
 
@@ -11,6 +13,9 @@ import be.ugent.systemdesign.group16.domain.BestellingRepository;
 @Service
 public class ExterneLeveringServiceImpl implements ExterneLeveringService {
 
+	@Autowired
+	ApplicationEventPublisher eventPublisher;
+	
 	@Autowired
 	BestellingRepository repo;
 	
@@ -29,11 +34,11 @@ public class ExterneLeveringServiceImpl implements ExterneLeveringService {
 	}
 
 	@Override
-	public Response UpdateTrackAndTrace(Integer _bestellingId) {
-		if(repo.existsById(_bestellingId)) {
-			//event uitsturen
+	public Response UpdateTrackAndTrace(UpdateTrackAndTraceEvent e) {
+		if(repo.existsById(e.getBestellingId())) {
+			eventPublisher.publishEvent(e);
 		}
-		return new Response(ResponseStatus.SUCCESS, "id "+_bestellingId);
+		return new Response(ResponseStatus.SUCCESS, "id "+e.getBestellingId());
 	}
 
 }

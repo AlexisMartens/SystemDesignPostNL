@@ -6,12 +6,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import be.ugent.systemdesign.group16.application.ExterneLeveringService;
 import be.ugent.systemdesign.group16.application.Response;
 import be.ugent.systemdesign.group16.application.ResponseStatus;
+import be.ugent.systemdesign.group16.application.event.UpdateTrackAndTraceEvent;
 
 @RestController
 @RequestMapping(path="api/ExterneLeveringService")
@@ -22,8 +24,8 @@ public class ExterneLeveringServiceController {
 	ExterneLeveringService service;
 	
 	@PutMapping("{id}/update")
-	public ResponseEntity<String> UpdateTrackAndTrace(@PathVariable("id") Integer id) {
-		Response response = service.UpdateTrackAndTrace(id);
+	public ResponseEntity<String> UpdateStatusZending(@RequestBody UpdateTrackAndTraceEvent event ) {
+		Response response = service.UpdateTrackAndTrace(event);
 		return createResponseEntity(response.status, "Intake registered", HttpStatus.OK, response.message,HttpStatus.CONFLICT);
 	}
 	

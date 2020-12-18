@@ -7,14 +7,14 @@ import org.springframework.messaging.SubscribableChannel;
 
 public interface Channels {
 
-	static final String NIEUWE_TRACKANDTRACE_EVENT = "nieuwe_track_and_trace_event";
+	static final String EXTERNE_BESTELLING_EVENT = "externe_bestelling_event";
 	
-	@Input(NIEUWE_TRACKANDTRACE_EVENT)
-	SubscribableChannel NieuweTrackAndTraceEvent();
+	@Input(EXTERNE_BESTELLING_EVENT)
+	SubscribableChannel ExterneBestellingEvent();
 	
 	static final String UPDATE_TRACK_AND_TRACE_EVENT = "update_track_and_trace_event";
 	
-	@Input(UPDATE_TRACK_AND_TRACE_EVENT)
-	SubscribableChannel UpdateTrackAndTrace();
+	@Output(UPDATE_TRACK_AND_TRACE_EVENT)
+	MessageChannel UpdateTrackAndTrace();
 	
 }

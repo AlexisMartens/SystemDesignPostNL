@@ -14,6 +14,7 @@ public class NieuweTrackAndTraceDomainEvent {
 	private String status;
 	
 	public NieuweTrackAndTraceDomainEvent(String bestellingId, String status) {
+		super();
 		this.bestellingId=bestellingId;
 		this.status=status;
 	}

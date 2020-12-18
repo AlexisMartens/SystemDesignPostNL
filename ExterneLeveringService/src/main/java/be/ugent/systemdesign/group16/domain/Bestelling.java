@@ -47,4 +47,6 @@ public class Bestelling {
 	private Boolean extern;
 	
 	private String externeLeveringService;
+	
+	
 }
