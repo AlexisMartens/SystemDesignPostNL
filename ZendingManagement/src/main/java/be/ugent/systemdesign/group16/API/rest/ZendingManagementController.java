@@ -29,14 +29,14 @@ public class ZendingManagementController {
 	
 	@PostMapping("/")
 	public ResponseEntity<String> noteIntakeComplete(@RequestBody Zending z) {
-		Response response = zendingService.plaatsZending(z);
+		Response response = zendingService.bevestigAankomstNieuweZending(z);
 		//according to REST specification, we should return the path of the newly created resource after a POST
 		return createResponseEntity(response.status, "Intake registered", HttpStatus.OK, response.message,HttpStatus.CONFLICT);
 	}
 	
 	@PostMapping("retour/{id}")
 	public ResponseEntity<String> noteIntakeComplete(@PathVariable("id") Integer id) {
-		Response response = zendingService.plaatsRetour(id);
+		Response response = zendingService.bevestigAfhalen(id);
 		//according to REST specification, we should return the path of the newly created resource after a POST
 		return createResponseEntity(response.status, "Intake registered", HttpStatus.OK, response.message,HttpStatus.CONFLICT);
 	}

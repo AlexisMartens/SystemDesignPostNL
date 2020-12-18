@@ -7,6 +7,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class Response {
 	final public String message;
-	final public ZendingStatus status;
-	Response(ZendingStatus status, String message){ this.status = status; this.message = message;}
+	final public ResponseStatus status;
+	Response(ResponseStatus status, String message){ this.status = status; this.message = message;}
 }

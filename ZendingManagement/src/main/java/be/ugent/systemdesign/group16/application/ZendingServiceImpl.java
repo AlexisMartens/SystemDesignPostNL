@@ -15,7 +15,7 @@ public class ZendingServiceImpl implements ZendingService {
 	ZendingRepository repo;
 	
 	@Override
-	public Response plaatsZending( Zending _z) {
+	public Response bevestigAankomstNieuweZending( Zending _z) {
 		Integer zendingId;
 		try {
 			Zending z = new Zending(_z, false);
@@ -36,7 +36,7 @@ public class ZendingServiceImpl implements ZendingService {
 	}
 
 	@Override
-	public Response plaatsRetour(Integer _zendingId) {
+	public Response bevestigAfhalen(Integer _zendingId) {
 		Integer zendingId = null; 
 		try {
 			Zending z = repo.findOne(_zendingId);

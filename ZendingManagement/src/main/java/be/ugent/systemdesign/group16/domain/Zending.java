@@ -25,7 +25,7 @@ public class Zending extends AggregateRoot {
 	private Adres ontvanger;
 
 	private Adres afzender;
-	
+	// afhalen worden? of nog extra attribuut 'boolean afhalen'
 	private boolean ophalen;
 	
 	private Adres huidigeLocatie;

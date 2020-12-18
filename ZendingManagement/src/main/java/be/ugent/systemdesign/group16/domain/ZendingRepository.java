@@ -6,6 +6,7 @@ public interface ZendingRepository {
 
 	public Zending findOne(Integer id);	
 	public void save(Zending _z);	
-	// TODO: check functienaam
-	public List<Zending> findAllNietVerwerkt();
+	// TODO: check functienamen
+	public List<Zending> findAllNietAfgeleverd();
+	public List<Zending> findAllNietAfgehaald();
 }

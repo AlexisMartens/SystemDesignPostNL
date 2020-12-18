@@ -1,3 +1,3 @@
 package be.ugent.systemdesign.group16.domain;
-// nog attr?
-public enum ZendingStatus {AANGEMAAKT, VERWERKT}
+// TODO: attributen controleren
+public enum ZendingStatus {AFGEHAALD,AANGEKOMEN, AANGEMAAKT, VERWERKT}
