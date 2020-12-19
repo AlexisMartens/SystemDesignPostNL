@@ -15,21 +15,18 @@ public class ZendingServiceImpl implements ZendingService {
 	ZendingRepository repo;
 	
 	@Override
-	public Response bevestigAankomstNieuweZending( Zending _z) {
+	public Response bevestigAankomstNieuweZending(Zending _z, String _huidigeLocatieNaam, String _huidigePostcode, String _huidigeStraat, String _huidigePlaats, String _huidigLand) {
 		Integer zendingId;
 		try {
-			Zending z = new Zending(_z, false);
+			Zending z = new Zending(_z, _huidigeLocatieNaam, _huidigePostcode, _huidigeStraat, _huidigePlaats, _huidigLand);
 			repo.save(z);
 			_z.setZendingId(z.getZendingId());
 			// TODO: eventuele methodes van Zending komen hier
-			// bijvoorbeeld: z.Verwerk();
+			// bijvoorbeeld: z.Verwerk(); communicatie via events naar andere services
 			repo.save(z);
 			zendingId = z.getZendingId();
-		} catch (GeenGeldigeOntvangerException e) {
-			return new Response(ZendingStatus.FAIL,"Verkeerd afleveradres");
-		}
-		catch (GeenBestaandeExterneLeveringServiceException e) {
-			return new Response(ResponseStatus.FAIL,"Onbestaande Externe Leverings Service");
+		} catch (GeenGeldigAdresException e) {
+			return new Response(ResponseStatus.FAIL,"Verkeerd huidig adres opgegeven");
 		}
 		
 		return new Response(ResponseStatus.SUCCESS,"id: "+zendingId);
@@ -40,16 +37,15 @@ public class ZendingServiceImpl implements ZendingService {
 		Integer zendingId = null; 
 		try {
 			Zending z = repo.findOne(_zendingId);
-			Zending retour = new Zending(z, true);
-			repo.save(retour);
-			zendingId = retour.getZendingId();
+			repo.save(z);
+			zendingId = z.getZendingId();
 			//TODO: evetuele methodes
 			//bijvoorbeeld: retour.Verwerk();
-			repo.save(retour);
+			repo.save(z);
 		} catch (ZendingNotFoundException e) {
-			return new Response(ResponseStatus.FAIL,"Geen zending om retour te sturen voor id " + zendingId);
-		}catch (GeenGeldigeOntvangerException e) {
-			return new Response(ResponseStatus.FAIL,"Verkeerd afleveradres");
+			return new Response(ResponseStatus.FAIL,"Geen zending gevonden die kan worden afgehaald (door de klant) voor id " + zendingId);
+		}catch (GeenGeldigAdresException e) {
+			return new Response(ResponseStatus.FAIL,"Verkeerd huidig adres opgegeven");
 		}
 		return new Response(ResponseStatus.SUCCESS,"id: "+zendingId);
 	}
