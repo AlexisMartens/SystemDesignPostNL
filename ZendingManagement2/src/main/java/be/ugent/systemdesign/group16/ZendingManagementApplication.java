@@ -12,12 +12,13 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import be.ugent.systemdesign.group16.domain.Adres;
 import be.ugent.systemdesign.group16.domain.ZendingStatus;
 import be.ugent.systemdesign.group16.infrastructure.ZendingDataModel;
 import be.ugent.systemdesign.group16.infrastructure.ZendingDataModelRepository;
-
+@EnableAsync
 @SpringBootApplication
 public class ZendingManagementApplication {
 	private static final Logger log = LoggerFactory.getLogger(ZendingManagementApplication.class);

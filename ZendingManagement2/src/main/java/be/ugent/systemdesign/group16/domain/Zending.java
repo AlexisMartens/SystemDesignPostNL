@@ -3,8 +3,6 @@ package be.ugent.systemdesign.group16.domain;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
-import be.ugent.systemdesign.group16.domain.seedwork.AggregateRoot;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,7 +17,7 @@ import lombok.Setter;
 
 //TODO: ??? @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor()
-public class Zending extends AggregateRoot {
+public class Zending{// extends AggregateRoot {
 	
 	private Integer zendingId;
 
