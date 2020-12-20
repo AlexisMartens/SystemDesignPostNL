@@ -33,8 +33,8 @@ public class ZendingRepositoryImpl implements ZendingRepository {
 		zendingDMRepo.save(dataModel);
 		_z.setZendingId(dataModel.getZendingId());
 		
-		//_z.getDomainEvents().forEach(domainEvent -> eventPublisher.publishEvent(domainEvent));
-		//_z.clearDomainEvents();
+		_z.getDomainEvents().forEach(domainEvent -> eventPublisher.publishEvent(domainEvent));
+	    _z.clearDomainEvents();
 	}
 
 
