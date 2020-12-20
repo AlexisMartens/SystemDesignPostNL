@@ -27,14 +27,14 @@ public class BestelManagementController {
 	BestelService bestelService;
 	
 	@PostMapping("/")
-	public ResponseEntity<String> noteIntakeComplete(@RequestBody Bestelling b) {
+	public ResponseEntity<String> maakBestelling(@RequestBody Bestelling b) {
 		Response response = bestelService.plaatsBestelling(b);
 		//according to REST specification, we should return the path of the newly created resource after a POST
 		return createResponseEntity(response.status, "Intake registered", HttpStatus.OK, response.message,HttpStatus.CONFLICT);
 	}
 	
 	@PostMapping("retour/{id}")
-	public ResponseEntity<String> noteIntakeComplete(@PathVariable("id") Integer id) {
+	public ResponseEntity<String> maakRetour(@PathVariable("id") Integer id) {
 		Response response = bestelService.plaatsRetour(id);
 		//according to REST specification, we should return the path of the newly created resource after a POST
 		return createResponseEntity(response.status, "Intake registered", HttpStatus.OK, response.message,HttpStatus.CONFLICT);

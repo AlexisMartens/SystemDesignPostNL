@@ -11,6 +11,7 @@ import org.springframework.transaction.event.TransactionalEventListener;
 
 import be.ugent.systemdesign.group16.domain.ExterneBestellingDomainEvent;
 import be.ugent.systemdesign.group16.domain.NieuweTrackAndTraceDomainEvent;
+import be.ugent.systemdesign.group16.domain.ZendingDomainEvent;
 
 @Service
 public class BestellingEventListener {
@@ -32,5 +33,14 @@ public class BestellingEventListener {
 		log.info(">handle ExterneBestelling Async of event created at {}, with new status {} and id {}", event.getCreatedTime(), event.getStatus(), event.getBestellingId());
 		//eventDispatcher.publishNieuweTrackAndTraceEvent(event);
 		eventDispatcher.publishExterneBestellingEvent(event);
+	}
+	
+	@Async
+	@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+	public void handleZendingAsync(ZendingDomainEvent event) {
+		log.info(">handle Zending Async of event created at {} and id {}", event.getCreatedTime(), event.getBestellingId());
+		//eventDispatcher.publishNieuweTrackAndTraceEvent(event);
+		//eventDispatcher.publishExterneBestellingEvent(event);
+		eventDispatcher.publishZendingEvent(event);
 	}
 }

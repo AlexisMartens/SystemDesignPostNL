@@ -23,7 +23,7 @@ import be.ugent.systemdesign.group16.domain.ZendingRepository;
 import be.ugent.systemdesign.group16.domain.ZendingStatus;
 import be.ugent.systemdesign.group16.infrastructure.ZendingDataModel;
 import be.ugent.systemdesign.group16.infrastructure.ZendingDataModelRepository;
-
+@EnableAsync
 @SpringBootApplication
 public class ZendingManagementApplication {
 	private static final Logger log = LoggerFactory.getLogger(ZendingManagementApplication.class);
@@ -31,7 +31,15 @@ public class ZendingManagementApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ZendingManagementApplication.class, args);
 	}
-
+	/*
+	@Bean
+	CommandLineRunner testKlaarVoorKoerierEvent(ZendingService service) {
+		return (args) -> {
+			Response response = service.noteLeftAgainstMedicalAdvice("3");
+			logResponse(response);
+		};
+	}
+	*/
 	private static void logZendingDataModels(List<ZendingDataModel> zendingen) {
 		log.info("-Number of zendingen found: {}", zendingen.size());
 		for(ZendingDataModel zending : zendingen) {

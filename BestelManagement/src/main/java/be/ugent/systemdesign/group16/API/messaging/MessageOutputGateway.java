@@ -6,6 +6,7 @@ import org.springframework.integration.annotation.MessagingGateway;
 import be.ugent.systemdesign.group16.application.event.EventDispatcher;
 import be.ugent.systemdesign.group16.domain.ExterneBestellingDomainEvent;
 import be.ugent.systemdesign.group16.domain.NieuweTrackAndTraceDomainEvent;
+import be.ugent.systemdesign.group16.domain.ZendingDomainEvent;
 
 @MessagingGateway
 public interface MessageOutputGateway extends EventDispatcher {
@@ -15,4 +16,7 @@ public interface MessageOutputGateway extends EventDispatcher {
 	
 	@Gateway(requestChannel = Channels.EXTERNE_BESTELLING_EVENT)
 	void publishExterneBestellingEvent(ExterneBestellingDomainEvent event);
+	
+	@Gateway(requestChannel = Channels.ZENDING_EVENT)
+	void publishZendingEvent(ZendingDomainEvent event);
 }
