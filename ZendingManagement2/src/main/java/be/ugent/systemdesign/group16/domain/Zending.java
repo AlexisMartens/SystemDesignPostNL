@@ -55,10 +55,12 @@ public class Zending{// extends AggregateRoot {
 		
 		ophalenBijKlantThuis = _ophalenBijKlant;
 		aanmaakDatum = LocalDate.now();
-		status=ZendingStatus.AANGEMAAKT;
+		status=ZendingStatus.AF_TE_HALEN_IN_AFHAALPUNT;
 		spoed=_spoed;
 		extern=_extern;
-		
+		if(ophalenBijKlantThuis) {
+			status=ZendingStatus.OP_TE_HALEN_BIJ_KLANT;
+		} 
 		if(!huidigeLocatie.isCorrectAdres()) {
 			throw new GeenGeldigAdresException();
 		}
@@ -68,7 +70,7 @@ public class Zending{// extends AggregateRoot {
 		typeZending =_zending.typeZending;
 		huidigeLocatie = new Adres(_huidigeLocatieNaam, _huidigePostcode, _huidigeStraat, _huidigePlaats, _huidigLand);
 		aanmaakDatum = LocalDate.now();
-		status=ZendingStatus.AANGEMAAKT;
+		status=ZendingStatus.AF_TE_HALEN_IN_AFHAALPUNT;
 		// vanuitgaande dat Bestelling ontvanger en afzender correct instelde volgens al dan niet retour:
 		ontvanger = _zending.ontvanger;
 		afzender = _zending.afzender;
@@ -76,7 +78,9 @@ public class Zending{// extends AggregateRoot {
 		spoed=_zending.spoed;
 		extern=_zending.extern;
 		ophalenBijKlantThuis = _zending.ophalenBijKlantThuis;
-		
+		if(ophalenBijKlantThuis) {
+			status=ZendingStatus.OP_TE_HALEN_BIJ_KLANT;
+		}
 		if(!huidigeLocatie.isCorrectAdres()) {
 			throw new GeenGeldigAdresException();
 		}		
