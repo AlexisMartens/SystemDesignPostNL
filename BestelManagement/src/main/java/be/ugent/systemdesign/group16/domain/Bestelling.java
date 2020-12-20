@@ -97,7 +97,8 @@ public class Bestelling extends AggregateRoot {
 			addDomainEvent(new ExterneBestellingDomainEvent(bestellingId.toString(), typeBestelling, ontvanger.getNaam(), ontvanger.getPostcode(),ontvanger.getStraat(),ontvanger.getPlaats(), ontvanger.getLand(), afzender.getNaam(), afzender.getPostcode(), afzender.getStraat(), afzender.getPlaats(), afzender.getLand(), ophalen, status.toString(), spoed, extern, externeLeveringService.toString()));
 		}
 		else {
-			//event naar zendingmgmt
+			addDomainEvent(new ZendingDomainEvent(bestellingId, typeBestelling, ontvanger.getNaam(), ontvanger.getPostcode(),ontvanger.getStraat(),ontvanger.getPlaats(), ontvanger.getLand(), afzender.getNaam(), afzender.getPostcode(), afzender.getStraat(), afzender.getPlaats(), afzender.getLand(), ophalen, spoed));
+			
 		}
 		status=BestellingStatus.VERWERKT;
 		
