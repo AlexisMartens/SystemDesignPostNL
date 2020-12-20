@@ -56,9 +56,4 @@ public class ZendingDataModel {
 	
 	private Boolean spoed;
 	
-	private Boolean extern;
-	
-/*	private String SorteerItemManagement;
-	private String KoerierService;*/
-	
 }

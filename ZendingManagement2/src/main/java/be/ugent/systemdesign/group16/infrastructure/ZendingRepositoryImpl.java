@@ -43,7 +43,7 @@ public class ZendingRepositoryImpl implements ZendingRepository {
 		return new ZendingDataModel(_z.getZendingId(),_z.getTypeZending(),_z.getHuidigeLocatie().getNaam(),_z.getHuidigeLocatie().getPostcode(), _z.getHuidigeLocatie().getStraat(),_z.getHuidigeLocatie().getPlaats(), _z.getHuidigeLocatie().getLand()
 				,_z.getAfzender().getNaam(), _z.getAfzender().getPostcode(), _z.getAfzender().getStraat(), _z.getAfzender().getPlaats(), _z.getAfzender().getLand(), 
 				_z.getOntvanger().getNaam(), _z.getOntvanger().getPostcode(), _z.getOntvanger().getStraat(), _z.getOntvanger().getPlaats(), _z.getOntvanger().getLand(),
-				_z.isOphalenBijKlantThuis(), _z.getAanmaakDatum(), _z.getStatus().name(), _z.isSpoed(), _z.isExtern());
+				_z.isOphalenBijKlantThuis(), _z.getAanmaakDatum(), _z.getStatus().name(), _z.isSpoed());
 	}
 	
 	private Zending mapToZending(ZendingDataModel _z) {
@@ -82,7 +82,6 @@ public class ZendingRepositoryImpl implements ZendingRepository {
 				.aanmaakDatum(_z.getAanmaakDatum())
 				.status(ZendingStatus.valueOf(_z.getStatus()))
 				.spoed(_z.getSpoed())
-				.extern(_z.getExtern())
 				.build();
 		return z;
 	}

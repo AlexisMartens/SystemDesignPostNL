@@ -40,18 +40,10 @@ public class Zending extends AggregateRoot {
 	private ZendingStatus status;
 
 	private boolean spoed;
-
-	private boolean extern;
-
-	//TODO: hoe integreren?
-	/*private KoerierService koerierService;
-	private SorteerItemManagement sorteerItemManagement;*/
-
 	
-	public Zending(String _typeZending, String _huidigeLocatieNaam, String _huidigePostcode, String _huidigeStraat, String _huidigePlaats, String _huidigLand, String _naamOntvanger, String _postcodeOntvanger, String _straatOntvanger, String _plaatsOntvanger, String _landOntvanger, String _naamAfzender, String _postcodeAfzender, String _straatAfzender, String _plaatsAfzender, String _landAfzender, boolean _ophalenBijKlant, boolean _spoed, boolean _extern) {
+	public Zending(String _typeZending, String _huidigeLocatieNaam, String _huidigePostcode, String _huidigeStraat, String _huidigePlaats, String _huidigLand, String _naamOntvanger, String _postcodeOntvanger, String _straatOntvanger, String _plaatsOntvanger, String _landOntvanger, String _naamAfzender, String _postcodeAfzender, String _straatAfzender, String _plaatsAfzender, String _landAfzender, boolean _ophalenBijKlant, boolean _spoed) {
 		typeZending=_typeZending;
 		huidigeLocatie = new Adres(_huidigeLocatieNaam, _huidigePostcode, _huidigeStraat, _huidigePlaats, _huidigLand);
-		// vanuitgaande dat Bestelling ontvanger en afzender correct instelde volgens al dan niet retour:
 		afzender = new Adres(_naamAfzender, _postcodeAfzender, _straatAfzender, _plaatsAfzender, _landAfzender);
 		ontvanger = new Adres(_naamOntvanger, _postcodeOntvanger, _straatOntvanger, _plaatsOntvanger, _landOntvanger);
 		
@@ -59,7 +51,6 @@ public class Zending extends AggregateRoot {
 		aanmaakDatum = LocalDate.now();
 		status=ZendingStatus.AF_TE_HALEN_IN_AFHAALPUNT;
 		spoed=_spoed;
-		extern=_extern;
 		if(ophalenBijKlantThuis) {
 			status=ZendingStatus.OP_TE_HALEN_BIJ_KLANT;
 		} 
@@ -78,7 +69,6 @@ public class Zending extends AggregateRoot {
 		afzender = _zending.afzender;
 		
 		spoed=_zending.spoed;
-		extern=_zending.extern;
 		ophalenBijKlantThuis = _zending.ophalenBijKlantThuis;
 		if(ophalenBijKlantThuis) {
 			status=ZendingStatus.OP_TE_HALEN_BIJ_KLANT;

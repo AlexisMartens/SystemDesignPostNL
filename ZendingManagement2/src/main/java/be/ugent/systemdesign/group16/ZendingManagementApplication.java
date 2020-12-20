@@ -11,12 +11,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 import be.ugent.systemdesign.group16.application.Response;
 import be.ugent.systemdesign.group16.application.ZendingService;
 import be.ugent.systemdesign.group16.domain.Adres;
+import be.ugent.systemdesign.group16.API.messaging.Channels;
 
 import be.ugent.systemdesign.group16.domain.Zending;
 import be.ugent.systemdesign.group16.domain.ZendingRepository;
@@ -24,6 +26,7 @@ import be.ugent.systemdesign.group16.domain.ZendingStatus;
 import be.ugent.systemdesign.group16.infrastructure.ZendingDataModel;
 import be.ugent.systemdesign.group16.infrastructure.ZendingDataModelRepository;
 @EnableAsync
+@EnableBinding(Channels.class)
 @SpringBootApplication
 public class ZendingManagementApplication {
 	private static final Logger log = LoggerFactory.getLogger(ZendingManagementApplication.class);
@@ -49,7 +52,7 @@ public class ZendingManagementApplication {
 					+ " ophalenBijKlantThuis {},"
 					+ " naamHuidigeLocatie {}, straatHuidigeLocatie {}, postcodeHuidigeLocatie {}, "
 					+ " status {},"
-					+ " spoed {}, extern {}."
+					+ " spoed {}."
 					,
 					zending.getZendingId(),
 					zending.getTypeZending(), 
@@ -57,8 +60,7 @@ public class ZendingManagementApplication {
 					zending.isOphalenBijKlantThuis(),
 					zending.getNaamHuidigeLocatie(), zending.getStraatHuidigeLocatie(), zending.getPostcodeHuidigeLocatie(),
 					zending.getStatus(),					
-					zending.getSpoed(),
-					zending.getExtern());
+					zending.getSpoed());
 		}
 	}
 	
@@ -84,8 +86,7 @@ public class ZendingManagementApplication {
 							false, 
 							LocalDate.of(2020,7,20), 
 							ZendingStatus.AF_TE_HALEN_IN_AFHAALPUNT.name(), 
-							true, 
-							false);
+							true);
 			repo.saveAndFlush(newZending);
 			Integer newZendingId = newZending.getZendingId();
 			
@@ -109,7 +110,7 @@ public class ZendingManagementApplication {
 					+ " ophalenBijKlantThuis {},"
 					+ " naamHuidigeLocatie {}, straatHuidigeLocatie {}, postcodeHuidigeLocatie {}, "
 					+ " status {},"
-					+ " spoed {}, extern {}."
+					+ " spoed {}."
 					,
 					zending.getZendingId(),
 					zending.getTypeZending(), zending.getAfzender().getNaam(), zending.getAfzender().getStraat(),zending.getAfzender().getPostcode(), 
@@ -117,7 +118,7 @@ public class ZendingManagementApplication {
 					zending.isOphalenBijKlantThuis(),
 					zending.getHuidigeLocatie().getNaam(), zending.getHuidigeLocatie().getStraat(), zending.getHuidigeLocatie().getPostcode(), 
 					zending.getStatus(),
-					zending.isSpoed(), zending.isExtern());
+					zending.isSpoed());
 		}
 	}
 	
@@ -137,8 +138,7 @@ public class ZendingManagementApplication {
 					"Karel Veke", "7000", "Koeienstraat 10", "Merelen", "Belgie",
 					"Nick Heldens", "3330", "Paardenstraat 47", "Eergemstraat 80", "Belgie",			
 					false, 
-					true, 
-					false);
+					true);
 			repo.save(newZending);
 			Integer newZendingId = newZending.getZendingId();
 			
@@ -172,8 +172,7 @@ public class ZendingManagementApplication {
 					"Karel Veke", "7000", "Koeienstraat 10", "Merelen", "Belgie",
 					"Nick Heldens", "3330", "Paardenstraat 47", "Male", "Belgie",			
 					false, 
-					true, 
-					false);
+					true);
 			
 			Response response = service.bevestigAankomstNieuweZending(newZending, newZending.getHuidigeLocatie().getNaam(), newZending.getHuidigeLocatie().getPostcode(),
 					newZending.getHuidigeLocatie().getStraat(), newZending.getHuidigeLocatie().getPlaats(), newZending.getHuidigeLocatie().getLand());
@@ -185,8 +184,7 @@ public class ZendingManagementApplication {
 					"Charlie Chaplin", "4000", "Ritsstraat 55", "Brussel", "Belgie",
 					"George Washington", "2999", "Wittehuisstraat 1", "Aarlen", "Belgie",			
 					true, 
-					true, 
-					false);
+					true);
 			response = service.bevestigAankomstNieuweZending(newZending, newZending.getHuidigeLocatie().getNaam(), newZending.getHuidigeLocatie().getPostcode(),
 					newZending.getHuidigeLocatie().getStraat(), newZending.getHuidigeLocatie().getPlaats(), newZending.getHuidigeLocatie().getLand());
 			logResponse(response);
@@ -197,8 +195,7 @@ public class ZendingManagementApplication {
 					"Ward Kraken", "3000", "Vanbullenweg 70", "Leuven", "Belgie",
 					"Jacque Marles", "1000", "Boulangerieweg 4", "Bergen", "Belgie",			
 					true, 
-					true, 
-					false);
+					true);
 			response = service.bevestigAankomstNieuweZending(newZending, newZending.getHuidigeLocatie().getNaam(), newZending.getHuidigeLocatie().getPostcode(),
 					newZending.getHuidigeLocatie().getStraat(), newZending.getHuidigeLocatie().getPlaats(), newZending.getHuidigeLocatie().getLand());
 			logResponse(response);
