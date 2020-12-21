@@ -3,6 +3,8 @@ package be.ugent.systemdesign.group16.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
