@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class KlaarVoorKoerierDomainEvent extends DomainEvent {
-	//TODO: attributen
+	//TODO: attributen => afspreken met vincent
 	private String zendingId;
 	private String status;
 	//TODO: args constructor

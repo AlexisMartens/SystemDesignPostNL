@@ -18,7 +18,6 @@ public class EventHandler {
 	ZendingService service;
 	//bevestigOphalenZending
 	//bevestigAfleverenZending
-	//nieuwezending bestelmgmt
 	//nieuwezending sorteeritemmgmt
 	public void handleNieuweZending(ZendingDomainEvent event) {
 		log.info("-Aangekomen zending");
@@ -28,4 +27,6 @@ public class EventHandler {
 				event.isOphalen(), event.isSpoed()));
 		log.info("-response status[{}] message[{}]", response.getStatus(), response.getMessage());
 	}
+	
+	
 }

@@ -41,8 +41,7 @@ public class ZendingServiceImpl implements ZendingService {
 			z.setStatus(ZendingStatus.AFGEHAALD_IN_AFHAALPUNT);
 			repo.save(z);
 			zendingId = z.getZendingId();
-			//TODO: evetuele methodes
-			//bijvoorbeeld: retour.Verwerk();
+			z.Verwerk();
 			repo.save(z);
 		} catch (ZendingNotFoundException e) {
 			return new Response(ResponseStatus.FAIL,"Geen zending gevonden voor id " + zendingId);

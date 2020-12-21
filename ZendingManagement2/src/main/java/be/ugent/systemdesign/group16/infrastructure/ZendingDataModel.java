@@ -19,7 +19,6 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-//TODO:??? @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
 public class ZendingDataModel {
 

@@ -10,7 +10,6 @@ import be.ugent.systemdesign.group16.application.event.ZendingDomainEvent;
 
 @Component
 public class MessageInputGateway {
-
 	@Autowired
 	EventHandler eventHandler;
 	@Autowired
@@ -20,4 +19,20 @@ public class MessageInputGateway {
 	public void consumeNieuweZendingEvent(ZendingDomainEvent event) {
 		eventHandler.handleNieuweZending(event);
 	}
+	//TODO: onderstaande nog verwerken:
+	
+	
+	/*@StreamListener(Channels.ZENDING_EVENT_SORTEERITEM_MGMT)
+	public void consumeNieuweZendingVanSorteerItemMgmtEvent(NieuweZendingVanSorteerItemMgmt event) {
+		eventHandler.handleNieuweZendingVanSorteerItemMgmtEvent(event);
+	}*/
+	/*@StreamListener(Channels.OPHALEN_ZENDING_EVENT)
+	public void consumeOphalenZendingEvent(OphalenZendingDomainEvent event) {
+		eventHandler.handleOphalenZending(event);
+	}*/
+	/*
+	@StreamListener(Channels.AFLEVEREN_ZENDING_EVENT)
+	public void consumeAfleverenZendingEvent(AfleverenZendingDomainEvent event) {
+		eventHandler.handleAfleverenNieuweZending(event);
+	}*/
 }
