@@ -54,6 +54,5 @@ public class ZendingDataModel {
 	
 	private String status;
 	
-	private Boolean spoed;
-	
+	private Boolean spoed;	
 }

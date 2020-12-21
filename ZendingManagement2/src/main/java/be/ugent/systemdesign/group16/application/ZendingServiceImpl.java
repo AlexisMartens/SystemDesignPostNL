@@ -15,18 +15,18 @@ public class ZendingServiceImpl implements ZendingService {
 	ZendingRepository repo;
 	
 	@Override
-	public Response bevestigAankomstNieuweZending(Zending _z, String _huidigeLocatieNaam, String _huidigePostcode, String _huidigeStraat, String _huidigePlaats, String _huidigLand) {
+	public Response bevestigAankomstNieuweZending(Zending _z) {
 		Integer zendingId;
 		try {
-			Zending z = new Zending(_z, _huidigeLocatieNaam, _huidigePostcode, _huidigeStraat, _huidigePlaats, _huidigLand);
+			Zending z = new Zending(_z);
 			repo.save(z);
 			_z.setZendingId(z.getZendingId());
-			// TODO: eventuele methodes van Zending komen hier
-			// bijvoorbeeld: z.Verwerk(); communicatie via events naar andere services
+			z.Verwerk();
 			repo.save(z);
 			zendingId = z.getZendingId();
+			repo.save(z);
 		} catch (GeenGeldigAdresException e) {
-			return new Response(ResponseStatus.FAIL,"Verkeerd huidig adres opgegeven");
+			return new Response(ResponseStatus.FAIL,"Verkeerd adres opgegeven");
 		}
 		
 		return new Response(ResponseStatus.SUCCESS,"id: "+zendingId);
