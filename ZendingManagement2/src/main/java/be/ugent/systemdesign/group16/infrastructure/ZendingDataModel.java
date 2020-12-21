@@ -19,7 +19,6 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-//TODO:??? @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
 public class ZendingDataModel {
 
@@ -54,6 +53,5 @@ public class ZendingDataModel {
 	
 	private String status;
 	
-	private Boolean spoed;
-	
+	private Boolean spoed;	
 }

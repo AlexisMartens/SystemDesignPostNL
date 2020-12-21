@@ -174,8 +174,7 @@ public class ZendingManagementApplication {
 					false, 
 					true);
 			
-			Response response = service.bevestigAankomstNieuweZending(newZending, newZending.getHuidigeLocatie().getNaam(), newZending.getHuidigeLocatie().getPostcode(),
-					newZending.getHuidigeLocatie().getStraat(), newZending.getHuidigeLocatie().getPlaats(), newZending.getHuidigeLocatie().getLand());
+			Response response = service.bevestigAankomstNieuweZending(newZending);
 			logResponse(response);
 			
 			log.info(">Bevestig aankomst nieuwe zending 2");
@@ -185,8 +184,7 @@ public class ZendingManagementApplication {
 					"George Washington", "2999", "Wittehuisstraat 1", "Aarlen", "Belgie",			
 					true, 
 					true);
-			response = service.bevestigAankomstNieuweZending(newZending, newZending.getHuidigeLocatie().getNaam(), newZending.getHuidigeLocatie().getPostcode(),
-					newZending.getHuidigeLocatie().getStraat(), newZending.getHuidigeLocatie().getPlaats(), newZending.getHuidigeLocatie().getLand());
+			response = service.bevestigAankomstNieuweZending(newZending);
 			logResponse(response);
 			
 			log.info(">Bevestig aankomst nieuwe zending 3");
@@ -196,8 +194,7 @@ public class ZendingManagementApplication {
 					"Jacque Marles", "1000", "Boulangerieweg 4", "Bergen", "Belgie",			
 					true, 
 					true);
-			response = service.bevestigAankomstNieuweZending(newZending, newZending.getHuidigeLocatie().getNaam(), newZending.getHuidigeLocatie().getPostcode(),
-					newZending.getHuidigeLocatie().getStraat(), newZending.getHuidigeLocatie().getPlaats(), newZending.getHuidigeLocatie().getLand());
+			response = service.bevestigAankomstNieuweZending(newZending);
 			logResponse(response);
 			
 			

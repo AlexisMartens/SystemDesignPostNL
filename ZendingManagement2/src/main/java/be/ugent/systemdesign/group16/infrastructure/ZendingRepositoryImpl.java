@@ -108,5 +108,11 @@ public class ZendingRepositoryImpl implements ZendingRepository {
 				.map(elt -> mapToZending(elt))
 				.collect(Collectors.toList());
 	}
-
+	@Override
+	public List<Zending> findAllVerwerkt() {
+		return zendingDMRepo.findByStatus(ZendingStatus.VERWERKT.name())
+				.stream()
+				.map(elt -> mapToZending(elt))
+				.collect(Collectors.toList());
+	}
 }
