@@ -30,7 +30,7 @@ public class Zending extends AggregateRoot {
 	private Adres afzender;
 	// extra:
 	// true: koerier moet zending ophalen bij klant thuis
-	// false: klant moet zending zelf brengen naar ophaalpunt
+	// false: klant moet zending brengen naar ophaalpunt
 	private boolean ophalenBijKlantThuis;
 	// extra:
 	private Adres huidigeLocatie;
@@ -104,17 +104,8 @@ public class Zending extends AggregateRoot {
 	// TODO: verwerk methode(s)?
 	
 	public void Verwerk() {
-		//addDomainEvent(new NieuweTrackAndTraceDomainEvent(bestellingId.toString(), status.name()));
-		/*if(!ophalenBijKlantThuis) {
-			
-			addDomainEvent(new ExterneBestellingDomainEvent(bestellingId.toString(), typeBestelling, ontvanger.getNaam(), ontvanger.getPostcode(),ontvanger.getStraat(),ontvanger.getPlaats(), ontvanger.getLand(), afzender.getNaam(), afzender.getPostcode(), afzender.getStraat(), afzender.getPlaats(), afzender.getLand(), ophalen, status.toString(), spoed, extern, externeLeveringService.toString()));
-		}
-		else {
-			addDomainEvent(new ZendingDomainEvent(bestellingId, typeBestelling, ontvanger.getNaam(), ontvanger.getPostcode(),ontvanger.getStraat(),ontvanger.getPlaats(), ontvanger.getLand(), afzender.getNaam(), afzender.getPostcode(), afzender.getStraat(), afzender.getPlaats(), afzender.getLand(), ophalen, spoed));
-			
-		}
-		status=ZendingStatus.VERWERKT;*/
-		
-	
+		addDomainEvent(new KlaarVoorKoerierDomainEvent(zendingId.toString(), status.name()));
+		addDomainEvent(new NieuwSorteerItemDomainEvent(zendingId, typeZending, status.name(), afzender.getNaam(), afzender.getPostcode(), afzender.getStraat(), afzender.getPlaats(), afzender.getLand(), ontvanger.getNaam(), ontvanger.getPostcode(),ontvanger.getStraat(),ontvanger.getPlaats(), ontvanger.getLand(), ophalenBijKlantThuis, huidigeLocatie.getNaam(), huidigeLocatie.getPostcode(), huidigeLocatie.getStraat(), huidigeLocatie.getPlaats(), huidigeLocatie.getLand(), spoed));
+		status=ZendingStatus.VERWERKT;	
 	}
 }
