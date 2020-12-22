@@ -1,6 +1,7 @@
 package be.ugent.systemdesign.group16.infrastructure;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Repository;
 
 import be.ugent.systemdesign.group16.domain.Adres;
@@ -12,6 +13,9 @@ import be.ugent.systemdesign.group16.domain.OrderStatus;
 @Repository
 public class OrderRepositoryImpl implements OrderRepository{
 
+	@Autowired
+	ApplicationEventPublisher eventPublisher;
+	
 	@Autowired
 	OrderDataModelJpaRepository orderDMJPARepo;
 	
@@ -25,6 +29,9 @@ public class OrderRepositoryImpl implements OrderRepository{
 	public void save(Order order) {
 		OrderDataModel dataModel = mapToOrderDataModel(order);		
 		orderDMJPARepo.save(dataModel);		
+		
+		order.getDomainEvents().forEach(domainEvent -> eventPublisher.publishEvent(domainEvent));
+		order.clearDomainEvents();
 	}
 	
 	@Override
