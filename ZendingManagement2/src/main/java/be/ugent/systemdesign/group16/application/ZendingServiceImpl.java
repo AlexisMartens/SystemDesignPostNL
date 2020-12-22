@@ -13,17 +13,16 @@ public class ZendingServiceImpl implements ZendingService {
 
 	@Autowired
 	ZendingRepository repo;
-	
+
 	@Override
-	public Response bevestigAankomstNieuweZending(Zending _z) {
-		Integer zendingId;
+	public Response bevestigAankomstNieuweZending(Integer _zendingId, Adres adresAfhaalpunt) {
+		Integer zendingId = null; 
 		try {
-			Zending z = new Zending(_z);
-			repo.save(z);
-			_z.setZendingId(z.getZendingId());
-			z.Verwerk();
+			Zending z = repo.findOne(_zendingId);
+			z.setStatus(ZendingStatus.AF_TE_HALEN_IN_AFHAALPUNT);
 			repo.save(z);
 			zendingId = z.getZendingId();
+			z.stuurKoerier();
 			repo.save(z);
 		} catch (GeenGeldigAdresException e) {
 			return new Response(ResponseStatus.FAIL,"Verkeerd adres opgegeven");
@@ -31,7 +30,6 @@ public class ZendingServiceImpl implements ZendingService {
 		
 		return new Response(ResponseStatus.SUCCESS,"id: "+zendingId);
 	}
-
 	@Override
 	public Response bevestigAfhalen(Integer _zendingId) {
 		Integer zendingId = null; 
@@ -41,7 +39,7 @@ public class ZendingServiceImpl implements ZendingService {
 			z.setStatus(ZendingStatus.AFGEHAALD_IN_AFHAALPUNT);
 			repo.save(z);
 			zendingId = z.getZendingId();
-			z.Verwerk();
+			z.maakNieuwSorteerItem();
 			repo.save(z);
 		} catch (ZendingNotFoundException e) {
 			return new Response(ResponseStatus.FAIL,"Geen zending gevonden voor id " + zendingId);

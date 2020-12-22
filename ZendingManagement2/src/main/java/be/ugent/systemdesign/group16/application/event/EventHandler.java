@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import be.ugent.systemdesign.group16.application.Response;
 import be.ugent.systemdesign.group16.application.ZendingService;
+import be.ugent.systemdesign.group16.domain.Adres;
 import be.ugent.systemdesign.group16.domain.Zending;
 
 @Service
@@ -21,10 +22,22 @@ public class EventHandler {
 	//nieuwezending sorteeritemmgmt
 	public void handleNieuweZending(ZendingDomainEvent event) {
 		log.info("-Aangekomen zending");
-		Response response = service.bevestigAankomstNieuweZending(new Zending(event.getTypeBestelling(), null, null, null, null, null,
+		Response response; 
+
+		// ophalen bij klant thuis
+		if(event.isOphalen()) {
+			response = service.bevestigAankomstNieuweZending(event.getBestellingId(), new Adres(event.getNaamOntvanger(), event.getPostcodeOntvanger(), event.getStraatOntvanger(),
+					event.getPlaatsOntvanger(), event.getLandOntvanger()));
+		}
+		// zending moet naar afhaalpunt
+		else {
+			response = service.bevestigAankomstNieuweZending(event.getBestellingId(), new Adres(event.getNaamOntvanger(), event.getPostcodeOntvanger(), event.getStraatOntvanger(),
+					event.getPlaatsOntvanger(), event.getLandOntvanger()));
+		}
+				/*(new Zending(event.getTypeBestelling(), null, null, null, null, null,
 				event.getNaamOntvanger(), event.getPostcodeOntvanger(), event.getStraatOntvanger(), event.getPlaatsOntvanger(), event.getLandOntvanger(),
-				event.getNaamAfzender(), event.getPostcodeAfzender(), event.getStraatAfzender(), event.getPlaatsAfzender(), event.getLandAfzender(),
-				event.isOphalen(), event.isSpoed()));
+				event.getNaamAfzender(), event.getPostcodeAfzend*er(), event.getStraatAfzender(), event.getPlaatsAfzender(), event.getLandAfzender(),
+				event.isOphalen(), event.isSpoed()))*/
 		log.info("-response status[{}] message[{}]", response.getStatus(), response.getMessage());
 	}
 	

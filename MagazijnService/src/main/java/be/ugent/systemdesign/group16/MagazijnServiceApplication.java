@@ -10,4 +10,5 @@ public class MagazijnServiceApplication {
 		SpringApplication.run(MagazijnServiceApplication.class, args);
 	}
 
+
 }

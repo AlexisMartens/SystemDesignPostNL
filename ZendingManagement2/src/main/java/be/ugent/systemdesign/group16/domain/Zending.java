@@ -100,9 +100,12 @@ public class Zending extends AggregateRoot {
 			throw new GeenGeldigAdresException();
 		}		
 	}
-
-	public void Verwerk() {
+	public void stuurKoerier() {
 		addDomainEvent(new KlaarVoorKoerierDomainEvent(zendingId.toString(), status.name()));
+		status=ZendingStatus.VERWERKT;	
+
+	}
+	public void maakNieuwSorteerItem() {
 		addDomainEvent(new NieuwSorteerItemDomainEvent(zendingId, typeZending, status.name(), afzender.getNaam(), afzender.getPostcode(), afzender.getStraat(), afzender.getPlaats(), afzender.getLand(), ontvanger.getNaam(), ontvanger.getPostcode(),ontvanger.getStraat(),ontvanger.getPlaats(), ontvanger.getLand(), ophalenBijKlantThuis, huidigeLocatie.getNaam(), huidigeLocatie.getPostcode(), huidigeLocatie.getStraat(), huidigeLocatie.getPlaats(), huidigeLocatie.getLand(), spoed));
 		status=ZendingStatus.VERWERKT;	
 	}
