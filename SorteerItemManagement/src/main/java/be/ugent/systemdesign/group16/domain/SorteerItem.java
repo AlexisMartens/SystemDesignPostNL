@@ -3,13 +3,16 @@ package be.ugent.systemdesign.group16.domain;
 import java.time.LocalDate;
 
 import be.ugent.systemdesign.group16.domain.seedwork.AggregateRoot;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
 public class SorteerItem extends AggregateRoot{
 	
 	private Integer sorteerItemId;
