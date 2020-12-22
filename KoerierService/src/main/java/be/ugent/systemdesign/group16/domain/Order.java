@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import javax.persistence.Id;
 
+import be.ugent.systemdesign.group16.domain.seedwork.AggregateRoot;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,7 +16,7 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Order {
+public class Order extends AggregateRoot{
 	
 	//@Id
 	private Integer orderId;
@@ -46,38 +47,27 @@ public class Order {
 	}
 
 	
-	//moet allemaal in de Order klasse
-	//zal de status van een Order aanpassen en daarvoor nodige events uitsturen
-
 	public void bevestigAfleverenBuren() {
-		// TODO
 		setOrderStatus(OrderStatus.AFGELEVERD_BIJ_BUREN);
-		// Events sturen naar track&trace en event sturen naar ZendingManagement
-		
-		
-		// zal binnenkomen via de restcontroller als systeemoperatie
-		// zal je hier status aanpassen en events sturen naar track&trace en event sturen nr zendingmanagement
+		addDomainEvent(new UpdateTrackAndTraceEvent(getOrderId(),getOrderStatus()));
+		addDomainEvent(new BevestigAfleverenZendingEvent(getOrderId(), getOntvanger(), getAfzender(), isSpoed(), isExtern(), getOrderStatus()));
 	}
 	
 	public void bevestigOphalen() {
-		//TODO
-		this.orderStatus = OrderStatus.OPGEHAALD;
-		// Events sturen naar track&trace en event sturen naar ZendingManagement
-
-
+		setOrderStatus(OrderStatus.OPGEHAALD);
+		addDomainEvent(new UpdateTrackAndTraceEvent(getOrderId(),getOrderStatus()));
+		addDomainEvent(new BevestigOphalenZendingEvent(getOrderId(), getOntvanger(), getAfzender(), isSpoed(), isExtern(), getOrderStatus()));
 	}
 	
 	public void bevestigAfleveren() {
-		//TODO
-		this.orderStatus = OrderStatus.AFGELEVERD;
-		// Events sturen naar track&trace en event sturen naar ZendingManagement
-
-
-	}
+		setOrderStatus(OrderStatus.AFGELEVERD);
+		addDomainEvent(new UpdateTrackAndTraceEvent(getOrderId(),getOrderStatus()));
+		addDomainEvent(new BevestigAfleverenZendingEvent(getOrderId(), getOntvanger(), getAfzender(), isSpoed(), isExtern(), getOrderStatus()));
 	
 	public void wijsKoerierToeAanOrder(Koerier koerier){
 		setKoerier(koerier);
 		setOrderStatus(OrderStatus.TOEGEWEZEN_AAN_KOERIER);
+		addDomainEvent(new UpdateTrackAndTraceEvent(getOrderId(),getOrderStatus()));
 	}
 
 
