@@ -5,6 +5,7 @@ import java.util.List;
 public interface KoerierRepository {
 
 	public Koerier findOne(Integer id);	
-	public void save(Koerier _k);	
-	public List<Koerier> findAll();
+	public void save(Koerier k);	
+	public List<Koerier> findByPostcodeRonde(String postcodeRonde);
+	
 }

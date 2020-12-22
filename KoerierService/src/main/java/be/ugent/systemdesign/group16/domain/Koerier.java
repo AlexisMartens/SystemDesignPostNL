@@ -3,8 +3,12 @@ package be.ugent.systemdesign.group16.domain;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import be.ugent.systemdesign.group16.domain.seedwork.AggregateRoot;
+import javax.persistence.OneToMany;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,43 +20,34 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor()
-public class Koerier extends AggregateRoot {
+public class Koerier {
 	
-	private Integer KoerierId;
+	private Integer koerierId;
 	
 	private String naam;
-		
-	private ArrayList<AfleverOrder> afleverOrders;
 	
-	private ArrayList<OphaalOrder> ophaalOrders;
+	private String postcodeRonde;
 	
-	private boolean beschikbaarVoorMeerOrders;
+	private Integer vervoercapaciteit;
 	
-	private String postcodeRegio;
-	
-	public Koerier(String _naam, String _postcodeRegio, boolean _beschikbaarVoorMeerOrders) {
-		naam = _naam;
-		postcodeRegio = _postcodeRegio;
-		beschikbaarVoorMeerOrders = _beschikbaarVoorMeerOrders;
-		afleverOrders = new ArrayList<>();
-		ophaalOrders = new ArrayList<>();
+    private List<Order> orders;
+    
+	public Koerier(Integer koerierId, String naam, String postcodeRonde, Integer vervoercapaciteit) {
+		this.koerierId = koerierId;
+		this.naam = naam;
+		this.postcodeRonde = postcodeRonde;
+		this.vervoercapaciteit = vervoercapaciteit;
+		this.orders = new ArrayList<>();
 	}
 	
-	public void VoegAfleverOrderToe(AfleverOrder afleverOrder){
-		if(beschikbaarVoorMeerOrders && postcodeRegio == afleverOrder.getOntvanger().getPostCode()) {
-			afleverOrders.add(afleverOrder);
+	public void VoegOrderToe(Order order){
+		if(order.getAfzender().getPostcode().equals(this.postcodeRonde) || order.getOntvanger().getPostcode().equals(this.postcodeRonde)) {
+				orders.add(order);
 		}
 		else {
-			//exception
+			throw new NietInRondeException();
 		}
-	}
-	
-	public void VoegOphaalOrderToe(OphaalOrder ophaalOrder){
-		if(beschikbaarVoorMeerOrders && postcodeRegio == ophaalOrder.getAfzender().getPostCode()) {
-			ophaalOrders.add(ophaalOrder);
-		}
-		else{
-			//exception
-		}
+		
+		
 	}
 }
