@@ -6,9 +6,8 @@ import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
-
-import org.hibernate.annotations.Entity;
-import org.springframework.data.annotation.Id;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 import be.ugent.systemdesign.group16.domain.Adres;
 import be.ugent.systemdesign.group16.domain.Soort;
@@ -22,6 +21,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class SorteerItemDataModel{
 	
 	@Id
@@ -36,7 +36,7 @@ public class SorteerItemDataModel{
 		@AttributeOverride(name = "plaats", column = @Column(name = "plaats_doel")),
 		@AttributeOverride(name = "land", column = @Column(name = "land_doel"))
 	})
-	private Adres doel;
+	private AdresDataModel doel;
 	
 	@Embedded
 	@AttributeOverrides({
@@ -46,7 +46,7 @@ public class SorteerItemDataModel{
 		@AttributeOverride(name = "plaats", column = @Column(name = "plaats_afkomst")),
 		@AttributeOverride(name = "land", column = @Column(name = "land_afkomst"))
 	})
-	private Adres afkomst;
+	private AdresDataModel afkomst;
 	
 	@Embedded
 	@AttributeOverrides({
@@ -56,9 +56,9 @@ public class SorteerItemDataModel{
 		@AttributeOverride(name = "plaats", column = @Column(name = "plaats_huidige_locatie")),
 		@AttributeOverride(name = "land", column = @Column(name = "land_huidige_locatie"))
 	})
-	private Adres huidigeLocatie;
+	private AdresDataModel huidigeLocatie;
 	
-	private Soort soort;
+	private String soort;
 	private boolean spoed;
 	private String status;
 	private LocalDate aanmaakDatum;
