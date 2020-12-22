@@ -12,7 +12,6 @@ public interface Channels {
 	final static String STUUR_VERVOERDER = "";
 	final static String BEVESTIG_SORTEREN = "";
 	final static String BEVESTIG_VERVOEREN = "";
-
 	
 	@Input(NIEUW_SORTEER_ITEM)
 	SubscribableChannel nieuwSorteerItem();
