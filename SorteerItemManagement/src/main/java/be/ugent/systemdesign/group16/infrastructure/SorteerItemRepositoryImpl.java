@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Repository;
 
 import be.ugent.systemdesign.group16.domain.Adres;
@@ -18,6 +19,9 @@ public class SorteerItemRepositoryImpl implements SorteerItemRepository{
 
 	@Autowired
 	SorteerItemDataModelJpaRepository repo;
+	
+	@Autowired
+	ApplicationEventPublisher publisher;
 	
 	@Override
 	public List<SorteerItem> findAll() {

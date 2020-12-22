@@ -39,14 +39,11 @@ public class SorteerItem extends AggregateRoot{
 	public void aangekomenOpNieuweLocatie(Adres l) {
 		this.huidigeLocatie = l;
 		this.status = SorteerItemStatus.IN_CENTRUM;
+		// Stuur Sorteerder
 	}
 	
-	public void maakKlaarVoorVervoer() {
-		if(this.status == SorteerItemStatus.KLAAR_VOOR_ZENDING) {
-			throw new SorteerItemAlGesorteerdException();
-		}
-		addDomainEvent(new StuurVervoerderEvent());
-		this.status = SorteerItemStatus.ONDERWEG;
+	public void sorteerItemGesorteerd() {
+		addDomainEvent(new StuurVervoerderDomainEvent(this.sorteerItemId, this.huidigeLocatie, this.doel, this.status));
 	}
 	
 	public void aangekomenOpLaatsteLocatie(Adres l) {

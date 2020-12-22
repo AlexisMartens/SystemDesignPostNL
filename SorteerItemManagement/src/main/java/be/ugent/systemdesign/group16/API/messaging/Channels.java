@@ -6,12 +6,13 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.SubscribableChannel;
 
 public interface Channels {
-	final static String NIEUWE_ZENDING = "";
-	final static String NIEUW_SORTEER_ITEM = "";
-	final static String STUUR_SORTEERDER = "";
-	final static String STUUR_VERVOERDER = "";
-	final static String BEVESTIG_SORTEREN = "";
-	final static String BEVESTIG_VERVOEREN = "";
+
+	final static String NIEUW_SORTEER_ITEM = "nieuw_sorteer_item";
+	final static String STUUR_SORTEERDER = "stuur_sorteerder";
+	final static String STUUR_VERVOERDER = "stuur_vervoerder";
+	final static String NIEUWE_ZENDING = "nieuwe_zending";
+	final static String BEVESTIG_SORTEREN = "bevestig_sorteren";
+	final static String BEVESTIG_VERVOEREN = "bevestig_veroeren";
 	
 	@Input(NIEUW_SORTEER_ITEM)
 	SubscribableChannel nieuwSorteerItem();
