@@ -19,7 +19,6 @@ import lombok.Setter;
 @Getter
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor()
 public class Koerier {
 	
 	private Integer koerierId;
@@ -29,25 +28,12 @@ public class Koerier {
 	private String postcodeRonde;
 	
 	private Integer vervoercapaciteit;
-	
-    private List<Order> orders;
     
 	public Koerier(Integer koerierId, String naam, String postcodeRonde, Integer vervoercapaciteit) {
 		this.koerierId = koerierId;
 		this.naam = naam;
 		this.postcodeRonde = postcodeRonde;
 		this.vervoercapaciteit = vervoercapaciteit;
-		this.orders = new ArrayList<>();
 	}
-	
-	public void VoegOrderToe(Order order){
-		if(order.getAfzender().getPostcode().equals(this.postcodeRonde) || order.getOntvanger().getPostcode().equals(this.postcodeRonde)) {
-				orders.add(order);
-		}
-		else {
-			throw new NietInRondeException();
-		}
-		
-		
-	}
+
 }

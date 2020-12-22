@@ -6,7 +6,9 @@ VALUES
 ('4','Jamie','4000','90');
 
 INSERT INTO order_data_model(order_id, koerier_id, naam_afzender, postcode_afzender, straat_afzender, plaats_afzender, land_afzender, naam_ontvanger, postcode_ontvanger, straat_ontvanger, plaats_ontvanger, land_ontvanger, aanmaak_datum                     , spoed, extern, order_status)
-VALUES                      ('1'     ,'1'        ,'Jan klaasen' ,'9000'            ,'griekstraat 5' ,'Gent'          ,'Belgie'      , 'Geert Klaasen' ,'9100'           ,'klopperstraat 5','Sint-Niklaas'   , 'Belgie'      , TO_DATE('20/12/2020','DD/MM/YYYY'), FALSE, FALSE, 'OP_TE_HALEN');
+VALUES                      ('1'     ,'1'        ,'Jan klaasen' ,'9000'            ,'griekstraat 5' ,'Gent'          ,'Belgie'      , 'Geert Klaasen' ,'9100'           ,'klopperstraat 5','Sint-Niklaas'   , 'Belgie'      , TO_DATE('20/12/2020','DD/MM/YYYY'), FALSE, FALSE, 'OP_TE_HALEN'),
+			    ('2'     ,'2'        ,'Jan klaasen' ,'9000'            ,'griekstraat 5' ,'Gent'          ,'Belgie'      , 'Geert Klaasen' ,'9100'           ,'klopperstraat 5','Sint-Niklaas'   , 'Belgie'      , TO_DATE('20/12/2020','DD/MM/YYYY'), FALSE, TRUE, 'OP_TE_HALEN'),
+			    ('3'     ,'2'        ,'Jan klaasen' ,'9000'            ,'griekstraat 5' ,'Gent'          ,'Belgie'      , 'Geert Klaasen' ,'9100'           ,'klopperstraat 5','Sint-Niklaas'   , 'Belgie'      , TO_DATE('20/12/2020','DD/MM/YYYY'), FALSE, FALSE, 'OP_TE_HALEN');
 
 
 

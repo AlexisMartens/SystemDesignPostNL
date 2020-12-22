@@ -1,6 +1,7 @@
 package be.ugent.systemdesign.group16.infrastructure;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import be.ugent.systemdesign.group16.domain.Adres;
 import be.ugent.systemdesign.group16.domain.Koerier;
@@ -8,6 +9,7 @@ import be.ugent.systemdesign.group16.domain.Order;
 import be.ugent.systemdesign.group16.domain.OrderRepository;
 import be.ugent.systemdesign.group16.domain.OrderStatus;
 
+@Repository
 public class OrderRepositoryImpl implements OrderRepository{
 
 	@Autowired
@@ -24,6 +26,12 @@ public class OrderRepositoryImpl implements OrderRepository{
 		OrderDataModel dataModel = mapToOrderDataModel(order);		
 		orderDMJPARepo.save(dataModel);		
 	}
+	
+	@Override
+	public Integer countByKoerier(Koerier koerier) {
+		return orderDMJPARepo.countByKoerierDataModel(mapToKoerierDataModel(koerier));
+	}
+	
 	
 /*
  * 	private Integer orderId;
@@ -58,6 +66,7 @@ public class OrderRepositoryImpl implements OrderRepository{
 	private Order mapToOrder(OrderDataModel orderDM) {
 		Order k = Order.builder()
 						.orderId(orderDM.getOrderId())
+						.koerier(mapToKoerier(orderDM.getKoerierDataModel()))
 						.ontvanger(
 								Adres.builder()
 								.naam(orderDM.getNaamOntvanger())
@@ -97,5 +106,7 @@ public class OrderRepositoryImpl implements OrderRepository{
 						.build();
 		return k;
 	}
+
+
 
 }

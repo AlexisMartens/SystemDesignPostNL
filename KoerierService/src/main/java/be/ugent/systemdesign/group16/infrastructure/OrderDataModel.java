@@ -8,11 +8,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class OrderDataModel {
 	
 	@Id
@@ -21,7 +23,7 @@ public class OrderDataModel {
 	@ManyToOne(targetEntity = KoerierDataModel.class)
 	@JoinColumn(name = "koerier_id", nullable = false)
 	private KoerierDataModel koerierDataModel;
-		
+	
 	private String naamAfzender;
 	private String postcodeAfzender;
 	private String straatAfzender;
@@ -39,9 +41,9 @@ public class OrderDataModel {
 	private boolean spoed;
 	
 	private boolean extern;
-		
+	
 	private String orderStatus;
-
+	
 	public OrderDataModel(Integer orderId, KoerierDataModel koerierDataModel, String naamAfzender,
 			String postcodeAfzender, String straatAfzender, String plaatsAfzender, String landAfzender,
 			String naamOntvanger, String postcodeOntvanger, String straatOntvanger, String plaatsOntvanger,
