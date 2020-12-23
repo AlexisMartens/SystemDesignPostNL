@@ -11,7 +11,8 @@ import lombok.Setter;
 @Setter
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class NieuwSorteerItemEvent {
-		
+	
+	private Integer trackId;
 	private String typeZending;
 		
 	private String naamAfzender;

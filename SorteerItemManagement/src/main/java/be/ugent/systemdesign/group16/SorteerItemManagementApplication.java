@@ -40,8 +40,8 @@ public class SorteerItemManagementApplication {
 	private static void logSorteerItemDataModels(List<SorteerItemDataModel> items) {
 		log.info("-{} sorteerItems gevonden.", items.size());
 		for(SorteerItemDataModel item : items) {
-			log.info("--id {} doel {} afkomst {} huidigeLocatie {} soort {} spoed {} status {} aangemaakt {}.",
-					item.getSorteerItemId(), item.getDoel().getNaam(), item.getAfkomst().getNaam(), item.getHuidigeLocatie().getNaam(),
+			log.info("--id {} trackId {} doel {} afkomst {} huidigeLocatie {} soort {} spoed {} status {} aangemaakt {}.",
+					item.getSorteerItemId(), item.getTrackId(), item.getDoel().getNaam(), item.getAfkomst().getNaam(), item.getHuidigeLocatie().getNaam(),
 					item.getSoort(), item.isSpoed(), item.getStatus(), item.getAanmaakDatum());
 		}
 	}
@@ -49,8 +49,8 @@ public class SorteerItemManagementApplication {
 	private static void logSorteerItems(List<SorteerItem> items) {
 		log.info("-{} sorteerItems gevonden.", items.size());
 		for(SorteerItem item : items) {
-			log.info("--id {} doel {} afkomst {} huidigeLocatie {} soort {} spoed {} status {} aangemaakt {}.",
-					item.getSorteerItemId(), item.getDoel().getNaam(), item.getAfkomst().getNaam(), item.getHuidigeLocatie().getNaam(),
+			log.info("--id {} trackId {} doel {} afkomst {} huidigeLocatie {} soort {} spoed {} status {} aangemaakt {}.",
+					item.getSorteerItemId(), item.getTrackId(), item.getDoel().getNaam(), item.getAfkomst().getNaam(), item.getHuidigeLocatie().getNaam(),
 					item.getSoort(), item.isSpoed(), item.getStatus(), item.getAanmaakDatum());
 		}
 	}
@@ -65,9 +65,10 @@ public class SorteerItemManagementApplication {
 		return adres;
 	}
 	
-	private static SorteerItemDataModel maakSorteerItemDataModel(AdresDataModel doel, AdresDataModel afkomst,
+	private static SorteerItemDataModel maakSorteerItemDataModel(Integer trackId, AdresDataModel doel, AdresDataModel afkomst,
 			AdresDataModel huidigeLocatie, String soort, boolean spoed, String status, LocalDate aanmaakDatum) {
 		SorteerItemDataModel sorteerItem = new SorteerItemDataModel();
+		sorteerItem.setTrackId(trackId);
 		sorteerItem.setDoel(doel);
 		sorteerItem.setAfkomst(afkomst);
 		sorteerItem.setHuidigeLocatie(huidigeLocatie);
@@ -88,9 +89,10 @@ public class SorteerItemManagementApplication {
 				.build();
 	}
 	
-	private static SorteerItem maakSorteerItem(Adres doel, Adres afkomst,
+	private static SorteerItem maakSorteerItem(Integer trackId, Adres doel, Adres afkomst,
 			Adres huidigeLocatie, String soort, boolean spoed, String status, LocalDate aanmaakDatum) {
 		return SorteerItem.builder()
+				.trackId(trackId)
 				.doel(doel)
 				.afkomst(afkomst)
 				.huidigeLocatie(huidigeLocatie)
@@ -151,6 +153,7 @@ public class SorteerItemManagementApplication {
 			
 			Integer nieuwId;
 			SorteerItemDataModel sorteerItem = maakSorteerItemDataModel(
+					123,
 					maakAdresDataModel("Piet Kieters","8000","Stationstraat 5","Brugge","Belgie"),
 					maakAdresDataModel("Klaas Klaassen","7000","Alterstraat 5","Aalter","Belgie"),
 					maakAdresDataModel("Sorteercentrum Nevele","9100","nevelelaan 5","Nevele","Belgie"),
@@ -202,6 +205,7 @@ public class SorteerItemManagementApplication {
 			
 			Integer nieuwId;
 			SorteerItem sorteerItem = maakSorteerItem(
+					123,
 					maakAdres("Piet Kieters","8000","Stationstraat 5","Brugge","Belgie"),
 					maakAdres("Klaas Klaassen","7000","Alterstraat 5","Aalter","Belgie"),
 					maakAdres("Sorteercentrum Nevele","9100","nevelelaan 5","Nevele","Belgie"),

@@ -27,7 +27,11 @@ public class SorteerItemDataModel{
 	@Id
 	@Getter
 	@GeneratedValue
+	// Id gebruikt als primary key in DB, niet gelijk aan trackId omdat er vanuit Sorteerder nieuwe 
+	// (brief)SorteerItems worden aangemaakt die niet getracked worden 
 	private Integer sorteerItemId;
+	
+	private Integer trackId;
 	
 	@Embedded
 	@AttributeOverrides({
@@ -64,8 +68,9 @@ public class SorteerItemDataModel{
 	private String status;
 	private LocalDate aanmaakDatum;
 	
-	public SorteerItemDataModel(AdresDataModel doel, AdresDataModel afkomst, AdresDataModel huidigeLocatie, String soort,
+	public SorteerItemDataModel(Integer trackId, AdresDataModel doel, AdresDataModel afkomst, AdresDataModel huidigeLocatie, String soort,
 			boolean spoed, String status, LocalDate aanmaakDatum) {
+		this.trackId=trackId;
 		this.doel=doel;
 		this.afkomst=afkomst;
 		this.huidigeLocatie=huidigeLocatie;

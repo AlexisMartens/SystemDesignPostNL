@@ -8,7 +8,4 @@ public interface SorteerItemRepository {
 	SorteerItem findById(Integer sorteerItemId);
 	Integer save(SorteerItem _s);
 	void delete(Integer sorteerItemId);
-	
-	//List<SorteerItem> findByStatus();
-	//List<SorteerItem> findByHuidigeLocatie(Adres adres);
 }

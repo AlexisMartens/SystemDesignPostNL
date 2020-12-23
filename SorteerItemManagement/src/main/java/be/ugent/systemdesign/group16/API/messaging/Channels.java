@@ -13,6 +13,7 @@ public interface Channels {
 	final static String NIEUWE_ZENDING = "nieuwe_zending";
 	final static String BEVESTIG_SORTEREN = "bevestig_sorteren";
 	final static String BEVESTIG_VERVOEREN = "bevestig_veroeren";
+	final static String UPDATE_TRACK_AND_TRACE = "update_track_and_trace_event";
 	
 	@Input(NIEUW_SORTEER_ITEM)
 	SubscribableChannel nieuwSorteerItem();
@@ -31,4 +32,7 @@ public interface Channels {
 	
 	@Output(STUUR_VERVOERDER)
 	MessageChannel stuurVervoerder();
+	
+	@Output(UPDATE_TRACK_AND_TRACE)
+	MessageChannel updateTrackAndTrace();
 }

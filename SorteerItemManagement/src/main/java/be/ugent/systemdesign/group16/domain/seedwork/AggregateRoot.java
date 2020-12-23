@@ -13,7 +13,7 @@ public class AggregateRoot {
 		return Collections.unmodifiableList(events);
 	}
 	
-	public void clearList() {
+	public void clearEvents() {
 		events.clear();
 	}
 	

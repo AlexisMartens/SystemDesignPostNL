@@ -21,7 +21,7 @@ public class SorteerItemRepositoryImpl implements SorteerItemRepository{
 	SorteerItemDataModelJpaRepository repo;
 	
 	@Autowired
-	ApplicationEventPublisher publisher;
+	ApplicationEventPublisher eventPublisher;
 	
 	@Override
 	public List<SorteerItem> findAll() {
@@ -37,8 +37,10 @@ public class SorteerItemRepositoryImpl implements SorteerItemRepository{
 	public Integer save(SorteerItem _s) {
 		Integer id = repo.save(mapToSorteerItemDataModel(_s)).getSorteerItemId();
 		repo.findById(id).ifPresent((sorteerItem) -> sorteerItem.setSorteerItemId(id));
+		
+		_s.getDomainEvents().forEach((event) -> eventPublisher.publishEvent(event));
+		_s.clearEvents();
 		return id;
-		// TODO events publishen
 	}
 
 	@Override
@@ -69,6 +71,7 @@ public class SorteerItemRepositoryImpl implements SorteerItemRepository{
 	private static SorteerItem mapToSorteerItem(SorteerItemDataModel s) {
 		return SorteerItem.builder()
 				.sorteerItemId(s.getSorteerItemId())
+				.trackId(s.getTrackId())
 				.doel(mapToAdres(s.getDoel()))
 				.afkomst(mapToAdres(s.getAfkomst()))
 				.huidigeLocatie(mapToAdres(s.getHuidigeLocatie()))
@@ -86,7 +89,7 @@ public class SorteerItemRepositoryImpl implements SorteerItemRepository{
 	}
 	
 	private static SorteerItemDataModel mapToSorteerItemDataModel(SorteerItem item){
-		return new SorteerItemDataModel(mapToAdresDataModel(item.getDoel()), mapToAdresDataModel(item.getAfkomst()), 
+		return new SorteerItemDataModel(item.getTrackId(), mapToAdresDataModel(item.getDoel()), mapToAdresDataModel(item.getAfkomst()), 
 						mapToAdresDataModel(item.getHuidigeLocatie()), item.getSoort().name(), item.isSpoed(), item.getStatus().name(), item.getAanmaakDatum());
 	}
 

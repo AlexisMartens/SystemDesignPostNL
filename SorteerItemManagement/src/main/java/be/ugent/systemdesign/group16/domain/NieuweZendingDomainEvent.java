@@ -35,6 +35,7 @@ public class NieuweZendingDomainEvent extends DomainEvent{
 	private LocalDate aanmaakDatum;
 	
 	public NieuweZendingDomainEvent(SorteerItem i) {
+		super();
 		
 		this.naamAfzender=i.getAfkomst().getNaam();
 		this.postcodeAfzender=i.getAfkomst().getPostcode();

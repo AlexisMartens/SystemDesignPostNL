@@ -16,6 +16,7 @@ import lombok.Setter;
 public class SorteerItem extends AggregateRoot{
 	
 	private Integer sorteerItemId;
+	private Integer trackId;
 	private Adres doel;
 	private Adres afkomst;
 	private Adres huidigeLocatie;
@@ -24,9 +25,9 @@ public class SorteerItem extends AggregateRoot{
 	private SorteerItemStatus status;
 	private LocalDate aanmaakDatum;
 	
-	public SorteerItem(Integer sorteerItemId, Adres doel, Adres afkomst, Adres huidigeLocatie,
+	public SorteerItem(Integer trackId, Adres doel, Adres afkomst, Adres huidigeLocatie,
 			Soort soort, boolean spoed, LocalDate aanmaakDatum) {
-		this.sorteerItemId = sorteerItemId;
+		this.trackId = trackId;
 		this.doel = doel;
 		this.afkomst = afkomst;
 		this.huidigeLocatie = huidigeLocatie;
@@ -42,8 +43,10 @@ public class SorteerItem extends AggregateRoot{
 		// Stuur Sorteerder
 	}
 	
-	public void sorteerItemGesorteerd() {
-		addDomainEvent(new StuurVervoerderDomainEvent(this.sorteerItemId, this.huidigeLocatie, this.doel, this.status));
+	public void maakKlaarVoorVervoer(Adres volgendeLocatie, boolean laatsteLocatie, Integer batchId) {
+		this.status = laatsteLocatie ? SorteerItemStatus.ONDERWEG_NAAR_LAATSTE_LOCATIE : SorteerItemStatus.ONDERWEG;
+		updateTrackAndTrace();
+		addDomainEvent(new StuurVervoerderDomainEvent(this.sorteerItemId, this.huidigeLocatie, volgendeLocatie, batchId, this.spoed));
 	}
 	
 	public void aangekomenOpLaatsteLocatie(Adres l) {
@@ -52,5 +55,7 @@ public class SorteerItem extends AggregateRoot{
 		// Maak nieuwe zending aan
 	}
 	
-	
+	private void updateTrackAndTrace() {
+		addDomainEvent(new UpdateTrackAndTraceDomainEvent(this));
+	}
 }
