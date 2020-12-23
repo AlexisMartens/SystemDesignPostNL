@@ -34,9 +34,10 @@ public class SorteerItemRepositoryImpl implements SorteerItemRepository{
 	}
 
 	@Override
-	public void save(SorteerItem _s) {
-		repo.save(mapToSorteerItemDataModel(_s));
-		
+	public Integer save(SorteerItem _s) {
+		Integer id = repo.save(mapToSorteerItemDataModel(_s)).getSorteerItemId();
+		repo.findById(id).ifPresent((sorteerItem) -> sorteerItem.setSorteerItemId(id));
+		return id;
 		// TODO events publishen
 	}
 
@@ -85,7 +86,7 @@ public class SorteerItemRepositoryImpl implements SorteerItemRepository{
 	}
 	
 	private static SorteerItemDataModel mapToSorteerItemDataModel(SorteerItem item){
-		return new SorteerItemDataModel(item.getSorteerItemId(), mapToAdresDataModel(item.getDoel()), mapToAdresDataModel(item.getAfkomst()), 
+		return new SorteerItemDataModel(mapToAdresDataModel(item.getDoel()), mapToAdresDataModel(item.getAfkomst()), 
 						mapToAdresDataModel(item.getHuidigeLocatie()), item.getSoort().name(), item.isSpoed(), item.getStatus().name(), item.getAanmaakDatum());
 	}
 

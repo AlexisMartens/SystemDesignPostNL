@@ -2,6 +2,7 @@ package be.ugent.systemdesign.group16.infrastructure;
 
 import java.time.LocalDate;
 
+import javax.persistence.GeneratedValue;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
@@ -21,11 +22,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class SorteerItemDataModel{
 	
 	@Id
 	@Getter
+	@GeneratedValue
 	private Integer sorteerItemId;
 	
 	@Embedded
@@ -62,4 +63,16 @@ public class SorteerItemDataModel{
 	private boolean spoed;
 	private String status;
 	private LocalDate aanmaakDatum;
+	
+	public SorteerItemDataModel(AdresDataModel doel, AdresDataModel afkomst, AdresDataModel huidigeLocatie, String soort,
+			boolean spoed, String status, LocalDate aanmaakDatum) {
+		this.doel=doel;
+		this.afkomst=afkomst;
+		this.huidigeLocatie=huidigeLocatie;
+		this.soort=soort;
+		this.spoed=spoed;
+		this.status=status;
+		this.aanmaakDatum=aanmaakDatum;
+	}
+	
 }

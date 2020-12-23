@@ -15,6 +15,8 @@ import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.context.annotation.Bean;
 
 import be.ugent.systemdesign.group16.API.messaging.Channels;
+import be.ugent.systemdesign.group16.application.event.EventHandler;
+import be.ugent.systemdesign.group16.application.event.NieuwSorteerItemEvent;
 import be.ugent.systemdesign.group16.domain.Adres;
 import be.ugent.systemdesign.group16.domain.Soort;
 import be.ugent.systemdesign.group16.domain.SorteerItem;
@@ -63,10 +65,9 @@ public class SorteerItemManagementApplication {
 		return adres;
 	}
 	
-	private static SorteerItemDataModel maakSorteerItemDataModel(Integer sorteerItemId, AdresDataModel doel, AdresDataModel afkomst,
+	private static SorteerItemDataModel maakSorteerItemDataModel(AdresDataModel doel, AdresDataModel afkomst,
 			AdresDataModel huidigeLocatie, String soort, boolean spoed, String status, LocalDate aanmaakDatum) {
 		SorteerItemDataModel sorteerItem = new SorteerItemDataModel();
-		sorteerItem.setSorteerItemId(sorteerItemId);
 		sorteerItem.setDoel(doel);
 		sorteerItem.setAfkomst(afkomst);
 		sorteerItem.setHuidigeLocatie(huidigeLocatie);
@@ -87,10 +88,9 @@ public class SorteerItemManagementApplication {
 				.build();
 	}
 	
-	private static SorteerItem maakSorteerItem(Integer sorteerItemId, Adres doel, Adres afkomst,
+	private static SorteerItem maakSorteerItem(Adres doel, Adres afkomst,
 			Adres huidigeLocatie, String soort, boolean spoed, String status, LocalDate aanmaakDatum) {
 		return SorteerItem.builder()
-				.sorteerItemId(sorteerItemId)
 				.doel(doel)
 				.afkomst(afkomst)
 				.huidigeLocatie(huidigeLocatie)
@@ -99,6 +99,32 @@ public class SorteerItemManagementApplication {
 				.status(SorteerItemStatus.valueOf(status))
 				.aanmaakDatum(aanmaakDatum)
 				.build();
+	}
+	
+	private static NieuwSorteerItemEvent maakNieuwSorteerItemEvent(String typeZending, String naamAfzender,
+			String postcodeAfzender, String straatAfzender, String plaatsAfzender, String landAfzender, String naamOntvanger, String postcodeOntvanger,
+			String straatOntvanger, String plaatsOntvanger, String landOntvanger, String naamHuidigeLocatie, String postcodeHuidigeLocatie,
+			String straatHuidigeLocatie, String plaatsHuidigeLocatie, String landHuidigeLocatie, LocalDate aanmaakDatum, boolean spoed) {
+		NieuwSorteerItemEvent e = new NieuwSorteerItemEvent();
+		e.setTypeZending(typeZending);
+		e.setNaamAfzender(naamAfzender);
+		e.setPostcodeAfzender(postcodeAfzender);
+		e.setStraatAfzender(straatAfzender);
+		e.setPlaatsAfzender(plaatsAfzender);
+		e.setLandAfzender(landAfzender);
+		e.setNaamHuidigeLocatie(naamHuidigeLocatie);
+		e.setPostcodeHuidigeLocatie(postcodeHuidigeLocatie);
+		e.setStraatHuidigeLocatie(straatHuidigeLocatie);
+		e.setPlaatsHuidigeLocatie(plaatsHuidigeLocatie);
+		e.setLandHuidigeLocatie(landHuidigeLocatie);
+		e.setNaamOntvanger(naamOntvanger);
+		e.setPostcodeOntvanger(postcodeOntvanger);		
+		e.setStraatOntvanger(straatOntvanger);
+		e.setPlaatsOntvanger(plaatsOntvanger);
+		e.setLandOntvanger(landOntvanger);
+		e.setSpoed(spoed);
+		e.setAanmaakDatum(aanmaakDatum);
+		return e;
 	}
 	
 	@Bean
@@ -123,14 +149,14 @@ public class SorteerItemManagementApplication {
 			List<SorteerItemDataModel> sorteerItemsPerLocatie = repo.findByHuidigeLocatie(nevele);
 			logSorteerItemDataModels(sorteerItemsPerLocatie);
 			
-			Integer nieuwId = 6;
-			SorteerItemDataModel sorteerItem = maakSorteerItemDataModel(nieuwId,
+			Integer nieuwId;
+			SorteerItemDataModel sorteerItem = maakSorteerItemDataModel(
 					maakAdresDataModel("Piet Kieters","8000","Stationstraat 5","Brugge","Belgie"),
 					maakAdresDataModel("Klaas Klaassen","7000","Alterstraat 5","Aalter","Belgie"),
 					maakAdresDataModel("Sorteercentrum Nevele","9100","nevelelaan 5","Nevele","Belgie"),
 					"PAKKET", false, "IN_CENTRUM", LocalDate.now());
-			log.info(">SorteerItem met id {} opslaan in de database.", nieuwId);
-			repo.saveAndFlush(sorteerItem);
+			log.info(">SorteerItem opslaan in de database.");
+			nieuwId = repo.saveAndFlush(sorteerItem).getSorteerItemId();
 			
 			log.info(">Find SorteerItem with id {} in database.", nieuwId);
 			Optional<SorteerItemDataModel> byIdNew = repo.findById(nieuwId);
@@ -140,7 +166,12 @@ public class SorteerItemManagementApplication {
 			);
 			
 			log.info(">SorteerItem met id {} verwijderen uit de database.", nieuwId);
-			repo.deleteById(nieuwId);
+			try {
+				repo.deleteById(nieuwId);
+			}
+			catch(RuntimeException e) {
+				log.info("Id {} not found.", nieuwId);
+			}
 			
 			log.info(">Find Deleted SorteerItem with id {} in database.", nieuwId);
 			Optional<SorteerItemDataModel> niets = repo.findById(nieuwId);
@@ -160,27 +191,27 @@ public class SorteerItemManagementApplication {
 			List<SorteerItem> allSorteerItems = repo.findAll();
 			logSorteerItems(allSorteerItems);
 			
-			log.info(">Find SorteerItem with id 0 in database.");
+			log.info(">Find SorteerItem with id 1000 in database.");
 			try {
-				SorteerItem byId = repo.findById(0);
+				SorteerItem byId = repo.findById(1000);
 				logSorteerItems(Collections.unmodifiableList(Arrays.asList(byId)));
 			}
 			catch(SorteerItemNotFoundException e) {
-				log.info("--id 0 not found.");
+				log.info("--id 1000 not found.");
 			}
 			
-			Integer nieuwId = 6;
-			SorteerItem sorteerItem = maakSorteerItem(nieuwId,
+			Integer nieuwId;
+			SorteerItem sorteerItem = maakSorteerItem(
 					maakAdres("Piet Kieters","8000","Stationstraat 5","Brugge","Belgie"),
 					maakAdres("Klaas Klaassen","7000","Alterstraat 5","Aalter","Belgie"),
 					maakAdres("Sorteercentrum Nevele","9100","nevelelaan 5","Nevele","Belgie"),
 					"PAKKET", false, "IN_CENTRUM", LocalDate.now());
-			log.info(">SorteerItem met id {} opslaan in de database.", nieuwId);
-			repo.save(sorteerItem);
+			log.info(">SorteerItem opslaan in de database.");
+			nieuwId = repo.save(sorteerItem);
 			
 			log.info(">Find SorteerItem with id {} in database.", nieuwId);
 			try {
-				SorteerItem byId2 = repo.findById(0);
+				SorteerItem byId2 = repo.findById(nieuwId);
 				logSorteerItems(Collections.unmodifiableList(Arrays.asList(byId2)));
 			}
 			catch(SorteerItemNotFoundException e) {
@@ -198,6 +229,24 @@ public class SorteerItemManagementApplication {
 			catch(SorteerItemNotFoundException e) {
 				log.info("--id {} not found.", nieuwId);
 			}
+			
+			log.info("Na de testen de dummydata verwijderen");
+			for(int i=0;i<6;i++) {
+				repo.delete(i+1000);
+			}
+		};
+	}
+	
+	@Bean
+	CommandLineRunner testEventHandler(EventHandler handler) {
+		return (args) -> {
+			log.info("$Testing EventHandler.");
+			
+			NieuwSorteerItemEvent e = maakNieuwSorteerItemEvent("PAKKET","Koen Jansen","8000","Larestraat 5",
+					"Brugge","Belgie","Kaat Klaasen","1000","Brusselsestraat 5","Brussel","Belgie", 
+					"Sorteercentrum Gent","9000","Voskenslaan 5","Gent","Belgie",LocalDate.now(),false);
+			log.info(">Handle NieuwSorteerItemEvent.");
+			handler.handleNieuwSorteerItemEvent(e);
 		};
 	}
 }
