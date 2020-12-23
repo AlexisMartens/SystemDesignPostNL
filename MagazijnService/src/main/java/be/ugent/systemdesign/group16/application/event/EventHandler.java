@@ -16,14 +16,12 @@ public class EventHandler {
 	
 	@Autowired
 	MagazijnService service;
-	//bevestigOphalenZending
-	//bevestigAfleverenZending
-	//nieuwezending sorteeritemmgmt
+	//TODO: nog aanpassen
 	public void handleNieuwPakket(NieuwPakketDomainEventMOETIKKOPIERENVANFULLFILMENTMGMT event) {
-		log.info("-Aangekomen zending");
+		log.info("-Nieuw Pakket");
 		Response response; 
 
-		// ophalen bij klant thuis
+	/*	// ophalen bij klant thuis
 		if(event.isOphalen()) {
 			response = service.bevestigAankomstNieuweZending(event.getBestellingId(), new Adres(event.getNaamOntvanger(), event.getPostcodeOntvanger(), event.getStraatOntvanger(),
 					event.getPlaatsOntvanger(), event.getLandOntvanger()));
@@ -37,7 +35,7 @@ public class EventHandler {
 				event.getNaamOntvanger(), event.getPostcodeOntvanger(), event.getStraatOntvanger(), event.getPlaatsOntvanger(), event.getLandOntvanger(),
 				event.getNaamAfzender(), event.getPostcodeAfzend*er(), event.getStraatAfzender(), event.getPlaatsAfzender(), event.getLandAfzender(),
 				event.isOphalen(), event.isSpoed()))*/
-		log.info("-response status[{}] message[{}]", response.getStatus(), response.getMessage());
+	//	log.info("-response status[{}] message[{}]", response.getStatus(), response.getMessage());*/
 	}
 	
 	
