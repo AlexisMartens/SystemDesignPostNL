@@ -17,7 +17,7 @@ public class CommandHandler {
 	FulfilmentBestellingRepository repo;
 	
 	public void handleGetKlantenDataResponse(GetKlantenDataResponse response) {
-		log.info("status {}, message {}, inpatientid {}, roomid {}", response.getStatus(), response.getMessage(), response.getInpatientId(), response.getRoomId());
+		log.info("klantId {}, naam {}", response.getKlantenId(), response.getNaam());
 	}
 	
 }

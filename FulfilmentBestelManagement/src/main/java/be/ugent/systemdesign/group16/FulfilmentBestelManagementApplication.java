@@ -12,6 +12,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 import be.ugent.systemdesign.group16.API.messaging.Channels;
 import be.ugent.systemdesign.group16.API.messaging.MessageOutputGateway;
+import be.ugent.systemdesign.group16.application.command.GetKlantenDataCommand;
 @EnableAsync
 @EnableBinding(Channels.class)
 @SpringBootApplication
@@ -23,14 +24,14 @@ public class FulfilmentBestelManagementApplication {
 
 	private static final Logger log = LoggerFactory.getLogger(FulfilmentBestelManagementApplication.class);
 	
-	@Value("${spring.cloud.stream.bindings." + Channels.GET_KLANTEN_DATA_EVENT + ".destination}")
+	@Value("${spring.cloud.stream.bindings." + Channels.GET_KLANTEN_DATA_RESPONSE + ".destination}")
 	String responseDestination;
 
 	
 	@Bean
 	CommandLineRunner testAssignRoomCommand(MessageOutputGateway outputGateway) {
 		return (args) -> {
-			outputGateway.sendGetKlantenDataCommand(new GetKlantenDataCommand("2", responseDestination));
+			outputGateway.sendGetKlantenDataCommand(new GetKlantenDataCommand("1", responseDestination));
 		};
 	}
 }
