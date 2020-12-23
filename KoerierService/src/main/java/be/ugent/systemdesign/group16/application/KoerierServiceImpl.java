@@ -17,32 +17,35 @@ import be.ugent.systemdesign.group16.domain.OrderRepository;
 
 @Service
 @Transactional
-public class KoerierServiceImpl implements KoerierService{
+public class KoerierServiceImpl implements KoerierService {
 
 	@Autowired
 	KoerierRepository koerierRepo;
-	
+
 	@Autowired
 	OrderRepository orderRepo;
-	
+
 	@Override
-	public Response stuurKoerier(Integer orderId, Koerier koerier, Adres ontvanger, Adres afzender, LocalDate aanmaakDatum,
-			boolean spoed, boolean extern, boolean ophalen) {
-			String postcodeRonde = ophalen ? afzender.getPostcode() : ontvanger.getPostcode() ;
-			List<Koerier> koeriers = koerierRepo.findByPostcodeRonde(postcodeRonde);
-			for(Koerier k: koeriers) {
-				if(orderRepo.countByKoerier(k) < k.getVervoercapaciteit()) {
-					try{
-						Order o = new Order(orderId, k, ontvanger, afzender, aanmaakDatum,spoed, extern);
-						o.wijsKoerierToeAanOrder(koerier);
-						orderRepo.save(o);
-						return new Response(ResponseStatus.SUCCESS,"id: "+o.getOrderId());
-					} catch(NietInRondeException e) {
-						return new Response(ResponseStatus.FAIL,"Koerier has another postcodeRonde");
-					}
+	public Response stuurKoerier(Integer orderId, String naamAfzender, String postcodeAfzender, String straatAfzender,
+			String plaatsAfzender, String landAfzender, String naamOntvanger, String postcodeOntvanger,
+			String straatOntvanger, String plaatsOntvanger, String landOntvanger, boolean spoed, boolean extern,
+			boolean ophalen) {
+		String postcodeRonde = ophalen ? postcodeAfzender : postcodeOntvanger;
+		List<Koerier> koeriers = koerierRepo.findByPostcodeRonde(postcodeRonde);
+		for (Koerier k : koeriers) {
+			if (orderRepo.countByKoerier(k) < k.getVervoercapaciteit()) {
+				try {
+					Order o = new Order(orderId, k, new Adres(naamAfzender,postcodeAfzender,straatAfzender,plaatsAfzender,landAfzender),
+							new Adres(naamAfzender,postcodeOntvanger,straatOntvanger,plaatsOntvanger,landOntvanger), LocalDate.now(), spoed, extern);
+					o.wijsKoerierToeAanOrder(k);
+					orderRepo.save(o);
+					return new Response(ResponseStatus.SUCCESS, "id: " + o.getOrderId());
+				} catch (NietInRondeException e) {
+					return new Response(ResponseStatus.FAIL, "Koerier has another postcodeRonde");
 				}
 			}
-			return new Response(ResponseStatus.FAIL,"There is no koerier who drives to this postcodeRonde");
+		}
+		return new Response(ResponseStatus.FAIL, "There is no koerier who drives to this postcodeRonde");
 	}
 
 	@Override
@@ -50,7 +53,7 @@ public class KoerierServiceImpl implements KoerierService{
 		Order order = orderRepo.findOne(orderId);
 		order.bevestigAfleverenBuren();
 		orderRepo.save(order);
-		return new Response(ResponseStatus.SUCCESS,"");
+		return new Response(ResponseStatus.SUCCESS, "");
 	}
 
 	@Override
@@ -58,7 +61,7 @@ public class KoerierServiceImpl implements KoerierService{
 		Order order = orderRepo.findOne(orderId);
 		order.bevestigAfleveren();
 		orderRepo.save(order);
-		return new Response(ResponseStatus.SUCCESS,"");
+		return new Response(ResponseStatus.SUCCESS, "");
 	}
 
 	@Override
@@ -66,7 +69,7 @@ public class KoerierServiceImpl implements KoerierService{
 		Order order = orderRepo.findOne(orderId);
 		order.bevestigOphalen();
 		orderRepo.save(order);
-		return new Response(ResponseStatus.SUCCESS,"");
+		return new Response(ResponseStatus.SUCCESS, "");
 	}
 
 }

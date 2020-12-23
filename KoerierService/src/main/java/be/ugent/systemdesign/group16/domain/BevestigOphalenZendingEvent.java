@@ -14,15 +14,4 @@ public class BevestigOphalenZendingEvent extends DomainEvent {
 	
 	private Integer orderId;
 	
-	private Adres ontvanger;
-	
-	private Adres afzender;
-	
-	private boolean spoed;
-	
-	private boolean extern;
-	
-	private OrderStatus orderStatus;
-	
-	
 }

@@ -157,12 +157,12 @@ public class KoerierServiceApplication {
 			
 			log.info(">stuurKoerier (success).");
 			Koerier koerierById = repo.findOne(1);
-			response = service.stuurKoerier(50,koerierById,new Adres("Jan Vander Broek", "9000", "kaastraat 150", "Gent", "Belgie"), new Adres("Hans Landeghem", "9900", "geefstraat 4", "Geverghem", "Belgie"), LocalDate.of(2020,5,4), true, false, false );
+			response = service.stuurKoerier(50,"Jan Vander Broek", "9000", "kaastraat 150", "Gent", "Belgie", "Hans Landeghem", "9900", "geefstraat 4", "Geverghem", "Belgie", true, false, false );
 			logResponse(response);
 			
 			log.info(">stuurKoerier (fail).");
 			Koerier koerierById2 = repo.findOne(1);
-			response = service.stuurKoerier(50,koerierById2,new Adres("Jan Vander Broek", "0000", "kaastraat 150", "Gent", "Belgie"), new Adres("Hans Landeghem", "0000", "geefstraat 4", "Geverghem", "Belgie"), LocalDate.of(2020,5,4), true, false, false );
+			response = service.stuurKoerier(50,"Jan Vander Broek", "0000", "kaastraat 150", "Gent", "Belgie", "Hans Landeghem", "0000", "geefstraat 4", "Geverghem", "Belgie", true, false, false );
 			logResponse(response);
 			
 			/*log.info(">bevestigAfleverenBuren (success).");

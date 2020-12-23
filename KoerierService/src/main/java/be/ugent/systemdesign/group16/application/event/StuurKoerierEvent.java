@@ -11,14 +11,10 @@ import lombok.Getter;
 public class StuurKoerierEvent {
 
 	private Integer orderId;
-	
-	private Koerier koerier;
-	
+		
 	private Adres ontvanger;
 	
 	private Adres afzender;
-	
-	private LocalDate aanmaakDatum;
 	
 	private boolean spoed;
 	
@@ -26,13 +22,11 @@ public class StuurKoerierEvent {
 	
 	private OrderStatus orderStatus;
 
-	public StuurKoerierEvent(Integer orderId, Koerier koerier, Adres ontvanger, Adres afzender, LocalDate aanmaakDatum,
-			boolean spoed, boolean extern, OrderStatus orderStatus) {
+	public StuurKoerierEvent(Integer orderId, Adres ontvanger, Adres afzender,
+			boolean spoed, boolean extern, boolean ophalen) {
 		this.orderId = orderId;
-		this.koerier = koerier;
 		this.ontvanger = ontvanger;
 		this.afzender = afzender;
-		this.aanmaakDatum = aanmaakDatum;
 		this.spoed = spoed;
 		this.extern = extern;
 		this.orderStatus = orderStatus;
