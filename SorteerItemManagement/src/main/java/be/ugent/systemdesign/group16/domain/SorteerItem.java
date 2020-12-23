@@ -59,6 +59,7 @@ public class SorteerItem extends AggregateRoot{
 	}
 	
 	private void updateTrackAndTrace() {
-		addDomainEvent(new UpdateTrackAndTraceDomainEvent(this));
+		// Brieven worden niet getracked en moeten dus niet geüpdatet worden.
+		if(this.soort==Soort.PAKKET) addDomainEvent(new UpdateTrackAndTraceDomainEvent(this));
 	}
 }

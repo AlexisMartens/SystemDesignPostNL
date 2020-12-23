@@ -20,21 +20,9 @@ public class SorteerItemServiceImpl implements SorteerItemService{
 	@Autowired
 	SorteerItemRepository repo;
 	
-	@Override
-	public Response maakNieuwSorteerItem(Integer trackId, String naamDoel,
-			String postcodeDoel, String straatDoel, String plaatsDoel, String landDoel, String naamAfkomst, String postcodeAfkomst,
-			String straatAfkomst, String plaatsAfkomst, String landAfkomst, String naamHuidigeLocatie, String postcodeHuidigeLocatie,
-			String straatHuidigeLocatie, String plaatsHuidigeLocatie, String landHuidigeLocatie, String soort, boolean spoed, LocalDate aanmaakDatum) {
+	@Override 
+	public Response maakNieuwSorteerItem(SorteerItem _s) {
 		try {
-			SorteerItem _s = makeSorteerItem(
-					trackId,
-					makeAdres(naamDoel, postcodeDoel, straatDoel, plaatsDoel, landDoel),
-					makeAdres(naamAfkomst, postcodeAfkomst, straatAfkomst, plaatsAfkomst, landAfkomst),
-					makeAdres(naamHuidigeLocatie, postcodeHuidigeLocatie, straatHuidigeLocatie, plaatsHuidigeLocatie, landHuidigeLocatie),
-					soort,
-					spoed,
-					aanmaakDatum);
-			
 			// Methode geeft de PK terug, deze moet nog worden opgeslaan in het object.
 			// Pas wanneer de sorteerItemId is toegekend, kan de aangekomenOpNieuweLocatie() gebeuren
 			Integer id = repo.save(_s);
@@ -44,9 +32,25 @@ public class SorteerItemServiceImpl implements SorteerItemService{
 			
 		}
 		catch(RuntimeException e) {
-			return new Response(ResponseStatus.FAIL, "trackId: "+trackId);
+			return new Response(ResponseStatus.FAIL, "trackId: "+_s.getTrackId());
 		}
-		return new Response(ResponseStatus.SUCCESS, "trackId: "+trackId);
+		return new Response(ResponseStatus.SUCCESS, "trackId: "+_s.getTrackId());
+	}
+	
+	@Override
+	public Response maakNieuwSorteerItem(Integer trackId, String naamDoel,
+			String postcodeDoel, String straatDoel, String plaatsDoel, String landDoel, String naamAfkomst, String postcodeAfkomst,
+			String straatAfkomst, String plaatsAfkomst, String landAfkomst, String naamHuidigeLocatie, String postcodeHuidigeLocatie,
+			String straatHuidigeLocatie, String plaatsHuidigeLocatie, String landHuidigeLocatie, String soort, boolean spoed, LocalDate aanmaakDatum) {
+		SorteerItem _s = makeSorteerItem(
+				trackId,
+				makeAdres(naamDoel, postcodeDoel, straatDoel, plaatsDoel, landDoel),
+				makeAdres(naamAfkomst, postcodeAfkomst, straatAfkomst, plaatsAfkomst, landAfkomst),
+				makeAdres(naamHuidigeLocatie, postcodeHuidigeLocatie, straatHuidigeLocatie, plaatsHuidigeLocatie, landHuidigeLocatie),
+				soort,
+				spoed,
+				aanmaakDatum);
+		return maakNieuwSorteerItem(_s);
 	}
 	
 	@Override
