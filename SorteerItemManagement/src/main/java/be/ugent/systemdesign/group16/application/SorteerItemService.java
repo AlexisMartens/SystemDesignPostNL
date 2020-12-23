@@ -1,9 +1,8 @@
 package be.ugent.systemdesign.group16.application;
 
+import be.ugent.systemdesign.group16.domain.SorteerItem;
+
 public interface SorteerItemService {
 
-	Response maakBriefSorteerItem();
-	Response sorteerItemAangekomenOpNieuweLocatie();
-	Response sorteerItemAangekomenOpLaatsteLocatie();
-	Response sorteerItemGesorteerd();
+	Response maakNieuwSorteerItem(SorteerItem _s);
 }
