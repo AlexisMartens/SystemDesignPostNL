@@ -29,7 +29,6 @@ public class NieuwSorteerItemDomainEvent extends DomainEvent {
 	private String plaatsHuidigeLocatie;
 	private String landHuidigeLocatie;
 	
-	private LocalDate aanmaakDatum;
 
 	private boolean spoed;
 	
