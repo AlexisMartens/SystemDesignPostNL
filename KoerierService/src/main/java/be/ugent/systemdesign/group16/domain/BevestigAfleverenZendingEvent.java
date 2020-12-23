@@ -13,18 +13,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BevestigAfleverenZendingEvent extends DomainEvent {
-
 	private Integer orderId;
-	
-	private Adres ontvanger;
-	
-	private Adres afzender;
-	
-	private boolean spoed;
-	
-	private boolean extern;
-	
-	private OrderStatus orderStatus;
-
-
 }

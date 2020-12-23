@@ -46,28 +46,27 @@ public class Order extends AggregateRoot{
 		this.extern = extern;
 	}
 
-	
 	public void bevestigAfleverenBuren() {
 		setOrderStatus(OrderStatus.AFGELEVERD_BIJ_BUREN);
-		addDomainEvent(new UpdateTrackAndTraceEvent(getOrderId(),getOrderStatus()));
-		addDomainEvent(new BevestigAfleverenZendingEvent(getOrderId(), getOntvanger(), getAfzender(), isSpoed(), isExtern(), getOrderStatus()));
+		addDomainEvent(new UpdateTrackAndTraceEvent(getOrderId(),getAfzender().getNaam(), getAfzender().getPostcode(), getAfzender().getStraat(), getAfzender().getPlaats(), getAfzender().getLand(), getOrderStatus().toString()));
+		addDomainEvent(new BevestigAfleverenZendingEvent(getOrderId()));
 	}
 	
 	public void bevestigOphalen() {
 		setOrderStatus(OrderStatus.OPGEHAALD);
-		addDomainEvent(new UpdateTrackAndTraceEvent(getOrderId(),getOrderStatus()));
-		addDomainEvent(new BevestigOphalenZendingEvent(getOrderId(), getOntvanger(), getAfzender(), isSpoed(), isExtern(), getOrderStatus()));
+		addDomainEvent(new UpdateTrackAndTraceEvent(getOrderId(),getAfzender().getNaam(), getAfzender().getPostcode(), getAfzender().getStraat(), getAfzender().getPlaats(), getAfzender().getLand(), getOrderStatus().toString()));
+		addDomainEvent(new BevestigOphalenZendingEvent(getOrderId()));
 	}
 	
 	public void bevestigAfleveren() {
 		setOrderStatus(OrderStatus.AFGELEVERD);
-		addDomainEvent(new UpdateTrackAndTraceEvent(getOrderId(),getOrderStatus()));
-		addDomainEvent(new BevestigAfleverenZendingEvent(getOrderId(), getOntvanger(), getAfzender(), isSpoed(), isExtern(), getOrderStatus()));
-	
+		addDomainEvent(new UpdateTrackAndTraceEvent(getOrderId(),getAfzender().getNaam(), getAfzender().getPostcode(), getAfzender().getStraat(), getAfzender().getPlaats(), getAfzender().getLand(), getOrderStatus().toString()));
+		addDomainEvent(new BevestigAfleverenZendingEvent(getOrderId()));
+	}
 	public void wijsKoerierToeAanOrder(Koerier koerier){
 		setKoerier(koerier);
 		setOrderStatus(OrderStatus.TOEGEWEZEN_AAN_KOERIER);
-		addDomainEvent(new UpdateTrackAndTraceEvent(getOrderId(),getOrderStatus()));
+		addDomainEvent(new UpdateTrackAndTraceEvent(getOrderId(),getAfzender().getNaam(), getAfzender().getPostcode(), getAfzender().getStraat(), getAfzender().getPlaats(), getAfzender().getLand(), getOrderStatus().toString()));
 	}
 
 

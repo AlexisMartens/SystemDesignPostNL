@@ -1,5 +1,6 @@
 package be.ugent.systemdesign.group16.domain;
 
+import be.ugent.systemdesign.group16.application.Response;
 import be.ugent.systemdesign.group16.domain.seedwork.DomainEvent;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,10 +12,30 @@ public class UpdateTrackAndTraceEvent extends DomainEvent {
 
 	private Integer orderId;
 	
-	private OrderStatus orderStatus;
+	private String naam;
 	
-	public UpdateTrackAndTraceEvent(Integer orderId, OrderStatus orderStatus) {
+	private String postcode;
+	
+	private String straat;
+	
+	private String plaats;
+	
+	private String land;
+	
+	private String status;
+
+	public UpdateTrackAndTraceEvent(Integer orderId, String naam, String postcode, String straat, String plaats,
+			String land, String status) {
 		this.orderId = orderId;
-		this.orderStatus = orderStatus;
+		this.naam = naam;
+		this.postcode = postcode;
+		this.straat = straat;
+		this.plaats = plaats;
+		this.land = land;
+		this.status = status;
 	}
-}
+	
+	
+	}
+
+

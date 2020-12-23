@@ -19,4 +19,5 @@ public interface MessageOutputGateway extends EventDispatcher {
 	
 	@Gateway(requestChannel = Channels.UPDATE_TRACKANDTRACE_EVENT)
 	void publishZendingEvent(UpdateTrackAndTraceEvent event);
+	
 }
