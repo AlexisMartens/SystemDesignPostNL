@@ -36,7 +36,6 @@ public class SorteerItemRepositoryImpl implements SorteerItemRepository{
 	@Override
 	public Integer save(SorteerItem _s) {
 		Integer id = repo.save(mapToSorteerItemDataModel(_s)).getSorteerItemId();
-		repo.findById(id).ifPresent((sorteerItem) -> sorteerItem.setSorteerItemId(id));
 		
 		_s.getDomainEvents().forEach((event) -> eventPublisher.publishEvent(event));
 		_s.clearEvents();
@@ -89,7 +88,11 @@ public class SorteerItemRepositoryImpl implements SorteerItemRepository{
 	}
 	
 	private static SorteerItemDataModel mapToSorteerItemDataModel(SorteerItem item){
-		return new SorteerItemDataModel(item.getTrackId(), mapToAdresDataModel(item.getDoel()), mapToAdresDataModel(item.getAfkomst()), 
+		if(item.getSorteerItemId()!=null) 
+			return new SorteerItemDataModel(item.getSorteerItemId(), item.getTrackId(), mapToAdresDataModel(item.getDoel()), mapToAdresDataModel(item.getAfkomst()), 
+					mapToAdresDataModel(item.getHuidigeLocatie()), item.getSoort().name(), item.isSpoed(), item.getStatus().name(), item.getAanmaakDatum());
+		else 
+			return new SorteerItemDataModel(item.getTrackId(), mapToAdresDataModel(item.getDoel()), mapToAdresDataModel(item.getAfkomst()), 
 						mapToAdresDataModel(item.getHuidigeLocatie()), item.getSoort().name(), item.isSpoed(), item.getStatus().name(), item.getAanmaakDatum());
 	}
 

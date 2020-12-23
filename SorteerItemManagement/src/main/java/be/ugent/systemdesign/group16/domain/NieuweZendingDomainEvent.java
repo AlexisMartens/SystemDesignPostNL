@@ -11,7 +11,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class NieuweZendingDomainEvent extends DomainEvent{
-		
+	
+	private Integer zendingId;
+	
 	private String naamAfzender;
 	private String postcodeAfzender;
 	private String straatAfzender;
@@ -36,6 +38,8 @@ public class NieuweZendingDomainEvent extends DomainEvent{
 	
 	public NieuweZendingDomainEvent(SorteerItem i) {
 		super();
+		
+		this.zendingId = i.getTrackId();
 		
 		this.naamAfzender=i.getAfkomst().getNaam();
 		this.postcodeAfzender=i.getAfkomst().getPostcode();

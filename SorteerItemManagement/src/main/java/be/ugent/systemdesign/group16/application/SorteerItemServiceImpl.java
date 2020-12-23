@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import be.ugent.systemdesign.group16.application.event.NieuwSorteerItemEvent;
 import be.ugent.systemdesign.group16.domain.Adres;
 import be.ugent.systemdesign.group16.domain.Soort;
 import be.ugent.systemdesign.group16.domain.SorteerItem;
@@ -17,7 +16,7 @@ import be.ugent.systemdesign.group16.domain.SorteerItemStatus;
 @Transactional
 @Service
 public class SorteerItemServiceImpl implements SorteerItemService{
-	
+			
 	@Autowired
 	SorteerItemRepository repo;
 	
@@ -35,7 +34,14 @@ public class SorteerItemServiceImpl implements SorteerItemService{
 					soort,
 					spoed,
 					aanmaakDatum);
+			
+			// Methode geeft de PK terug, deze moet nog worden opgeslaan in het object.
+			// Pas wanneer de sorteerItemId is toegekend, kan de aangekomenOpNieuweLocatie() gebeuren
+			Integer id = repo.save(_s);
+			_s.setSorteerItemId(id);
+			_s.aangekomenOpNieuweLocatie(_s.getHuidigeLocatie());
 			repo.save(_s);
+			
 		}
 		catch(RuntimeException e) {
 			return new Response(ResponseStatus.FAIL, "trackId: "+trackId);
@@ -51,7 +57,8 @@ public class SorteerItemServiceImpl implements SorteerItemService{
 			SorteerItem _s = repo.findById(sorteerItemId);
 			_s.maakKlaarVoorVervoer(makeAdres(naamVolgendeLocatie, postcodeVolgendeLocatie, straatVolgendeLocatie, 
 					plaatsVolgendeLocatie, landVolgendeLocatie), laatsteLocatie, batchId);
-			repo.save(_s);
+			Integer n = repo.save(_s);
+			SorteerItem _s2 = repo.findById(sorteerItemId);
 		}
 		catch(SorteerItemNotFoundException e) {
 			return new Response(ResponseStatus.FAIL, "SorteerItem met id : " + sorteerItemId + " not found.");
@@ -60,6 +67,32 @@ public class SorteerItemServiceImpl implements SorteerItemService{
 			return new Response(ResponseStatus.FAIL, "id: " + sorteerItemId);
 		}
 		return new Response(ResponseStatus.SUCCESS, "Gesorteerd id: " + sorteerItemId);
+	}
+	
+	@Override
+	public Response vervoerd(Integer sorteerItemId, String naamNieuweLocatie, String postcodeNieuweLocatie,
+			String straatNieuweLocatie, String plaatsNieuweLocatie, String landNieuweLocatie) {
+		try {
+			SorteerItem _s = repo.findById(sorteerItemId);
+			Adres nieuweLocatie = makeAdres(naamNieuweLocatie, postcodeNieuweLocatie, straatNieuweLocatie, plaatsNieuweLocatie, landNieuweLocatie);
+			if(_s.getStatus() == SorteerItemStatus.ONDERWEG_NAAR_LAATSTE_LOCATIE) {
+				_s.aangekomenOpLaatsteLocatie(nieuweLocatie);
+				repo.save(_s);
+				// Object wordt nu terug een Zending, zodus mag het terug verwijderd worden.
+				repo.delete(sorteerItemId);
+			} 
+			else {
+				_s.aangekomenOpNieuweLocatie(nieuweLocatie);
+				repo.save(_s);
+			}
+		}
+		catch(SorteerItemNotFoundException e) {
+			return new Response(ResponseStatus.FAIL, "SorteerItem met id : " + sorteerItemId + " not found.");
+		}
+		catch(RuntimeException e) {
+			return new Response(ResponseStatus.FAIL, "id: " + sorteerItemId);
+		}
+		return new Response(ResponseStatus.SUCCESS, "Vervoerd id: " + sorteerItemId);
 	}
 	
 	private static Adres makeAdres(String naam, String postcode, String straat, String plaats, String land) {

@@ -13,6 +13,7 @@ import lombok.Setter;
 public class NieuwSorteerItemEvent {
 	
 	private Integer trackId;
+	
 	private String typeZending;
 		
 	private String naamAfzender;

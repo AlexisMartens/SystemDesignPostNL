@@ -11,4 +11,7 @@ public interface SorteerItemService {
 	
 	Response gesorteerd(Integer sorteerItemId, String naamVolgendeLocatie, String postcodeVolgendeLocatie, String straatVolgendeLocatie,
 			String plaatsVolgendeLocatie, String landVolgendeLocatie, boolean laatsteLocatie, Integer batchId);
+	
+	Response vervoerd(Integer sorteerItemId, String naamNieuweLocatie, String postcodeNieuweLocatie, String straatNieuweLocatie,
+			String plaatsNieuweLocatie, String landNieuweLocatie);
 }

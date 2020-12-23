@@ -12,16 +12,37 @@ public class StuurSorteerderDomainEvent extends DomainEvent{
 
 	private Integer sorteerItemId;
 	
-	private Adres huidigeLocatie;
-	private Adres doel;
-
+	private String naamHuidigeLocatie;
+	private String postcodeHuidigeLocatie;
+ 	private String straatHuidigeLocatie;
+ 	private String plaatsHuidigeLocatie;
+ 	private String landHuidigeLocatie;
+ 	
+ 	private String naamDoel;
+	private String postcodeDoel;
+ 	private String straatDoel;
+ 	private String plaatsDoel;
+ 	private String landDoel;
+ 	
 	private boolean spoed;
 	
-	public StuurSorteerderDomainEvent(SorteerItem i) {
+	public StuurSorteerderDomainEvent(Integer sorteerItemId, Adres huidigeLocatie, Adres doel, boolean spoed) {
 		super();
-		this.sorteerItemId=i.getSorteerItemId();
-		this.huidigeLocatie=i.getHuidigeLocatie();
-		this.doel=i.getDoel();
-		this.spoed=i.isSpoed();
+		
+		this.sorteerItemId=sorteerItemId;
+		
+		this.naamHuidigeLocatie=huidigeLocatie.getNaam();
+		this.postcodeHuidigeLocatie=huidigeLocatie.getPostcode();
+		this.straatHuidigeLocatie=huidigeLocatie.getStraat();
+		this.plaatsHuidigeLocatie=huidigeLocatie.getPlaats();
+		this.landHuidigeLocatie=huidigeLocatie.getLand();
+		
+		this.naamDoel=doel.getNaam();
+		this.postcodeDoel=doel.getPostcode();
+		this.straatDoel=doel.getStraat();
+		this.plaatsDoel=doel.getPlaats();
+		this.landDoel=doel.getLand();
+		
+		this.spoed=spoed;
 	}
 }

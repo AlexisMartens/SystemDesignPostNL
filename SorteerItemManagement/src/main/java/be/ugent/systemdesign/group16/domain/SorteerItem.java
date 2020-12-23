@@ -35,12 +35,14 @@ public class SorteerItem extends AggregateRoot{
 		this.spoed = spoed;
 		this.status = SorteerItemStatus.IN_CENTRUM;
 		this.aanmaakDatum = aanmaakDatum;
+		updateTrackAndTrace();
 	}
 	
-	public void aangekomenOpNieuweLocatie(Adres l) {
-		this.huidigeLocatie = l;
+	public void aangekomenOpNieuweLocatie(Adres nieuweLocatie) {
+		this.huidigeLocatie = nieuweLocatie;
 		this.status = SorteerItemStatus.IN_CENTRUM;
-		// Stuur Sorteerder
+		updateTrackAndTrace();
+		addDomainEvent(new StuurSorteerderDomainEvent(this.sorteerItemId, this.huidigeLocatie, this.doel, this.spoed));
 	}
 	
 	public void maakKlaarVoorVervoer(Adres volgendeLocatie, boolean laatsteLocatie, Integer batchId) {
@@ -49,10 +51,11 @@ public class SorteerItem extends AggregateRoot{
 		addDomainEvent(new StuurVervoerderDomainEvent(this.sorteerItemId, this.huidigeLocatie, volgendeLocatie, batchId, this.spoed));
 	}
 	
-	public void aangekomenOpLaatsteLocatie(Adres l) {
-		this.huidigeLocatie = l;
+	public void aangekomenOpLaatsteLocatie(Adres nieuweLocatie) {
+		this.huidigeLocatie = nieuweLocatie;
 		this.status = SorteerItemStatus.KLAAR_VOOR_ZENDING;
-		// Maak nieuwe zending aan
+		updateTrackAndTrace();
+		addDomainEvent(new NieuweZendingDomainEvent(this));
 	}
 	
 	private void updateTrackAndTrace() {

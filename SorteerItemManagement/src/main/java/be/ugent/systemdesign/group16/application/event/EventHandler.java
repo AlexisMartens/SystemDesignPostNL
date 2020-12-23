@@ -33,5 +33,7 @@ public class EventHandler {
 	
 	public void handleBevestigVervoerenEvent(BevestigVervoerenEvent e) {
 		log.info("Received BevestigVervoerenEvent.");
+		service.vervoerd(e.getSorteerItemId(), e.getNaamNieuweLocatie(), e.getPostcodeNieuweLocatie(), e.getStraatNieuweLocatie(), 
+				e.getPlaatsNieuweLocatie(), e.getLandNieuweLocatie());
 	}
 }
