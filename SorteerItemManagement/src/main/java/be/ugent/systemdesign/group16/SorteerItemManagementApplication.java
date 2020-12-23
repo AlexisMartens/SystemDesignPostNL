@@ -1,5 +1,13 @@
 package be.ugent.systemdesign.group16;
 
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpRequest.BodyPublisher;
+import java.net.http.HttpRequest.BodyPublishers;
+import java.net.http.HttpResponse;
+import java.net.http.HttpResponse.BodyHandlers;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
@@ -159,6 +167,34 @@ public class SorteerItemManagementApplication {
 		return e;
 	}
 	
+	private static String getBody() {
+		return "{\n"
+				+ "    \"trackId\": \"1000\",\n"
+				+ "    \"doel\" : {\n"
+				+ "        \"naam\" : \"Lodewijk XIV\",\n"
+				+ "        \"postcode\" : \"9000\",\n"
+				+ "        \"straat\" : \"straat\",\n"
+				+ "        \"plaats\" : \"Nevele\",\n"
+				+ "        \"land\" : \"Belgie\"\n"
+				+ "    },\n"
+				+ "    \"afkomst\" : {\n"
+				+ "        \"naam\" : \"Karel de Grote\",\n"
+				+ "        \"postcode\" : \"9000\",\n"
+				+ "        \"straat\" : \"straat\",\n"
+				+ "        \"plaats\" : \"Nevele\",\n"
+				+ "        \"land\" : \"Belgie\"\n"
+				+ "    },\n"
+				+ "    \"huidigeLocatie\" : {\n"
+				+ "        \"naam\" : \"SorteerCentrum Nevele\",\n"
+				+ "        \"postcode\" : \"9000\",\n"
+				+ "        \"straat\" : \"straat\",\n"
+				+ "        \"plaats\" : \"Nevele\",\n"
+				+ "        \"land\" : \"Belgie\"\n"
+				+ "    },\n"
+				+ "    \"soort\": \"PAKKET\",\n"
+				+ "    \"spoed\": \"true\"\n"
+				+ "}";
+	}
 	@Bean
 	CommandLineRunner testSorteerItemDataModelJpaRepository(SorteerItemDataModelJpaRepository repo) {
 		return (args) -> {
@@ -290,6 +326,33 @@ public class SorteerItemManagementApplication {
 			BevestigVervoerenEvent vervoerenEvent = maakBevestigVervoerenEvent(3,"Sorteercentrum Nevele","9100","nevelelaan 5","Nevele","Belgie");
 			log.info(">Handle BevestigVervoerenEvent.");
 			handler.handleBevestigVervoerenEvent(vervoerenEvent);
+		};
+	}
+	
+	@Bean
+	CommandLineRunner testSorteerItemManagementController() {
+		return (args) -> {
+			log.info("$Testing SorteerItemManagementController");
+			log.info(">Nieuw sorteerItem aanmaken via Rest Controller.");
+			HttpClient client = HttpClient.newHttpClient();
+			HttpRequest request = HttpRequest.newBuilder()
+				      .uri(URI.create("http://localhost:2222/api/sorteeritem/brief"))
+				      .timeout(Duration.ofMinutes(1))
+				      .header("Content-Type", "application/json")
+				      .POST(BodyPublishers.ofString(getBody()))
+				      .build();
+			HttpResponse<String> response =
+			          client.send(request, BodyHandlers.ofString());
+			log.info("- response: {}", response.body());
+		};
+	}
+	
+	@Bean
+	CommandLineRunner testControleRestController(SorteerItemRepository repo) {
+		return (args) -> {			
+			log.info(">Controle of nieuw item correct is opgeslagen, trackId is: 1000.");
+			List<SorteerItem> allSorteerItems = repo.findAll();
+			logSorteerItems(allSorteerItems);
 		};
 	}
 }

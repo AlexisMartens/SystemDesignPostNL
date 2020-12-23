@@ -25,6 +25,7 @@ public class SorteerItemServiceImpl implements SorteerItemService{
 		try {
 			// Methode geeft de PK terug, deze moet nog worden opgeslaan in het object.
 			// Pas wanneer de sorteerItemId is toegekend, kan de aangekomenOpNieuweLocatie() gebeuren
+			_s.setStatus(SorteerItemStatus.IN_CENTRUM);
 			Integer id = repo.save(_s);
 			_s.setSorteerItemId(id);
 			_s.aangekomenOpNieuweLocatie(_s.getHuidigeLocatie());
@@ -32,7 +33,7 @@ public class SorteerItemServiceImpl implements SorteerItemService{
 			
 		}
 		catch(RuntimeException e) {
-			return new Response(ResponseStatus.FAIL, "trackId: "+_s.getTrackId());
+			return new Response(ResponseStatus.FAIL, "Kon sorteerItem niet aanmaken, message: "+e.getMessage());
 		}
 		return new Response(ResponseStatus.SUCCESS, "trackId: "+_s.getTrackId());
 	}
