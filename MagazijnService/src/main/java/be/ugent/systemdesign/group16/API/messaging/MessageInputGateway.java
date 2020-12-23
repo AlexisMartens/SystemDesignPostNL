@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import be.ugent.systemdesign.group16.application.event.EventHandler;
 import be.ugent.systemdesign.group16.application.event.NieuwPakketDomainEventMOETIKKOPIERENVANFULLFILMENTMGMT;
-import be.ugent.systemdesign.group16.application.event.ZendingDomainEvent;
 
 @Component
 public class MessageInputGateway {

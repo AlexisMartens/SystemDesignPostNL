@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import be.ugent.systemdesign.group16.domain.Adres;
-import be.ugent.systemdesign.group16.domain.PakketGrootte;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,10 +23,7 @@ public class PakketDataModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Getter
-	private Integer pakketId;
-	
-	private String grootte;
-	
+	private Integer pakketId;	
 	
 	private String naamAfzender;
 	private String postcodeAfzender;

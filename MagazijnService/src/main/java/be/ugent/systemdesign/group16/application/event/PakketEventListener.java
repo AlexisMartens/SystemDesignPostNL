@@ -23,7 +23,7 @@ public class PakketEventListener {
 	@Async
 	@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
 	public void handleNieuwSorteerItemAsync(NieuwSorteerItemDomainEvent event) {
-		log.info(">handle NieuwSorteerItem Async of event created at {}, with new status {} and id {}", event.getCreatedTime(), event.getStatus(), event.getPakketId());
+		log.info(">handle NieuwSorteerItem Async of event created at {}, with new status {} and id {}", event.getCreatedTime(), event.getPakketId());
 		eventDispatcher.publishNieuwSorteerItemEvent(event);
 	}
 	

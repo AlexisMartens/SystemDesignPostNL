@@ -9,11 +9,8 @@ import org.springframework.stereotype.Repository;
 
 import be.ugent.systemdesign.group16.domain.Adres;
 import be.ugent.systemdesign.group16.domain.Pakket;
-import be.ugent.systemdesign.group16.domain.PakketGrootte;
 import be.ugent.systemdesign.group16.domain.PakketRepository;
 import be.ugent.systemdesign.group16.domain.PakketStatus;
-import be.ugent.systemdesign.group16.domain.Zending;
-import be.ugent.systemdesign.group16.domain.ZendingStatus;
 
 @Repository
 public class PakketRepositoryImpl implements PakketRepository {
@@ -41,7 +38,7 @@ public class PakketRepositoryImpl implements PakketRepository {
 	}
 
 	private PakketDataModel mapToPakketDataModel(Pakket _p) {
-		return new PakketDataModel(_p.getPakketId(),_p.getGrootte().name(), 
+		return new PakketDataModel(_p.getPakketId(), 
 				_p.getAfzender().getNaam(), _p.getAfzender().getPostcode(), _p.getAfzender().getStraat(), _p.getAfzender().getPlaats(), _p.getAfzender().getLand(),
 				_p.getOntvanger().getNaam(), _p.getOntvanger().getPostcode(), _p.getOntvanger().getStraat(), _p.getOntvanger().getPlaats(), _p.getOntvanger().getLand(),
 				_p.getHuidigeLocatie().getNaam(),_p.getHuidigeLocatie().getPostcode(), _p.getHuidigeLocatie().getStraat(),_p.getHuidigeLocatie().getPlaats(), _p.getHuidigeLocatie().getLand()
@@ -53,7 +50,6 @@ public class PakketRepositoryImpl implements PakketRepository {
 		
 		Pakket p = Pakket.builder()
 				.pakketId(_p.getPakketId())
-				.grootte(PakketGrootte.valueOf(_p.getGrootte()))			
 				.afzender(
 						Adres.builder()
 						.naam(_p.getNaamAfzender())
@@ -96,5 +92,5 @@ public class PakketRepositoryImpl implements PakketRepository {
 				.map(elt -> mapToPakket(elt))
 				.collect(Collectors.toList());
 	}
-	}
 }
+

@@ -11,6 +11,4 @@ public interface MagazijnService {
 			String soort, boolean spoed, String status);
 
 	Response BevestigInpakken(Integer _pakketId);
-	
-	//Response UpdateTrackAndTrace(UpdateTrackAndTraceEvent e);
 }

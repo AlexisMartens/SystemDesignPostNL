@@ -30,7 +30,7 @@ public class ZendingEventListener {
 	@Async
 	@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
 	public void handleNieuwSorteerItemAsync(NieuwSorteerItemDomainEvent event) {
-		log.info(">handle NieuwSorteerItem Async of event created at {}, with new status {} and id {}", event.getCreatedTime(), event.getStatus(), event.getZendingId());
+		log.info(">handle NieuwSorteerItem Async of event created at {}, with new status {} and id {}", event.getCreatedTime(), event.getZendingId());
 		eventDispatcher.publishNieuwSorteerItemEvent(event);
 	}
 }
