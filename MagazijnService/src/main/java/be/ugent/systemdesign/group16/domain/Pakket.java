@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Id;
 
+import be.ugent.systemdesign.group16.domain.seedwork.AggregateRoot;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +19,7 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor 
 @AllArgsConstructor()
-public class Pakket{ //extends AggregateRoot {
+public class Pakket extends AggregateRoot {
 	@Id
 	@Getter
 	private Integer pakketId;
@@ -67,7 +68,22 @@ public class Pakket{ //extends AggregateRoot {
 		//TODO: check attr enum PakketStatus
 		status=PakketStatus.AANGEMAAKT;	
 	}
-	// TODO: verwerk methode(s)?
+
+	
+	// TODO: conditie toevoegen??
+	public void MaakNieuwSorteerItem() {
+		//status = ..
+		addDomainEvent(new NieuwSorteerItemDomainEvent(pakketId, grootte.name(), afzender.getNaam(), afzender.getPostcode(), afzender.getStraat(), afzender.getPlaats(), afzender.getPlaats(),
+				ontvanger.getNaam(), ontvanger.getPostcode(), ontvanger.getStraat(), ontvanger.getPlaats(), ontvanger.getLand(), 
+				huidigeLocatie.getNaam(), huidigeLocatie.getPostcode(), huidigeLocatie.getStraat(), huidigeLocatie.getPlaats(), huidigeLocatie.getLand(),
+				soort, spoed, status.name()));
+	}
+	public void UpdateTrackAndTrace() {
+		//status=..
+		addDomainEvent(new UpdateTrackAndTraceDomainEvent(pakketId, huidigeLocatie.getNaam(), huidigeLocatie.getPostcode(), huidigeLocatie.getStraat(), huidigeLocatie.getPlaats(),
+				huidigeLocatie.getLand(), status.name()));
+	}
+	
 
 	
 }

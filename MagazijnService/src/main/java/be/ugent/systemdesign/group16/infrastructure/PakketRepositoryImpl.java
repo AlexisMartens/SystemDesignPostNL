@@ -35,9 +35,9 @@ public class PakketRepositoryImpl implements PakketRepository {
 		PakketDataModel dataModel = mapToPakketDataModel(_p);		
 		pakketDMRepo.save(dataModel);
 		_p.setPakketId(dataModel.getPakketId());
-		//TODO: domain events:??? nodig
-		//_p.getDomainEvents().forEach(domainEvent -> eventPublisher.publishEvent(domainEvent));
-	    //_p.clearDomainEvents();
+
+	    _p.getDomainEvents().forEach(domainEvent -> eventPublisher.publishEvent(domainEvent));
+	    _p.clearDomainEvents();
 	}
 
 	private PakketDataModel mapToPakketDataModel(Pakket _p) {

@@ -41,6 +41,7 @@ public class MagazijnServiceImpl implements MagazijnService {
 		repo.save(p);
 		_b.setPakketId(p.getBestellingId());
 		//b.Verwerk();
+		p.UpdateTrackAndTrace();
 		repo.save(b);
 		bestelId = b.getBestellingId();
 		
@@ -71,6 +72,8 @@ public class MagazijnServiceImpl implements MagazijnService {
 		//pakket.setGrootte(grootte);
 		//update status
 		//pakket.update(qsdkfdsqkfdqsf,;ds;fsd);
+		pakket.UpdateTrackAndTrace();
+		pakket.MaakNieuwSorteerItem();
 		repo.save(pakket);
 		return new Response(ResponseStatus.SUCCESS, "id "+_pakketId);
 }
