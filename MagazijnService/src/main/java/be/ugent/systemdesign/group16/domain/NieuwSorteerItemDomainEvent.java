@@ -1,9 +1,6 @@
 package be.ugent.systemdesign.group16.domain;
 
-import java.time.LocalDate;
-
 import be.ugent.systemdesign.group16.domain.seedwork.DomainEvent;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,8 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class NieuwSorteerItemDomainEvent extends DomainEvent {
 	private Integer pakketId;
-
-	private String grootte;
 
 	private String naamAfzender;
 	private String postcodeAfzender;
@@ -37,17 +32,14 @@ public class NieuwSorteerItemDomainEvent extends DomainEvent {
 	private String soort;
 	
 	private boolean spoed;
-	
-	private String status;
 
-	public NieuwSorteerItemDomainEvent(Integer pakketId, String grootte, String naamAfzender, String postcodeAfzender,
+	public NieuwSorteerItemDomainEvent(Integer pakketId, String naamAfzender, String postcodeAfzender,
 			String straatAfzender, String plaatsAfzender, String landAfzender, String naamOntvanger,
 			String postcodeOntvanger, String straatOntvanger, String plaatsOntvanger, String landOntvanger,
 			String naamHuidigeLocatie, String postcodeHuidigeLocatie, String straatHuidigeLocatie,
-			String plaatsHuidigeLocatie, String landHuidigeLocatie, String soort, boolean spoed, String status) {
+			String plaatsHuidigeLocatie, String landHuidigeLocatie, String soort, boolean spoed) {
 		super();
 		this.pakketId = pakketId;
-		this.grootte = grootte;
 		this.naamAfzender = naamAfzender;
 		this.postcodeAfzender = postcodeAfzender;
 		this.straatAfzender = straatAfzender;
@@ -65,9 +57,6 @@ public class NieuwSorteerItemDomainEvent extends DomainEvent {
 		this.landHuidigeLocatie = landHuidigeLocatie;
 		this.soort = soort;
 		this.spoed = spoed;
-		this.status = status;
 	}
-	
-	
 }
 	
