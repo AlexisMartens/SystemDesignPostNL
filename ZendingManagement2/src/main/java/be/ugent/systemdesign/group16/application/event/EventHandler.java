@@ -17,9 +17,7 @@ public class EventHandler {
 	
 	@Autowired
 	ZendingService service;
-	//bevestigOphalenZending
-	//bevestigAfleverenZending
-	//nieuwezending sorteeritemmgmt
+//TODO: MOETEN HIER PUBLISH EVENTS KOMEN?
 	public void handleNieuweZending(ZendingDomainEvent event) {
 		log.info("-Received NieuwZendingDomainEvent van BestelManagement");
 		Response response; 
@@ -51,26 +49,23 @@ public class EventHandler {
 		log.info("-response status[{}] message[{}]", response.getStatus(), response.getMessage());
 
 	}
-	
-	public void handleNieuwSorteerItemEvent(NieuwSorteerItemEvent e) {
-		log.info("Received NieuwSorteerItemEvent.");
-		service.maakNieuwSorteerItem(e.getTrackId(), e.getNaamOntvanger(), e.getPostcodeOntvanger(), e.getStraatOntvanger(), 
-				e.getPlaatsOntvanger(), e.getLandOntvanger(), e.getNaamAfzender(), e.getPostcodeAfzender(), 
-				e.getStraatAfzender(), e.getPlaatsAfzender(), e.getLandAfzender(), e.getNaamHuidigeLocatie(), 
-				e.getPostcodeHuidigeLocatie(), e.getStraatHuidigeLocatie(), e.getPlaatsHuidigeLocatie(), 
-				e.getLandHuidigeLocatie(), e.getTypeZending(), e.isSpoed(), e.getAanmaakDatum());
+	public void handleBevestigOphalenZending(BevestigOphalenZendingEvent event) {
+		log.info("-Received BevestigOphalenZendingEvent van KoerierService");
+		Response response; 
+		//TODO: nog checks??
+		response = service.bevestigAfhalen(event.getOrderId());	
+		
+		log.info("-response status[{}] message[{}]", response.getStatus(), response.getMessage());
 	}
 	
-	public void handleBevestigSorterenEvent(BevestigSorterenEvent e) {
-		log.info("Received BevestigSorterenEvent.");
-		service.gesorteerd(e.getSorteerItemId(), e.getNaamVolgendeLocatie(), e.getPostcodeVolgendeLocatie(), e.getStraatVolgendeLocatie(), 
-				e.getPlaatsVolgendeLocatie(), e.getLandVolgendeLocatie(), e.isLaatsteLocatie(), e.getBatchId());
-	}
-	
-	public void handleBevestigVervoerenEvent(BevestigVervoerenEvent e) {
-		log.info("Received BevestigVervoerenEvent.");
-		service.vervoerd(e.getSorteerItemId(), e.getNaamNieuweLocatie(), e.getPostcodeNieuweLocatie(), e.getStraatNieuweLocatie(), 
-				e.getPlaatsNieuweLocatie(), e.getLandNieuweLocatie());
-	}
-	
+	public void handleBevestigAfleverenZending(BevestigAfleverenZendingEvent event) {
+		log.info("-Received BevestigAfleverenZendingEvent van KoerierService");
+		Response response; 
+		//TODO: nog checks?? Is ontvangeradres het afhaalpuntadres?
+		response = service.bevestigAankomstNieuweZending(event.getOrderId(), 
+				new Adres(event.getNaamOntvanger(), event.getPostcodeOntvanger(), event.getStraatOntvanger(),
+						event.getPlaatsOntvanger(), event.getLandOntvanger()));
+				
+		log.info("-response status[{}] message[{}]", response.getStatus(), response.getMessage());
+	}	
 }

@@ -22,19 +22,18 @@ public class MessageInputGateway {
 	public void consumeNieuweZendingEvent(ZendingDomainEvent event) {
 		eventHandler.handleNieuweZending(event);
 	}
-	//TODO: onderstaande nog verwerken:	
-	
+
 	@StreamListener(Channels.NIEUWE_ZENDING)
 	public void consumeNieuweZendingSorteerItemMgmt(NieuweZendingDomainEvent event) {
-		eventHandler.handleNieuweZendingVanSorteerItemMgmtEvent(event);
+		eventHandler.handleNieuweZending(event);
 	}
 	@StreamListener(Channels.OPHALEN_ZENDING_EVENT)
 	public void consumeOphalenZendingEvent(BevestigOphalenZendingEvent event) {
-		eventHandler.handleOphalenZending(event);
+		eventHandler.handleBevestigOphalenZending(event);
 	}
 	
 	@StreamListener(Channels.AFLEVEREN_ZENDING_EVENT)
 	public void consumeAfleverenZendingEvent(BevestigAfleverenZendingEvent event) {
-		eventHandler.handleAfleverenNieuweZending(event);
+		eventHandler.handleBevestigAfleverenNieuweZending(event);
 	}
 }
