@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.stereotype.Component;
 
-import be.ugent.systemdesign.group16.application.event.BevestigSorterenEvent;
-import be.ugent.systemdesign.group16.application.event.BevestigVervoerenEvent;
+import be.ugent.systemdesign.group16.application.event.BevestigSorterenItemEvent;
+import be.ugent.systemdesign.group16.application.event.BevestigVervoerenItemEvent;
 import be.ugent.systemdesign.group16.application.event.EventHandler;
 import be.ugent.systemdesign.group16.application.event.NieuwSorteerItemEvent;
 
@@ -20,13 +20,13 @@ public class MessagingInputGateway {
 		eventHandler.handleNieuwSorteerItemEvent(e);
 	}
 	
-	@StreamListener(Channels.BEVESTIG_SORTEREN)
-	public void consumeBevestigSorterenEvent(BevestigSorterenEvent e) {
+	@StreamListener(Channels.BEVESTIG_SORTEREN_ITEM)
+	public void consumeBevestigSorterenEvent(BevestigSorterenItemEvent e) {
 		eventHandler.handleBevestigSorterenEvent(e);
 	}
 	
-	@StreamListener(Channels.BEVESTIG_VERVOEREN)
-	public void consumeBevestigVervoerenEvent(BevestigVervoerenEvent e) {
+	@StreamListener(Channels.BEVESTIG_VERVOEREN_ITEM)
+	public void consumeBevestigVervoerenEvent(BevestigVervoerenItemEvent e) {
 		eventHandler.handleBevestigVervoerenEvent(e);
 	}
 }

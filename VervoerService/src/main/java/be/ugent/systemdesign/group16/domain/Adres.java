@@ -10,8 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder
+@AllArgsConstructor
 public class Adres {
 	private String naam;
 	private String postcode;

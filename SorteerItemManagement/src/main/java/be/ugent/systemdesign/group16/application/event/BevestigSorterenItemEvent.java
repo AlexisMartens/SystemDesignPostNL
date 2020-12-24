@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class BevestigSorterenEvent {
+public class BevestigSorterenItemEvent {
 	
 	private Integer sorteerItemId;
 	
