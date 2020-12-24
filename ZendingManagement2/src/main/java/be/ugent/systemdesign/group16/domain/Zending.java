@@ -53,6 +53,7 @@ public class Zending extends AggregateRoot {
 		ophalenBijKlantThuis = _z.ophalenBijKlantThuis;
 		status = ZendingStatus.AF_TE_HALEN_IN_AFHAALPUNT;
 		if(ophalenBijKlantThuis) {
+			//huidigeLocatie = ontvanger;
 			status = ZendingStatus.OP_TE_HALEN_BIJ_KLANT;
 		}
 		

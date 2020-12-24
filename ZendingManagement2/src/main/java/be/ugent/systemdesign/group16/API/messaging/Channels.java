@@ -6,14 +6,14 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.SubscribableChannel;
 public interface Channels {
 
-	static final String NIEUW_SORTEERITEM_EVENT = "nieuw_sorteeritem_event";
+	static final String NIEUW_SORTEER_ITEM = "nieuw_sorteer_item";
 	static final String KLAAR_VOOR_KOERIER_EVENT = "klaar_voor_koerier_event";
 	static final String ZENDING_EVENT = "zending_event";
-	static final String ZENDING_EVENT_SORTEERITEM_MGMT = "zending_event_sorteeritem_mgmt";
+	static final String NIEUWE_ZENDING = "nieuwe_zending";
 	static final String OPHALEN_ZENDING_EVENT = "ophalen_zending_event";
 	static final String AFLEVEREN_ZENDING_EVENT = "afleveren_zending_event";
 	
-	@Output(NIEUW_SORTEERITEM_EVENT)
+	@Output(NIEUW_SORTEER_ITEM)
 	MessageChannel NieuwSorteerItemEvent();
 	
 	@Output(KLAAR_VOOR_KOERIER_EVENT)
@@ -22,8 +22,7 @@ public interface Channels {
 	@Input(ZENDING_EVENT)
 	SubscribableChannel ZendingEvent();
 	
-	//TODO: namen onderstaande checken
-	@Input(ZENDING_EVENT_SORTEERITEM_MGMT)
+	@Input(NIEUWE_ZENDING)
 	SubscribableChannel ZendingSorteerItemMgmtEvent();
 	
 	@Input(OPHALEN_ZENDING_EVENT)

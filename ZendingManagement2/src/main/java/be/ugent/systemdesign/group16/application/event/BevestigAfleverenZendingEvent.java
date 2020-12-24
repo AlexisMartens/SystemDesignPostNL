@@ -33,6 +33,4 @@ public class BevestigAfleverenZendingEvent extends DomainEvent {
 	private boolean extern;
 	
 	private String orderStatus;
-
-
 }

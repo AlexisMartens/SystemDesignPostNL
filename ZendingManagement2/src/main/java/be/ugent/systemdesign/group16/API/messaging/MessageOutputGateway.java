@@ -13,7 +13,7 @@ public interface MessageOutputGateway extends EventDispatcher {
 	@Gateway(requestChannel = Channels.KLAAR_VOOR_KOERIER_EVENT)
 	void publishKlaarVoorKoerierEvent(KlaarVoorKoerierDomainEvent event);
 	
-	@Gateway(requestChannel = Channels.NIEUW_SORTEERITEM_EVENT)
+	@Gateway(requestChannel = Channels.NIEUW_SORTEER_ITEM)
 	void publishNieuwSorteerItemEvent(NieuwSorteerItemDomainEvent event);
 
 }
