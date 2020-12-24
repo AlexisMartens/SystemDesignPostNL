@@ -11,17 +11,17 @@ public interface Channels {
 	final static String STUUR_SORTEERDER = "stuur_sorteerder";
 	final static String STUUR_VERVOERDER = "stuur_vervoerder";
 	final static String NIEUWE_ZENDING = "nieuwe_zending";
-	final static String BEVESTIG_SORTEREN = "bevestig_sorteren";
-	final static String BEVESTIG_VERVOEREN = "bevestig_veroeren";
+	final static String BEVESTIG_SORTEREN_ITEM = "bevestig_sorteren_item";
+	final static String BEVESTIG_VERVOEREN_ITEM = "bevestig_veroeren_item";
 	final static String UPDATE_TRACK_AND_TRACE = "update_track_and_trace_event";
 	
 	@Input(NIEUW_SORTEER_ITEM)
 	SubscribableChannel nieuwSorteerItem();
 	
-	@Input(BEVESTIG_SORTEREN)
+	@Input(BEVESTIG_SORTEREN_ITEM)
 	SubscribableChannel bevestigSorteren();
 	
-	@Input(BEVESTIG_VERVOEREN)
+	@Input(BEVESTIG_VERVOEREN_ITEM)
 	SubscribableChannel bevestigVervoeren();
 	
 	@Output(NIEUWE_ZENDING)

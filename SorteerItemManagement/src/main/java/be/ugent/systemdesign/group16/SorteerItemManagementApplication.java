@@ -23,8 +23,8 @@ import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.context.annotation.Bean;
 
 import be.ugent.systemdesign.group16.API.messaging.Channels;
-import be.ugent.systemdesign.group16.application.event.BevestigSorterenEvent;
-import be.ugent.systemdesign.group16.application.event.BevestigVervoerenEvent;
+import be.ugent.systemdesign.group16.application.event.BevestigSorterenItemEvent;
+import be.ugent.systemdesign.group16.application.event.BevestigVervoerenItemEvent;
 import be.ugent.systemdesign.group16.application.event.EventHandler;
 import be.ugent.systemdesign.group16.application.event.NieuwSorteerItemEvent;
 import be.ugent.systemdesign.group16.domain.Adres;
@@ -113,12 +113,12 @@ public class SorteerItemManagementApplication {
 				.build();
 	}
 	
-	private static NieuwSorteerItemEvent maakNieuwSorteerItemEvent(Integer trackId, String typeZending, String naamAfzender,
+	private static NieuwSorteerItemEvent maakNieuwSorteerItemEvent(Integer zendingId, String typeZending, String naamAfzender,
 			String postcodeAfzender, String straatAfzender, String plaatsAfzender, String landAfzender, String naamOntvanger, String postcodeOntvanger,
 			String straatOntvanger, String plaatsOntvanger, String landOntvanger, String naamHuidigeLocatie, String postcodeHuidigeLocatie,
 			String straatHuidigeLocatie, String plaatsHuidigeLocatie, String landHuidigeLocatie, LocalDate aanmaakDatum, boolean spoed) {
 		NieuwSorteerItemEvent e = new NieuwSorteerItemEvent();
-		e.setTrackId(trackId);
+		e.setZendingId(zendingId);
 		e.setTypeZending(typeZending);
 		e.setNaamAfzender(naamAfzender);
 		e.setPostcodeAfzender(postcodeAfzender);
@@ -140,10 +140,10 @@ public class SorteerItemManagementApplication {
 		return e;
 	}
 	
-	private static BevestigSorterenEvent maakBevestigSorterenEvent(Integer sorteerItemId, String naamVolgendeLocatie, 
+	private static BevestigSorterenItemEvent maakBevestigSorterenEvent(Integer sorteerItemId, String naamVolgendeLocatie, 
 			String postcodeVolgendeLocatie, String straatVolgendeLocatie, String plaatsVolgendeLocatie, String landVolgendeLocatie, 
 			Integer batchId, boolean laatsteLocatie) {
-		BevestigSorterenEvent e = new BevestigSorterenEvent();
+		BevestigSorterenItemEvent e = new BevestigSorterenItemEvent();
 		e.setSorteerItemId(sorteerItemId);
 		e.setNaamVolgendeLocatie(naamVolgendeLocatie);
 		e.setPostcodeVolgendeLocatie(postcodeVolgendeLocatie);
@@ -155,9 +155,9 @@ public class SorteerItemManagementApplication {
 		return e;
 	}
 	
-	private static BevestigVervoerenEvent maakBevestigVervoerenEvent(Integer sorteerItemId, String naamNieuweLocatie, 
+	private static BevestigVervoerenItemEvent maakBevestigVervoerenEvent(Integer sorteerItemId, String naamNieuweLocatie, 
 			String postcodeNieuweLocatie, String straatNieuweLocatie, String plaatsNieuweLocatie, String landNieuweLocatie) {
-		BevestigVervoerenEvent e = new BevestigVervoerenEvent();
+		BevestigVervoerenItemEvent e = new BevestigVervoerenItemEvent();
 		e.setSorteerItemId(sorteerItemId);
 		e.setNaamNieuweLocatie(naamNieuweLocatie);
 		e.setPostcodeNieuweLocatie(postcodeNieuweLocatie);
@@ -195,6 +195,7 @@ public class SorteerItemManagementApplication {
 				+ "    \"spoed\": \"true\"\n"
 				+ "}";
 	}
+	
 	@Bean
 	CommandLineRunner testSorteerItemDataModelJpaRepository(SorteerItemDataModelJpaRepository repo) {
 		return (args) -> {
@@ -318,12 +319,12 @@ public class SorteerItemManagementApplication {
 			log.info(">Handle NieuwSorteerItemEvent.");
 			handler.handleNieuwSorteerItemEvent(nieuwEvent);
 			
-			BevestigSorterenEvent sorterenEvent = maakBevestigSorterenEvent(3,"Sorteercentrum Nevele","9100","nevelelaan 5","Nevele","Belgie", 10, true);
+			BevestigSorterenItemEvent sorterenEvent = maakBevestigSorterenEvent(3,"Sorteercentrum Nevele","9100","nevelelaan 5","Nevele","Belgie", 10, true);
 			log.info(">Handle BevestigSorterenEvent.");
 			handler.handleBevestigSorterenEvent(sorterenEvent);
 			
 			// Moet NieuweZendingDomainEvent triggeren, aangezien het zich nu in de laatste locatie bevindt.
-			BevestigVervoerenEvent vervoerenEvent = maakBevestigVervoerenEvent(3,"Sorteercentrum Nevele","9100","nevelelaan 5","Nevele","Belgie");
+			BevestigVervoerenItemEvent vervoerenEvent = maakBevestigVervoerenEvent(3,"Sorteercentrum Nevele","9100","nevelelaan 5","Nevele","Belgie");
 			log.info(">Handle BevestigVervoerenEvent.");
 			handler.handleBevestigVervoerenEvent(vervoerenEvent);
 		};

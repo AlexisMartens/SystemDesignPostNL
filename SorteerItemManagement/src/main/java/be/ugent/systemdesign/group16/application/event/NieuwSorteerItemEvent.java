@@ -12,7 +12,7 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class NieuwSorteerItemEvent {
 	
-	private Integer trackId;
+	private Integer zendingId;
 	
 	private String typeZending;
 		
