@@ -48,5 +48,28 @@ public class ZendingServiceImpl implements ZendingService {
 		}
 		return new Response(ResponseStatus.SUCCESS,"id: "+zendingId);
 	}
+	@Override
+	public Response maakNieuweZending(String _typeZending, String _naamOntvanger, String _postcodeOntvanger,
+			String _straatOntvanger, String _plaatsOntvanger, String _landOntvanger, String _naamAfzender,
+			String _postcodeAfzender, String _straatAfzender, String _plaatsAfzender, String _landAfzender,
+			boolean _ophalenBijKlant, boolean _spoed) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Response maakNieuweZending(Zending _z) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Response bevestigAfhalenZending() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Response bevestigOphalenZending() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
