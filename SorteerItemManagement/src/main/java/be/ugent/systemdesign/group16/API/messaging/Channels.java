@@ -12,7 +12,7 @@ public interface Channels {
 	final static String STUUR_VERVOERDER = "stuur_vervoerder";
 	final static String NIEUWE_ZENDING = "nieuwe_zending";
 	final static String BEVESTIG_SORTEREN_ITEM = "bevestig_sorteren_item";
-	final static String BEVESTIG_VERVOEREN_ITEM = "bevestig_veroeren_item";
+	final static String BEVESTIG_VERVOEREN_ITEM = "bevestig_vervoeren_item";
 	final static String UPDATE_TRACK_AND_TRACE = "update_track_and_trace_event";
 	
 	@Input(NIEUW_SORTEER_ITEM)

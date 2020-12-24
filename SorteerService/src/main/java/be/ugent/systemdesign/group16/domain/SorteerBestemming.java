@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class SorteerBestemming {
 
-	private Locatie volgendeLocatie;
+	private Adres volgendeLocatie;
 	private boolean eindBestemming;
 	private Integer batchId;
 }

@@ -17,7 +17,7 @@ public class EventHandler {
 	VervoerService service;
 	
 	public void handleStuurVervoerderEvent(StuurVervoerderEvent e) {
-		log.info(">Handle StuurVervoerderEvent.");
+		log.info(">Handle StuurVervoerderEvent met id: {}.", e.getSorteerItemId());
 		service.vervoer(e.getSorteerItemId(), e.getNaamHuidigeLocatie(), e.getPostcodeHuidigeLocatie(), e.getStraatHuidigeLocatie(), 
 				e.getPlaatsHuidigeLocatie(), e.getLandHuidigeLocatie(), e.getNaamVolgendeLocatie(), e.getPostcodeVolgendeLocatie(),
 				e.getStraatVolgendeLocatie(), e.getPlaatsVolgendeLocatie(), e.getLandVolgendeLocatie(), e.getBatchId(), e.isSpoed());

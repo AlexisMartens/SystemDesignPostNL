@@ -4,5 +4,7 @@ import java.util.List;
 
 public interface SorteerderRepository {
 	Integer save(Sorteerder _s);
-	List<Sorteerder> findIdleSorteerdersAtCentrum(Locatie _l);
+	Integer save(SorteerCentrum _c);
+	List<Sorteerder> findIdleSorteerdersAtCentrum(Adres a);
+	List<Sorteerder> findAll();
 }

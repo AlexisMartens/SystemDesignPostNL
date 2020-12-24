@@ -10,5 +10,5 @@ import be.ugent.systemdesign.group16.domain.BevestigVervoerenItemDomainEvent;
 public interface MessageOutputGateway extends EventDispatcher{
 
 	@Gateway(requestChannel = Channels.BEVESTIG_VERVOEREN_ITEM)
-	void publishBevestigVervoerenItemEvent(BevestigVervoerenItemDomainEvent e);
+	void publishBevestigVervoerenItemDomainEvent(BevestigVervoerenItemDomainEvent e);
 }

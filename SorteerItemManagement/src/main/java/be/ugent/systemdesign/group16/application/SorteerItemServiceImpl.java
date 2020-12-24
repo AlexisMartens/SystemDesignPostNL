@@ -2,6 +2,8 @@ package be.ugent.systemdesign.group16.application;
 
 import java.time.LocalDate;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +19,8 @@ import be.ugent.systemdesign.group16.domain.SorteerItemStatus;
 @Service
 public class SorteerItemServiceImpl implements SorteerItemService{
 			
+	private static final Logger log = LoggerFactory.getLogger(SorteerItemServiceImpl.class);
+	
 	@Autowired
 	SorteerItemRepository repo;
 	
@@ -62,8 +66,7 @@ public class SorteerItemServiceImpl implements SorteerItemService{
 			SorteerItem _s = repo.findById(sorteerItemId);
 			_s.maakKlaarVoorVervoer(makeAdres(naamVolgendeLocatie, postcodeVolgendeLocatie, straatVolgendeLocatie, 
 					plaatsVolgendeLocatie, landVolgendeLocatie), laatsteLocatie, batchId);
-			Integer n = repo.save(_s);
-			SorteerItem _s2 = repo.findById(sorteerItemId);
+			repo.save(_s);
 		}
 		catch(SorteerItemNotFoundException e) {
 			return new Response(ResponseStatus.FAIL, "SorteerItem met id : " + sorteerItemId + " not found.");

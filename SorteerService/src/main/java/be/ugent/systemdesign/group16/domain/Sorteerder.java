@@ -16,7 +16,7 @@ public class Sorteerder extends AggregateRoot{
 	private String naam;
 	private SorteerderStatus status;
 	private SorteerOrder order;
-	private Locatie werkLocatie;
+	private SorteerCentrum werkLocatie;
 	
 	public void sorteer(SorteerOrder order) {
 		this.status = SorteerderStatus.WORKING;

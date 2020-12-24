@@ -196,6 +196,7 @@ public class SorteerItemManagementApplication {
 				+ "}";
 	}
 	
+	
 	@Bean
 	CommandLineRunner testSorteerItemDataModelJpaRepository(SorteerItemDataModelJpaRepository repo) {
 		return (args) -> {
@@ -308,6 +309,7 @@ public class SorteerItemManagementApplication {
 		};
 	}
 	
+	
 	@Bean
 	CommandLineRunner testEventHandler(EventHandler handler) {
 		return (args) -> {
@@ -319,17 +321,18 @@ public class SorteerItemManagementApplication {
 			log.info(">Handle NieuwSorteerItemEvent.");
 			handler.handleNieuwSorteerItemEvent(nieuwEvent);
 			
-			BevestigSorterenItemEvent sorterenEvent = maakBevestigSorterenEvent(3,"Sorteercentrum Nevele","9100","nevelelaan 5","Nevele","Belgie", 10, true);
+			BevestigSorterenItemEvent sorterenEvent = maakBevestigSorterenEvent(1000,"Sorteercentrum Nevele","9100","nevelelaan 5","Nevele","Belgie", 10, true);
 			log.info(">Handle BevestigSorterenEvent.");
 			handler.handleBevestigSorterenEvent(sorterenEvent);
 			
 			// Moet NieuweZendingDomainEvent triggeren, aangezien het zich nu in de laatste locatie bevindt.
-			BevestigVervoerenItemEvent vervoerenEvent = maakBevestigVervoerenEvent(3,"Sorteercentrum Nevele","9100","nevelelaan 5","Nevele","Belgie");
+			BevestigVervoerenItemEvent vervoerenEvent = maakBevestigVervoerenEvent(1000,"Sorteercentrum Nevele","9100","nevelelaan 5","Nevele","Belgie");
 			log.info(">Handle BevestigVervoerenEvent.");
 			handler.handleBevestigVervoerenEvent(vervoerenEvent);
 		};
 	}
 	
+
 	@Bean
 	CommandLineRunner testSorteerItemManagementController() {
 		return (args) -> {
@@ -356,4 +359,5 @@ public class SorteerItemManagementApplication {
 			logSorteerItems(allSorteerItems);
 		};
 	}
+	
 }
