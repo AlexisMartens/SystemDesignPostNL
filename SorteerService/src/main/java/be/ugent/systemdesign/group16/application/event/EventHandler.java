@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import be.ugent.systemdesign.group16.application.Response;
 import be.ugent.systemdesign.group16.application.SorteerService;
 
 @Service
@@ -17,7 +18,7 @@ public class EventHandler {
 	
 	public void handleStuurVervoerderEvent(StuurSorteerderEvent e) {
 		log.info(">Handle StuurSorteerderEvent met id: {}.", e.getSorteerItemId());
-		service.sorteer(e.getSorteerItemId(), e.getNaamHuidigeLocatie(), e.getPostcodeHuidigeLocatie(), e.getStraatHuidigeLocatie(), 
+		Response r = service.sorteer(e.getSorteerItemId(), e.getNaamHuidigeLocatie(), e.getPostcodeHuidigeLocatie(), e.getStraatHuidigeLocatie(), 
 				e.getPlaatsHuidigeLocatie(), e.getLandHuidigeLocatie(), e.getNaamDoel(), e.getPostcodeDoel(),
 				e.getStraatDoel(), e.getPlaatsDoel(), e.getLandDoel(), e.isSpoed());
 	}

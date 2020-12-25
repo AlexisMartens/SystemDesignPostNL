@@ -22,7 +22,8 @@ public class Sorteerder extends AggregateRoot{
 		this.status = SorteerderStatus.WORKING;
 		this.order = order;
 		
-		// Nieuw bevestig sorteren event;
+		addDomainEvent(new BevestigSorterenItemDomainEvent(this.order.getSorteerItemId(), this.order.getDoel(), this.order.getBatchId(), 
+				this.order.isEindBestemming()));
 		
 		this.status = SorteerderStatus.IDLE;
 	}

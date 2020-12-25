@@ -317,37 +317,42 @@ public class SorteerItemManagementApplication {
 			
 			NieuwSorteerItemEvent nieuwEvent = maakNieuwSorteerItemEvent(100,"PAKKET","Koen Jansen","8000","Larestraat 5",
 					"Brugge","Belgie","Kaat Klaasen","1000","Brusselsestraat 5","Brussel","Belgie", 
-					"Sorteercentrum Gent","9000","Voskenslaan 5","Gent","Belgie",LocalDate.now(),false);
+					"Sorteercentrum Gent","9000","Gentstraat 10","Gent","Belgie",LocalDate.now(),false);
 			log.info(">Handle NieuwSorteerItemEvent.");
 			handler.handleNieuwSorteerItemEvent(nieuwEvent);
-			
-			BevestigSorterenItemEvent sorterenEvent = maakBevestigSorterenEvent(1000,"Sorteercentrum Nevele","9100","nevelelaan 5","Nevele","Belgie", 10, true);
+			/*
+			BevestigSorterenItemEvent sorterenEvent = maakBevestigSorterenEvent(1000,"Sorteercentrum Nevele","9100","Nevelestraat 10","Nevele","Belgie", 10, true);
 			log.info(">Handle BevestigSorterenEvent.");
 			handler.handleBevestigSorterenEvent(sorterenEvent);
 			
 			// Moet NieuweZendingDomainEvent triggeren, aangezien het zich nu in de laatste locatie bevindt.
-			BevestigVervoerenItemEvent vervoerenEvent = maakBevestigVervoerenEvent(1000,"Sorteercentrum Nevele","9100","nevelelaan 5","Nevele","Belgie");
+			BevestigVervoerenItemEvent vervoerenEvent = maakBevestigVervoerenEvent(1000,"Sorteercentrum Nevele","9100","Nevelestraat 10","Nevele","Belgie");
 			log.info(">Handle BevestigVervoerenEvent.");
-			handler.handleBevestigVervoerenEvent(vervoerenEvent);
+			handler.handleBevestigVervoerenEvent(vervoerenEvent);*/
 		};
 	}
 	
-
+/*
 	@Bean
 	CommandLineRunner testSorteerItemManagementController() {
 		return (args) -> {
-			log.info("$Testing SorteerItemManagementController");
-			log.info(">Nieuw sorteerItem aanmaken via Rest Controller.");
-			HttpClient client = HttpClient.newHttpClient();
-			HttpRequest request = HttpRequest.newBuilder()
-				      .uri(URI.create("http://localhost:2222/api/sorteeritem/brief"))
-				      .timeout(Duration.ofMinutes(1))
-				      .header("Content-Type", "application/json")
-				      .POST(BodyPublishers.ofString(getBody()))
-				      .build();
-			HttpResponse<String> response =
-			          client.send(request, BodyHandlers.ofString());
-			log.info("- response: {}", response.body());
+			try {
+				log.info("$Testing SorteerItemManagementController");
+				log.info(">Nieuw sorteerItem aanmaken via Rest Controller.");
+				HttpClient client = HttpClient.newHttpClient();
+				HttpRequest request = HttpRequest.newBuilder()
+					      .uri(URI.create("http://localhost:2222/api/sorteeritem/brief"))
+					      .timeout(Duration.ofMinutes(1))
+					      .header("Content-Type", "application/json")
+					      .POST(BodyPublishers.ofString(getBody()))
+					      .build();
+				HttpResponse<String> response =
+				          client.send(request, BodyHandlers.ofString());
+				log.info("- response: {}", response.body());
+			}
+			catch(RuntimeException e) {
+				log.info("Failed");
+			}
 		};
 	}
 	
@@ -359,5 +364,5 @@ public class SorteerItemManagementApplication {
 			logSorteerItems(allSorteerItems);
 		};
 	}
-	
+*/
 }
