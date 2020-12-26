@@ -19,10 +19,13 @@ public class Vervoerder extends AggregateRoot{
 	private VervoerOrder order;
 	
 	public void vervoer(VervoerOrder order) {
-		this.status=VervoerStatus.ONDERWEG;
+		this.status=VervoerStatus.WORKING;
 		this.order=order;
 		
+		// Vervoeren afgelopen
 		addDomainEvent(new BevestigVervoerenItemDomainEvent(order.getSorteerItemId(), order.getNaar().getNaam(),
 				order.getNaar().getPostcode(), order.getNaar().getStraat(), order.getNaar().getPlaats(), order.getNaar().getLand()));
+		
+		this.status=VervoerStatus.IDLE;
 	}
 }

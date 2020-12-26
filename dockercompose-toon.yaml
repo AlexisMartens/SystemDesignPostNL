@@ -1,0 +1,66 @@
+version: "3.0"
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper
+    environment:
+      - ZOOKEEPER_CLIENT_PORT=2181
+  kafka:
+    image: confluentinc/cp-kafka
+    depends_on: 
+      - zookeeper
+    environment: 
+      - KAFKA_BROKER_ID=1
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+    logging:
+      driver: none
+  sorteerder_db:
+    image: mysql:5.7
+    container_name: sorteerder_db
+    #command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=Sorteerder
+  vervoerder_db:
+    image: mysql:5.7
+    container_name: vervoerder_db
+    #command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=Vervoerder
+  sorteeritem_db:
+    image: mysql:5.7
+    container_name: sorteeritem_db
+    #command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=SorteerItem
+  sorteerservice:
+    build: ./SorteerService
+    container_name: sorteerservice
+    links:
+      - kafka
+      - sorteerder_db
+    depends_on:
+      - kafka
+      - sorteerder_db
+  vervoerservice:
+    build: ./VervoerService
+    container_name: vervoerservice
+    links:
+      - kafka
+      - vervoerder_db
+    depends_on:
+      - kafka
+      - vervoerder_db
+  sorteeritemmanagement:
+    build: ./SorteerItemManagement
+    container_name: sorteeritemmanagement
+    links:
+      - sorteeritem_db
+      - kafka
+    depends_on:
+      - sorteeritem_db
+      - kafka
+    
