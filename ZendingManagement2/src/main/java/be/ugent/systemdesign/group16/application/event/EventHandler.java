@@ -17,12 +17,13 @@ public class EventHandler {
 	
 	@Autowired
 	ZendingService service;
-//TODO: MOETEN HIER PUBLISH EVENTS KOMEN?
+
 	public void handleNieuweZending(ZendingDomainEvent event) {
 		log.info("-Received NieuwZendingDomainEvent van BestelManagement");
 		Response response; 
 
 		// ophalen bij klant thuis
+		//IF CHECKS MOET IN ZENDINGSERVICE ipv in eventhandler
 		if(event.isOphalen()) {
 			response = service.bevestigAankomstNieuweZending(event.getBestellingId(), new Adres(event.getNaamOntvanger(), event.getPostcodeOntvanger(), event.getStraatOntvanger(),
 					event.getPlaatsOntvanger(), event.getLandOntvanger()));

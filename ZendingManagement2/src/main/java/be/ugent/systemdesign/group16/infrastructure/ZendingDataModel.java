@@ -23,7 +23,6 @@ import lombok.Setter;
 public class ZendingDataModel {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Getter
 	private Integer zendingId;
 	

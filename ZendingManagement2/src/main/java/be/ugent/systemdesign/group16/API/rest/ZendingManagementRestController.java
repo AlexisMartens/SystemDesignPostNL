@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import be.ugent.systemdesign.group16.application.Response;
 import be.ugent.systemdesign.group16.application.ResponseStatus;
 import be.ugent.systemdesign.group16.application.ZendingService;
+import be.ugent.systemdesign.group16.domain.Adres;
 import be.ugent.systemdesign.group16.domain.Zending;
 
 
@@ -25,12 +26,12 @@ public class ZendingManagementRestController {
 	ZendingService zendingService;
 	
 	@PostMapping("/")
-	public ResponseEntity<String> aankomstNieuweZendingComplete(@RequestBody Zending z) {
-		Response response = zendingService.bevestigAankomstNieuweZending(z,);
+	public ResponseEntity<String> aankomstNieuweZendingComplete(@PathVariable("id") Integer id, Adres afhaalpunt) {
+		Response response = zendingService.bevestigAankomstNieuweZending(id, afhaalpunt);
 		//according to REST specification, we should return the path of the newly created resource after a POST
 		return createResponseEntity(response.status, "Aankomst nieuwe zending bevestigd, klant kan zending komen ophalen", HttpStatus.OK, response.message,HttpStatus.CONFLICT);
 	}
-	
+	// is eigenlijk overbodig:
 	@PostMapping("{id}/haalAf")
 	public ResponseEntity<String> afhalenComplete(@PathVariable("id") Integer id) {
 		Response response = zendingService.bevestigAfhalen(id);

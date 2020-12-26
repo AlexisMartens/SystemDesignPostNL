@@ -26,11 +26,11 @@ public class Zending extends AggregateRoot {
 	private Adres ontvanger;
 
 	private Adres afzender;
-	// extra:
+
 	// true: koerier moet zending ophalen bij klant thuis
 	// false: klant moet zending brengen naar ophaalpunt
 	private boolean ophalenBijKlantThuis;
-	// extra:
+
 	private Adres huidigeLocatie;
 
 	private LocalDate aanmaakDatum;
@@ -46,17 +46,18 @@ public class Zending extends AggregateRoot {
 		aanmaakDatum = LocalDate.now();
 		spoed=_z.spoed;
 
-		//TODO: wat met huidig adres????
 		huidigeLocatie = null;
-		
+		/*bevestigafleverenzending ontvangen = kijken of het is afgeleverd bij klant (=gedaan) OF afgeleverd bij sorteercentrum dan moet ik nieuwsorteeritemdomainevent sturen
+		 * Dan
+		 * beveestigophalenzending niet op reageren */
 		
 		ophalenBijKlantThuis = _z.ophalenBijKlantThuis;
-		status = ZendingStatus.AF_TE_HALEN_IN_AFHAALPUNT;
+		status = ZendingStatus.AANGEMAAKT;
 		if(ophalenBijKlantThuis) {
-			//huidigeLocatie = ontvanger;
-			status = ZendingStatus.OP_TE_HALEN_BIJ_KLANT;
+			status = ZendingStatus.KLAAR_OM_OP_TE_HALEN;
+			// adres van klant thuis(afzender) naar koerier
+			huidigeLocatie =afzender;
 		}
-		
 		if(!ontvanger.isCorrectAdres()) {
 			throw new GeenGeldigAdresException();
 		}
@@ -70,30 +71,29 @@ public class Zending extends AggregateRoot {
 		
 		ophalenBijKlantThuis = _ophalenBijKlant;
 		aanmaakDatum = LocalDate.now();
-		status=ZendingStatus.AF_TE_HALEN_IN_AFHAALPUNT;
+		status=ZendingStatus.AANGEMAAKT;
 		spoed=_spoed;
 		if(ophalenBijKlantThuis) {
-			status=ZendingStatus.OP_TE_HALEN_BIJ_KLANT;
+			status=ZendingStatus.KLAAR_OM_OP_TE_HALEN;
 		} 
 		if(!huidigeLocatie.isCorrectAdres()) {
 			throw new GeenGeldigAdresException();
 		}
 	}
 	
-	// TODO: retour ook hier verwerken??
 	public Zending(Zending _zending, String _huidigeLocatieNaam, String _huidigePostcode, String _huidigeStraat, String _huidigePlaats, String _huidigLand) {
 		typeZending =_zending.typeZending;
 		huidigeLocatie = new Adres(_huidigeLocatieNaam, _huidigePostcode, _huidigeStraat, _huidigePlaats, _huidigLand);
 		aanmaakDatum = LocalDate.now();
-		status=ZendingStatus.AF_TE_HALEN_IN_AFHAALPUNT;
-		// vanuitgaande dat Bestelling ontvanger en afzender correct instelde volgens al dan niet retour:
+		status=ZendingStatus.AANGEMAAKT;
+
 		ontvanger = _zending.ontvanger;
 		afzender = _zending.afzender;
 		
 		spoed=_zending.spoed;
 		ophalenBijKlantThuis = _zending.ophalenBijKlantThuis;
 		if(ophalenBijKlantThuis) {
-			status=ZendingStatus.OP_TE_HALEN_BIJ_KLANT;
+			status=ZendingStatus.KLAAR_OM_OP_TE_HALEN;
 		}
 		if(!huidigeLocatie.isCorrectAdres()) {
 			throw new GeenGeldigAdresException();
@@ -101,8 +101,12 @@ public class Zending extends AggregateRoot {
 	}
 	
 	public void stuurKoerier() {
-		addDomainEvent(new KlaarVoorKoerierDomainEvent(zendingId.toString(), status.name()));
-		status=ZendingStatus.VERWERKT;	
+		addDomainEvent(new KlaarVoorKoerierDomainEvent(zendingId, 
+				typeZending, afzender.getNaam(), afzender.getPostcode(), afzender.getStraat(), afzender.getPlaats(), afzender.getLand(), 
+				ontvanger.getNaam(), ontvanger.getPostcode(),ontvanger.getStraat(),ontvanger.getPlaats(), ontvanger.getLand(), 
+				huidigeLocatie.getNaam(), huidigeLocatie.getPostcode(), huidigeLocatie.getStraat(), huidigeLocatie.getPlaats(), huidigeLocatie.getLand(), spoed
+				));;
+		status=ZendingStatus.KLAAR_OM_OP_TE_HALEN;	
 	}
 	
 	public void maakNieuwSorteerItem() {
@@ -111,6 +115,6 @@ public class Zending extends AggregateRoot {
 				ontvanger.getNaam(), ontvanger.getPostcode(),ontvanger.getStraat(),ontvanger.getPlaats(), ontvanger.getLand(), 
 				huidigeLocatie.getNaam(), huidigeLocatie.getPostcode(), huidigeLocatie.getStraat(), huidigeLocatie.getPlaats(), huidigeLocatie.getLand(), spoed
 				));
-		status=ZendingStatus.VERWERKT;	
+		status=ZendingStatus.AFGELEVERD;	
 	}
 }
