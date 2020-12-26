@@ -26,4 +26,10 @@ public class VervoerderDataModel {
 	
 	@Embedded 
 	private VervoerOrderDataModel order;
+	
+	public VervoerderDataModel(String naam, String status) {
+		this.naam=naam;
+		this.status=status;
+		this.order=new VervoerOrderDataModel();
+	}
 }

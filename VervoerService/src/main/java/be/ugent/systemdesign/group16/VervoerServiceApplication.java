@@ -48,6 +48,25 @@ public class VervoerServiceApplication {
 	}
 	
 	@Bean
+	CommandLineRunner populateDatabase(VervoerderDataModelJpaRepository repo) {
+		return (args) -> {
+			log.info("$Populating VervoerderDataModelJpaRepository.");
+			
+			List<VervoerderDataModel> vervoerders = Arrays.asList(
+					new VervoerderDataModel("Bert","IDLE"),
+					new VervoerderDataModel("Koen","IDLE"),
+					new VervoerderDataModel("Tanja","IDLE")
+			);
+				
+			vervoerders.forEach(vervoerder -> repo.save(vervoerder));
+			repo.flush();
+				
+			List<VervoerderDataModel> foundVervoerder = repo.findAll();
+			logVervoerderDataModels(foundVervoerder);
+		};
+	}
+	
+	@Bean
 	CommandLineRunner testVervoerderDataModelJpaRepository(VervoerderDataModelJpaRepository repo) {
 		return (args) -> {
 			log.info("$Testing VervoerderDataModelJpaRepository.");

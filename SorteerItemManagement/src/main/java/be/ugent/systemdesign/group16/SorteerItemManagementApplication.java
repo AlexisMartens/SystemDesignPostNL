@@ -40,12 +40,215 @@ import be.ugent.systemdesign.group16.infrastructure.SorteerItemDataModelJpaRepos
 @EnableBinding(Channels.class)
 @SpringBootApplication
 public class SorteerItemManagementApplication {
+	
+	private static final Logger log = LoggerFactory.getLogger(SorteerItemManagementApplication.class);
+
 
 	public static void main(String[] args) {
 		SpringApplication.run(SorteerItemManagementApplication.class, args);
 	}
 	
-	private static final Logger log = LoggerFactory.getLogger(SorteerItemManagementApplication.class);
+	@Bean
+	CommandLineRunner populateDatabase(SorteerItemDataModelJpaRepository repo) {
+		return (args) -> {
+			log.info("Populating databse");
+			List<SorteerItemDataModel> sorteeritems = Arrays.asList(
+				new SorteerItemDataModel(143,maakAdresDataModel("Jan klaasen","9000","griekstraat 5","Gent","Belgie"),
+						maakAdresDataModel("Geert Klaasen","9100","klopperstraat 5","Sint-Niklaas","Belgie"),
+						maakAdresDataModel("Sorteercentrum Nevele","9100","nevelelaan 5","Nevele","Belgie"),
+						"PAKKET",false,"IN_CENTRUM",LocalDate.now()),
+				new SorteerItemDataModel(154, maakAdresDataModel("Karl Jansen","8000","Larestraat 5","Brugge","Belgie"),
+						maakAdresDataModel("Kristel Klaasen","1000","Brusselsestraat 5","Brussel","Belgie"), 
+						maakAdresDataModel("Sorteercentrum Gent","9000","Voskenslaan 5","Gent","Belgie"),
+						"PAKKET",false,"IN_CENTRUM",LocalDate.now()),
+				new SorteerItemDataModel(231, maakAdresDataModel("Dick Vanaken","8500","Larestraat 5","Oostende","Belgie"),
+						maakAdresDataModel("Kristel Klaasen","1000","Brusselsestraat 5","Brussel","Belgie"), 
+						maakAdresDataModel("Sorteercentrum Gent","9000","Voskenslaan 5","Gent","Belgie"),
+						"PAKKET",false,"IN_CENTRUM",LocalDate.now()),
+				new SorteerItemDataModel(2345,maakAdresDataModel("Michael Jansen","8000","Larestraat 5","Brugge","Belgie"),
+						maakAdresDataModel("Maarten Klaasen","1000","Brusselsestraat 5","Brussel","Belgie"), 
+						maakAdresDataModel("Sorteercentrum Nevele","9100","nevelelaan 5","Nevele","Belgie"),
+						"PAKKET",false,"IN_CENTRUM",LocalDate.now()),
+				new SorteerItemDataModel(01,maakAdresDataModel("Kris Jansen","8000","Larestraat 5","Brugge","Belgie"),
+						maakAdresDataModel("Karen Klaasen","1000","Brusselsestraat 5","Brussel","Belgie"), 
+						maakAdresDataModel("Sorteercentrum Gent","9000","Voskenslaan 5","Gent","Belgie"),
+						"PAKKET",false,"IN_CENTRUM",LocalDate.now()),
+				new SorteerItemDataModel(43,maakAdresDataModel("Koen Jansen","8000","Larestraat 5","Brugge","Belgie"),
+						maakAdresDataModel("Kaat Klaasen","1000","Brusselsestraat 5","Brussel","Belgie"), 
+						maakAdresDataModel("Sorteercentrum Gent","9000","Voskenslaan 5","Gent","Belgie"),
+						"PAKKET",false,"IN_CENTRUM",LocalDate.now())
+			);
+			
+			sorteeritems.forEach(sorteeritem -> repo.save(sorteeritem));
+			repo.flush();
+			
+			List<SorteerItemDataModel> foundSorteeritem = repo.findAll();
+			logSorteerItemDataModels(foundSorteeritem);
+		};
+	}
+		
+	@Bean
+	CommandLineRunner testSorteerItemDataModelJpaRepository(SorteerItemDataModelJpaRepository repo) {
+		return (args) -> {
+			log.info("$Testing SorteerItemDataModelJpaRepository.");
+			
+			log.info(">Find all SorteerItems in database.");
+			List<SorteerItemDataModel> allSorteerItems = repo.findAll();
+			logSorteerItemDataModels(allSorteerItems);
+			
+			log.info(">Find SorteerItem with id 0 in database.");
+			Optional<SorteerItemDataModel> byId = repo.findById(0);
+			byId.ifPresentOrElse(
+				(value) -> { logSorteerItemDataModels(Collections.unmodifiableList(Arrays.asList(value))); }, 
+				() -> { logSorteerItemDataModels(Collections.emptyList()); }
+			);
+			
+			
+			AdresDataModel nevele = maakAdresDataModel("Sorteercentrum Nevele","9100","nevelelaan 5","Nevele","Belgie");
+			log.info(">Find all SorteerItems in {}.", nevele.getNaam());
+			List<SorteerItemDataModel> sorteerItemsPerLocatie = repo.findByHuidigeLocatie(nevele);
+			logSorteerItemDataModels(sorteerItemsPerLocatie);
+			
+			Integer nieuwId;
+			SorteerItemDataModel sorteerItem = maakSorteerItemDataModel(
+					123,
+					maakAdresDataModel("Piet Kieters","8000","Stationstraat 5","Brugge","Belgie"),
+					maakAdresDataModel("Klaas Klaassen","7000","Alterstraat 5","Aalter","Belgie"),
+					maakAdresDataModel("Sorteercentrum Nevele","9100","nevelelaan 5","Nevele","Belgie"),
+					"PAKKET", false, "IN_CENTRUM", LocalDate.now());
+			log.info(">SorteerItem opslaan in de database.");
+			nieuwId = repo.saveAndFlush(sorteerItem).getSorteerItemId();
+			
+			log.info(">Find SorteerItem with id {} in database.", nieuwId);
+			Optional<SorteerItemDataModel> byIdNew = repo.findById(nieuwId);
+			byIdNew.ifPresentOrElse(
+				(value) -> { logSorteerItemDataModels(Collections.unmodifiableList(Arrays.asList(value))); }, 
+				() -> { logSorteerItemDataModels(Collections.emptyList()); }
+			);
+			
+			log.info(">SorteerItem met id {} verwijderen uit de database.", nieuwId);
+			try {
+				repo.deleteById(nieuwId);
+			}
+			catch(RuntimeException e) {
+				log.info("Id {} not found.", nieuwId);
+			}
+			
+			log.info(">Find Deleted SorteerItem with id {} in database.", nieuwId);
+			Optional<SorteerItemDataModel> niets = repo.findById(nieuwId);
+			niets.ifPresentOrElse(
+				(value) -> { logSorteerItemDataModels(Collections.unmodifiableList(Arrays.asList(value))); }, 
+				() -> { logSorteerItemDataModels(Collections.emptyList()); }
+			);
+		};
+	}
+	
+	@Bean
+	CommandLineRunner testSorteerItemRepository(SorteerItemRepository repo) {
+		return (args) -> {
+			log.info("$Testing SorteerItemRepository.");
+			
+			log.info(">Find all SorteerItems in database.");
+			List<SorteerItem> allSorteerItems = repo.findAll();
+			logSorteerItems(allSorteerItems);
+			
+			log.info(">Find SorteerItem with id 0 in database.");
+			try {
+				SorteerItem byId = repo.findById(0);
+				logSorteerItems(Collections.unmodifiableList(Arrays.asList(byId)));
+			}
+			catch(SorteerItemNotFoundException e) {
+				log.info("--id 1000 not found.");
+			}
+			
+			Integer nieuwId;
+			SorteerItem sorteerItem = maakSorteerItem(
+					123,
+					maakAdres("Piet Kieters","8000","Stationstraat 5","Brugge","Belgie"),
+					maakAdres("Klaas Klaassen","7000","Alterstraat 5","Aalter","Belgie"),
+					maakAdres("Sorteercentrum Nevele","9100","nevelelaan 5","Nevele","Belgie"),
+					"PAKKET", false, "IN_CENTRUM", LocalDate.now());
+			log.info(">SorteerItem opslaan in de database.");
+			nieuwId = repo.save(sorteerItem);
+			
+			log.info(">Find SorteerItem with id {} in database.", nieuwId);
+			try {
+				SorteerItem byId2 = repo.findById(nieuwId);
+				logSorteerItems(Collections.unmodifiableList(Arrays.asList(byId2)));
+			}
+			catch(SorteerItemNotFoundException e) {
+				log.info("--id {} not found.", nieuwId);
+			}
+			
+			log.info(">SorteerItem met id {} verwijderen uit de database.", nieuwId);
+			repo.delete(nieuwId);
+			
+			log.info(">Find SorteerItem with id {} in database. Should be deleted.", nieuwId);
+			try {
+				SorteerItem byId3 = repo.findById(nieuwId);
+				logSorteerItems(Collections.unmodifiableList(Arrays.asList(byId3)));
+			}
+			catch(SorteerItemNotFoundException e) {
+				log.info("--id {} not found.", nieuwId);
+			}
+
+		};
+	}
+	
+	
+	@Bean
+	CommandLineRunner testEventHandler(EventHandler handler) {
+		return (args) -> {
+			log.info("$Testing EventHandler.");
+			
+			NieuwSorteerItemEvent nieuwEvent = maakNieuwSorteerItemEvent(100,"PAKKET","Koen Jansen","8000","Larestraat 5",
+					"Brugge","Belgie","Kaat Klaasen","1000","Brusselsestraat 5","Brussel","Belgie", 
+					"Sorteercentrum Gent","9000","Gentstraat 10","Gent","Belgie",LocalDate.now(),false);
+			log.info(">Handle NieuwSorteerItemEvent.");
+			handler.handleNieuwSorteerItemEvent(nieuwEvent);
+			
+			BevestigSorterenItemEvent sorterenEvent = maakBevestigSorterenEvent(1000,"Sorteercentrum Nevele","9100","Nevelestraat 10","Nevele","Belgie", 10, true);
+			log.info(">Handle BevestigSorterenEvent.");
+			handler.handleBevestigSorterenEvent(sorterenEvent);
+			
+			// Moet NieuweZendingDomainEvent triggeren, aangezien het zich nu in de laatste locatie bevindt.
+			BevestigVervoerenItemEvent vervoerenEvent = maakBevestigVervoerenEvent(1000,"Sorteercentrum Nevele","9100","Nevelestraat 10","Nevele","Belgie");
+			log.info(">Handle BevestigVervoerenEvent.");
+			handler.handleBevestigVervoerenEvent(vervoerenEvent);
+		};
+	}
+
+	@Bean
+	CommandLineRunner testSorteerItemManagementController() {
+		return (args) -> {
+			try {
+				log.info("$Testing SorteerItemManagementController");
+				log.info(">Nieuw sorteerItem aanmaken via Rest Controller.");
+				HttpClient client = HttpClient.newHttpClient();
+				HttpRequest request = HttpRequest.newBuilder()
+					      .uri(URI.create("http://localhost:2223/api/sorteeritem/brief"))
+					      .timeout(Duration.ofMinutes(1))
+					      .header("Content-Type", "application/json")
+					      .POST(BodyPublishers.ofString(getBody()))
+					      .build();
+				HttpResponse<String> response =
+				          client.send(request, BodyHandlers.ofString());
+				log.info("- response: {}", response.body());
+			}
+			catch(RuntimeException e) {
+				log.info("Failed");
+			}
+		};
+	}
+	
+	@Bean
+	CommandLineRunner testControleRestController(SorteerItemRepository repo) {
+		return (args) -> {			
+			log.info(">Controle of nieuw item correct is opgeslagen, trackId is: 1000.");
+			List<SorteerItem> allSorteerItems = repo.findAll();
+			logSorteerItems(allSorteerItems);
+		};
+	}
 	
 	private static void logSorteerItemDataModels(List<SorteerItemDataModel> items) {
 		log.info("-{} sorteerItems gevonden.", items.size());
@@ -195,174 +398,4 @@ public class SorteerItemManagementApplication {
 				+ "    \"spoed\": \"true\"\n"
 				+ "}";
 	}
-	
-	
-	@Bean
-	CommandLineRunner testSorteerItemDataModelJpaRepository(SorteerItemDataModelJpaRepository repo) {
-		return (args) -> {
-			log.info("$Testing SorteerItemDataModelJpaRepository.");
-			
-			log.info(">Find all SorteerItems in database.");
-			List<SorteerItemDataModel> allSorteerItems = repo.findAll();
-			logSorteerItemDataModels(allSorteerItems);
-			
-			log.info(">Find SorteerItem with id 0 in database.");
-			Optional<SorteerItemDataModel> byId = repo.findById(0);
-			byId.ifPresentOrElse(
-				(value) -> { logSorteerItemDataModels(Collections.unmodifiableList(Arrays.asList(value))); }, 
-				() -> { logSorteerItemDataModels(Collections.emptyList()); }
-			);
-			
-			
-			AdresDataModel nevele = maakAdresDataModel("Sorteercentrum Nevele","9100","nevelelaan 5","Nevele","Belgie");
-			log.info(">Find all SorteerItems in {}.", nevele.getNaam());
-			List<SorteerItemDataModel> sorteerItemsPerLocatie = repo.findByHuidigeLocatie(nevele);
-			logSorteerItemDataModels(sorteerItemsPerLocatie);
-			
-			Integer nieuwId;
-			SorteerItemDataModel sorteerItem = maakSorteerItemDataModel(
-					123,
-					maakAdresDataModel("Piet Kieters","8000","Stationstraat 5","Brugge","Belgie"),
-					maakAdresDataModel("Klaas Klaassen","7000","Alterstraat 5","Aalter","Belgie"),
-					maakAdresDataModel("Sorteercentrum Nevele","9100","nevelelaan 5","Nevele","Belgie"),
-					"PAKKET", false, "IN_CENTRUM", LocalDate.now());
-			log.info(">SorteerItem opslaan in de database.");
-			nieuwId = repo.saveAndFlush(sorteerItem).getSorteerItemId();
-			
-			log.info(">Find SorteerItem with id {} in database.", nieuwId);
-			Optional<SorteerItemDataModel> byIdNew = repo.findById(nieuwId);
-			byIdNew.ifPresentOrElse(
-				(value) -> { logSorteerItemDataModels(Collections.unmodifiableList(Arrays.asList(value))); }, 
-				() -> { logSorteerItemDataModels(Collections.emptyList()); }
-			);
-			
-			log.info(">SorteerItem met id {} verwijderen uit de database.", nieuwId);
-			try {
-				repo.deleteById(nieuwId);
-			}
-			catch(RuntimeException e) {
-				log.info("Id {} not found.", nieuwId);
-			}
-			
-			log.info(">Find Deleted SorteerItem with id {} in database.", nieuwId);
-			Optional<SorteerItemDataModel> niets = repo.findById(nieuwId);
-			niets.ifPresentOrElse(
-				(value) -> { logSorteerItemDataModels(Collections.unmodifiableList(Arrays.asList(value))); }, 
-				() -> { logSorteerItemDataModels(Collections.emptyList()); }
-			);
-		};
-	}
-	
-	@Bean
-	CommandLineRunner testSorteerItemRepository(SorteerItemRepository repo) {
-		return (args) -> {
-			log.info("$Testing SorteerItemRepository.");
-			
-			log.info(">Find all SorteerItems in database.");
-			List<SorteerItem> allSorteerItems = repo.findAll();
-			logSorteerItems(allSorteerItems);
-			
-			log.info(">Find SorteerItem with id 1000 in database.");
-			try {
-				SorteerItem byId = repo.findById(1000);
-				logSorteerItems(Collections.unmodifiableList(Arrays.asList(byId)));
-			}
-			catch(SorteerItemNotFoundException e) {
-				log.info("--id 1000 not found.");
-			}
-			
-			Integer nieuwId;
-			SorteerItem sorteerItem = maakSorteerItem(
-					123,
-					maakAdres("Piet Kieters","8000","Stationstraat 5","Brugge","Belgie"),
-					maakAdres("Klaas Klaassen","7000","Alterstraat 5","Aalter","Belgie"),
-					maakAdres("Sorteercentrum Nevele","9100","nevelelaan 5","Nevele","Belgie"),
-					"PAKKET", false, "IN_CENTRUM", LocalDate.now());
-			log.info(">SorteerItem opslaan in de database.");
-			nieuwId = repo.save(sorteerItem);
-			
-			log.info(">Find SorteerItem with id {} in database.", nieuwId);
-			try {
-				SorteerItem byId2 = repo.findById(nieuwId);
-				logSorteerItems(Collections.unmodifiableList(Arrays.asList(byId2)));
-			}
-			catch(SorteerItemNotFoundException e) {
-				log.info("--id {} not found.", nieuwId);
-			}
-			
-			log.info(">SorteerItem met id {} verwijderen uit de database.", nieuwId);
-			repo.delete(nieuwId);
-			
-			log.info(">Find SorteerItem with id {} in database. Should be deleted.", nieuwId);
-			try {
-				SorteerItem byId3 = repo.findById(nieuwId);
-				logSorteerItems(Collections.unmodifiableList(Arrays.asList(byId3)));
-			}
-			catch(SorteerItemNotFoundException e) {
-				log.info("--id {} not found.", nieuwId);
-			}
-			
-			log.info("Na de testen de dummydata verwijderen");
-			for(int i=0;i<6;i++) {
-				repo.delete(i+1000);
-			}
-		};
-	}
-	
-	
-	@Bean
-	CommandLineRunner testEventHandler(EventHandler handler) {
-		return (args) -> {
-			log.info("$Testing EventHandler.");
-			
-			NieuwSorteerItemEvent nieuwEvent = maakNieuwSorteerItemEvent(100,"PAKKET","Koen Jansen","8000","Larestraat 5",
-					"Brugge","Belgie","Kaat Klaasen","1000","Brusselsestraat 5","Brussel","Belgie", 
-					"Sorteercentrum Gent","9000","Gentstraat 10","Gent","Belgie",LocalDate.now(),false);
-			log.info(">Handle NieuwSorteerItemEvent.");
-			handler.handleNieuwSorteerItemEvent(nieuwEvent);
-			/*
-			BevestigSorterenItemEvent sorterenEvent = maakBevestigSorterenEvent(1000,"Sorteercentrum Nevele","9100","Nevelestraat 10","Nevele","Belgie", 10, true);
-			log.info(">Handle BevestigSorterenEvent.");
-			handler.handleBevestigSorterenEvent(sorterenEvent);
-			
-			// Moet NieuweZendingDomainEvent triggeren, aangezien het zich nu in de laatste locatie bevindt.
-			BevestigVervoerenItemEvent vervoerenEvent = maakBevestigVervoerenEvent(1000,"Sorteercentrum Nevele","9100","Nevelestraat 10","Nevele","Belgie");
-			log.info(">Handle BevestigVervoerenEvent.");
-			handler.handleBevestigVervoerenEvent(vervoerenEvent);*/
-		};
-	}
-	
-/*
-	@Bean
-	CommandLineRunner testSorteerItemManagementController() {
-		return (args) -> {
-			try {
-				log.info("$Testing SorteerItemManagementController");
-				log.info(">Nieuw sorteerItem aanmaken via Rest Controller.");
-				HttpClient client = HttpClient.newHttpClient();
-				HttpRequest request = HttpRequest.newBuilder()
-					      .uri(URI.create("http://localhost:2222/api/sorteeritem/brief"))
-					      .timeout(Duration.ofMinutes(1))
-					      .header("Content-Type", "application/json")
-					      .POST(BodyPublishers.ofString(getBody()))
-					      .build();
-				HttpResponse<String> response =
-				          client.send(request, BodyHandlers.ofString());
-				log.info("- response: {}", response.body());
-			}
-			catch(RuntimeException e) {
-				log.info("Failed");
-			}
-		};
-	}
-	
-	@Bean
-	CommandLineRunner testControleRestController(SorteerItemRepository repo) {
-		return (args) -> {			
-			log.info(">Controle of nieuw item correct is opgeslagen, trackId is: 1000.");
-			List<SorteerItem> allSorteerItems = repo.findAll();
-			logSorteerItems(allSorteerItems);
-		};
-	}
-*/
 }
