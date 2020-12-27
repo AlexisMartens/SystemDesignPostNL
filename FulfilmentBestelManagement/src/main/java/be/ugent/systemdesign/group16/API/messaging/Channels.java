@@ -7,10 +7,10 @@ import org.springframework.messaging.SubscribableChannel;
 
 public interface Channels {
 
-	static final String NIEUWE_TRACKANDTRACE_EVENT = "nieuwe_track_and_trace_event";
-	static final String GET_KLANTEN_DATA_REQUEST = "get_klanten_data_request";
-	static final String GET_KLANTEN_DATA_RESPONSE = "get_klanten_data_response";
-	static final String PACKET_EVENT = "packet_event";
+	public static final String NIEUWE_TRACKANDTRACE_EVENT = "nieuwe_track_and_trace_event";
+	public static final String GET_KLANTEN_DATA_REQUEST = "get_klanten_data_request";
+	public static final String GET_KLANTEN_DATA_RESPONSE = "get_klanten_data_response";
+	public static final String PACKET_EVENT = "packet_event";
 	
 	@Output(NIEUWE_TRACKANDTRACE_EVENT)
 	MessageChannel NieuweTrackAndTraceEvent();

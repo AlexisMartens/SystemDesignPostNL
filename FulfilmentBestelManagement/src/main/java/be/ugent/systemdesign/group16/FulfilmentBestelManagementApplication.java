@@ -1,5 +1,7 @@
 package be.ugent.systemdesign.group16;
 
+import java.time.LocalDate;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,8 +13,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 import be.ugent.systemdesign.group16.API.messaging.Channels;
-import be.ugent.systemdesign.group16.API.messaging.MessageOutputGateway;
-import be.ugent.systemdesign.group16.application.command.GetKlantenDataCommand;
+import be.ugent.systemdesign.group16.application.FulfilmentBestelService;
+import be.ugent.systemdesign.group16.application.Response;
+import be.ugent.systemdesign.group16.domain.Adres;
+import be.ugent.systemdesign.group16.domain.Bestelling;
+import be.ugent.systemdesign.group16.domain.BestellingStatus;
 @EnableAsync
 @EnableBinding(Channels.class)
 @SpringBootApplication
@@ -28,10 +33,24 @@ public class FulfilmentBestelManagementApplication {
 	String responseDestination;
 
 	
+	
+	private static void logResponse(Response response) {
+		log.info("-response status[{}] message[{}]", response.status, response.message);
+	}
+
 	@Bean
-	CommandLineRunner testAssignRoomCommand(MessageOutputGateway outputGateway) {
+	CommandLineRunner testFulfilmentBestelService(FulfilmentBestelService service) {
 		return (args) -> {
-			outputGateway.sendGetKlantenDataCommand(new GetKlantenDataCommand("1", responseDestination));
+			log.info("$Testing BestelService.");
+
+			log.info(">maak een bestelling");
+			Bestelling newbestelling = new Bestelling("Pakket","Jan Vander Broek", "7000", "kaastraat 150", "Gent", "Belgie", 
+					"Hans Landeghem", "4564", "geefstraat 4", "Geverghem", "Belgie", false);
+			
+			log.info(">plaatsBestelling");
+			Response response = service.plaatsBestelling(newbestelling);
+			log.info(">logResponse");
+			logResponse(response);
 		};
 	}
 }
