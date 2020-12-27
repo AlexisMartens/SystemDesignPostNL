@@ -18,5 +18,5 @@ public interface MessageOutputGateway extends EventDispatcher {
 	void sendGetKlantenDataCommand(GetKlantenDataCommand command);
 	
 	@Gateway(requestChannel = Channels.PACKET_EVENT)
-	void publishZendingEvent(PacketDomainEvent event);
+	void publishPacketDomainEvent(PacketDomainEvent event);
 }
