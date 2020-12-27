@@ -1,13 +1,18 @@
 package be.ugent.systemdesign.group16.application.command;
 
-import lombok.AllArgsConstructor;
+import be.ugent.systemdesign.group16.application.Response;
+import be.ugent.systemdesign.group16.application.ResponseStatus;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
-@AllArgsConstructor
-public class GetKlantenDataResponse {
+public class GetKlantenDataResponse extends Response{
 	private String klantenId;
 	private String naam;
+	public GetKlantenDataResponse(String message, ResponseStatus status, String klantenId, String naam) {
+		super(message, status);
+		this.klantenId = klantenId;
+		this.naam = naam;
+	}
+	
+	
 }

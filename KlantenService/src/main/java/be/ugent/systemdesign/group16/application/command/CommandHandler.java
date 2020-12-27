@@ -5,8 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import be.ugent.systemdesign.group16.application.ResponseStatus;
-import be.ugent.systemdesign.group16.domain.FulfilmentBestellingRepository;
+import be.ugent.systemdesign.group16.application.FulfilmentKlantService;
 
 @Service
 public class CommandHandler {
@@ -14,10 +13,12 @@ public class CommandHandler {
 	private static final Logger log = LoggerFactory.getLogger(CommandHandler.class);
 	
 	@Autowired
-	FulfilmentBestellingRepository repo;
+	FulfilmentKlantService fulfilmentKlantService;
 	
-	public void handleGetKlantenDataResponse(GetKlantenDataResponse response) {
-		log.info("klantId {}, naam {}", response.getKlantenId(), response.getNaam());
+	public GetKlantenDataResponse assignRoom(GetKlantenDataCommand command) {
+		String id = command.getKlantId();
+		GetKlantenDataResponse response = fulfilmentKlantService.getKlantenData(id);
+		return response;
 	}
 	
 }
