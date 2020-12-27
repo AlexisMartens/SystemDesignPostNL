@@ -45,27 +45,23 @@ public class Zending extends AggregateRoot {
 		afzender = _z.afzender;
 		aanmaakDatum = LocalDate.now();
 		spoed=_z.spoed;
-
 		huidigeLocatie = null;
-		/*bevestigafleverenzending ontvangen = kijken of het is afgeleverd bij klant (=gedaan) OF afgeleverd bij sorteercentrum dan moet ik nieuwsorteeritemdomainevent sturen
-		 * Dan
-		 * beveestigophalenzending niet op reageren */
 		
 		ophalenBijKlantThuis = _z.ophalenBijKlantThuis;
 		status = ZendingStatus.AANGEMAAKT;
 		if(ophalenBijKlantThuis) {
 			status = ZendingStatus.KLAAR_OM_OP_TE_HALEN;
-			// adres van klant thuis(afzender) naar koerier
-			huidigeLocatie =afzender;
+			// adres van klant thuis (afzender) naar koerier
+			huidigeLocatie = afzender;
 		}
 		if(!ontvanger.isCorrectAdres()) {
 			throw new GeenGeldigAdresException();
 		}
 	}
-	
-	public Zending(String _typeZending, String _huidigeLocatieNaam, String _huidigePostcode, String _huidigeStraat, String _huidigePlaats, String _huidigLand, String _naamOntvanger, String _postcodeOntvanger, String _straatOntvanger, String _plaatsOntvanger, String _landOntvanger, String _naamAfzender, String _postcodeAfzender, String _straatAfzender, String _plaatsAfzender, String _landAfzender, boolean _ophalenBijKlant, boolean _spoed) {
+
+	public Zending(String _typeZending,  String _naamOntvanger, String _postcodeOntvanger, String _straatOntvanger, String _plaatsOntvanger, String _landOntvanger, String _naamAfzender, String _postcodeAfzender, String _straatAfzender, String _plaatsAfzender, String _landAfzender, boolean _ophalenBijKlant, boolean _spoed) {
 		typeZending=_typeZending;
-		huidigeLocatie = new Adres(_huidigeLocatieNaam, _huidigePostcode, _huidigeStraat, _huidigePlaats, _huidigLand);
+		//huidigeLocatie = new Adres(_huidigeLocatieNaam, _huidigePostcode, _huidigeStraat, _huidigePlaats, _huidigLand);
 		afzender = new Adres(_naamAfzender, _postcodeAfzender, _straatAfzender, _plaatsAfzender, _landAfzender);
 		ontvanger = new Adres(_naamOntvanger, _postcodeOntvanger, _straatOntvanger, _plaatsOntvanger, _landOntvanger);
 		
@@ -74,8 +70,10 @@ public class Zending extends AggregateRoot {
 		status=ZendingStatus.AANGEMAAKT;
 		spoed=_spoed;
 		if(ophalenBijKlantThuis) {
-			status=ZendingStatus.KLAAR_OM_OP_TE_HALEN;
-		} 
+			status = ZendingStatus.KLAAR_OM_OP_TE_HALEN;
+			// adres van klant thuis (afzender) naar koerier
+			huidigeLocatie = afzender;
+		}
 		if(!huidigeLocatie.isCorrectAdres()) {
 			throw new GeenGeldigAdresException();
 		}

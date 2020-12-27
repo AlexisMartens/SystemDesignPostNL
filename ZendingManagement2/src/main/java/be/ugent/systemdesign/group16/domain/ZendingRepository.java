@@ -5,10 +5,10 @@ import java.util.List;
 public interface ZendingRepository {
 
 	public Zending findOne(Integer id);	
-	public void save(Zending _z);	
+	public Integer save(Zending _z);	
 		
-	public List<Zending> findAllAfgehaald();
-	public List<Zending> findAllAfTeHalen();
-	public List<Zending> findAllOpTeHalenBijKlant();
-	public List<Zending> findAllVerwerkt();
+	public List<Zending> findAllAfgeleverd();
+	public List<Zending> findAllOpTeHalen();
+	public List<Zending> findAllOpgehaald();
+	public List<Zending> findAllAangemaakt();
 }
