@@ -74,9 +74,7 @@ public class Zending extends AggregateRoot {
 			// adres van klant thuis (afzender) naar koerier
 			huidigeLocatie = afzender;
 		}
-		if(!huidigeLocatie.isCorrectAdres()) {
-			throw new GeenGeldigAdresException();
-		}
+
 	}
 	
 	public Zending(Zending _zending, String _huidigeLocatieNaam, String _huidigePostcode, String _huidigeStraat, String _huidigePlaats, String _huidigLand) {
@@ -103,7 +101,7 @@ public class Zending extends AggregateRoot {
 				typeZending, afzender.getNaam(), afzender.getPostcode(), afzender.getStraat(), afzender.getPlaats(), afzender.getLand(), 
 				ontvanger.getNaam(), ontvanger.getPostcode(),ontvanger.getStraat(),ontvanger.getPlaats(), ontvanger.getLand(), 
 				huidigeLocatie.getNaam(), huidigeLocatie.getPostcode(), huidigeLocatie.getStraat(), huidigeLocatie.getPlaats(), huidigeLocatie.getLand(), spoed
-				));;
+				));
 		status=ZendingStatus.KLAAR_OM_OP_TE_HALEN;	
 	}
 	

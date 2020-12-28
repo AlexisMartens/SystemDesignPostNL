@@ -77,9 +77,11 @@ public class ZendingManagementApplication {
 			logZendingDataModels(zendingenByStatus);
 		
 			log.info(">Save new Zending to database.");
+//vanaf hier
+			//Caused by: org.hibernate.id.IdentifierGenerationException: ids for this class must be manually assigned before calling save(): be.ugent.systemdesign.group16.infrastructure.ZendingDataModel
 
 			ZendingDataModel newZending = 
-					new ZendingDataModel(null,"Pakket",
+					new ZendingDataModel(9,"Pakket",
 							"Spar Nieuwkerke", "8800", "Brugsesteenweg 55", "Nieuwkerke", "Belgie",
 							"Tim Deputten", "7175", "Paribenstraat 10", "Putte", "Belgie",
 							"Marc Koeke", "4500", "Miljoenenstraat 11", "Sint-Denijzen", "Belgie",
@@ -139,9 +141,9 @@ public class ZendingManagementApplication {
 					"Nick Heldens", "3330", "Paardenstraat 47", "Eergemstraat 80", "Belgie",			
 					false, 
 					true);
-			repo.save(newZending);
-			Integer newZendingId = newZending.getZendingId();
 			
+			Integer newZendingId = repo.save(newZending);
+			//VANAF HIER GAAT HET FOUT
 			log.info(">Find all Zendingen with status OP_TE_HALEN.");
 			List<Zending> zendingen = repo.findAllOpTeHalen();
 			logZendingen(zendingen);
@@ -170,12 +172,13 @@ public class ZendingManagementApplication {
 			log.info("$Testing ZendingService.");
 			
 			log.info(">Bevestig aankomst nieuwe zending");
+			//MERK OP als ophalenbijklantthuis = false crashed ie, want huidigelocatie wordt bij Zending.java constructor niet aangemaakt bij dat geval
+
 			Zending newZending = new Zending("Pakket",
 					"Karel Veke", "7000", "Koeienstraat 10", "Merelen", "Belgie",
 					"Nick Heldens", "3330", "Paardenstraat 47", "Male", "Belgie",			
-					false, 
+					true, 
 					true);
-			
 			Response response = service.bevestigAankomstNieuweZending(0, new Adres("Spar GSP", "8800", "Denenstraat 85", "Gent", "Belgie"));
 			logResponse(response);
 			
