@@ -32,8 +32,8 @@ public class EventHandler {
 		//TODO: operaties uitvoeren...
 		
 		log.info("-response status[{}] message[{}]", response.getStatus(), response.getMessage());
-
 	}
+	
 	public void handleBevestigOphalenZending(BevestigOphalenZendingEvent event) {
 		log.info("-Received BevestigOphalenZendingEvent van KoerierService");
 		Response response = service.bevestigOphalenZending(event.getOrderId());	

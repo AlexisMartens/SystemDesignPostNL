@@ -72,8 +72,8 @@ public class ZendingManagementApplication {
 			log.info(">Find all Zendingen from database."); List<ZendingDataModel>
 			zendingenAll = repo.findAll(); logZendingDataModels(zendingenAll);
 			
-			log.info(">Find all zendingen by status {} from database.",ZendingStatus.AF_TE_HALEN_IN_AFHAALPUNT);
-			List<ZendingDataModel> zendingenByStatus = repo.findByStatus(ZendingStatus.AF_TE_HALEN_IN_AFHAALPUNT.toString());
+			log.info(">Find all zendingen by status {} from database.",ZendingStatus.KLAAR_OM_OP_TE_HALEN);
+			List<ZendingDataModel> zendingenByStatus = repo.findByStatus(ZendingStatus.KLAAR_OM_OP_TE_HALEN.toString());
 			logZendingDataModels(zendingenByStatus);
 		
 			log.info(">Save new Zending to database.");
@@ -85,7 +85,7 @@ public class ZendingManagementApplication {
 							"Marc Koeke", "4500", "Miljoenenstraat 11", "Sint-Denijzen", "Belgie",
 							false, 
 							LocalDate.of(2020,7,20), 
-							ZendingStatus.AF_TE_HALEN_IN_AFHAALPUNT.name(), 
+							ZendingStatus.KLAAR_OM_OP_TE_HALEN.name(), 
 							true);
 			repo.saveAndFlush(newZending);
 			Integer newZendingId = newZending.getZendingId();
@@ -134,7 +134,7 @@ public class ZendingManagementApplication {
 			log.info(">Save new Zending to database.");
 		
 			Zending newZending = new Zending("Pakket",
-					"Spar GSP", "8800", "Denenstraat 85", "Gent", "Belgie",
+			//		"Spar GSP", "8800", "Denenstraat 85", "Gent", "Belgie",
 					"Karel Veke", "7000", "Koeienstraat 10", "Merelen", "Belgie",
 					"Nick Heldens", "3330", "Paardenstraat 47", "Eergemstraat 80", "Belgie",			
 					false, 
@@ -142,18 +142,21 @@ public class ZendingManagementApplication {
 			repo.save(newZending);
 			Integer newZendingId = newZending.getZendingId();
 			
-			log.info(">Find all Zendingen with status AfTeHalenBijAfhaalPunt.");
-			List<Zending> zendingen = repo.findAllAfTeHalen();
+			log.info(">Find all Zendingen with status OP_TE_HALEN.");
+			List<Zending> zendingen = repo.findAllOpTeHalen();
 			logZendingen(zendingen);
 			
-			log.info(">Find all Zendingen with status OpTeHalenBijKlant.");
-			List<Zending> zendingenOpTeHalen = repo.findAllOpTeHalenBijKlant();
+			log.info(">Find all Zendingen with status AANGEMAAKT.");
+			List<Zending> zendingenOpTeHalen = repo.findAllAangemaakt();
 			logZendingen(zendingenOpTeHalen);
 			
-			log.info(">Find all Zendingen with status AfgehaaldBijAfhaalPunt.");
-			List<Zending> zendingenOpgehaald = repo.findAllAfgehaald();
+			log.info(">Find all Zendingen with status OPGEHAALD.");
+			List<Zending> zendingenOpgehaald = repo.findAllOpgehaald();
 			logZendingen(zendingenOpgehaald);
 			
+			log.info(">Find all Zendingen with status AFGELEVERD.");
+			List<Zending> zendingenAfgeleverd = repo.findAllAfgeleverd();
+			logZendingen(zendingenAfgeleverd);
 		};
 	}
 	
@@ -168,33 +171,30 @@ public class ZendingManagementApplication {
 			
 			log.info(">Bevestig aankomst nieuwe zending");
 			Zending newZending = new Zending("Pakket",
-					"Spar GSP", "8800", "Denenstraat 85", "Gent", "Belgie",
 					"Karel Veke", "7000", "Koeienstraat 10", "Merelen", "Belgie",
 					"Nick Heldens", "3330", "Paardenstraat 47", "Male", "Belgie",			
 					false, 
 					true);
 			
-			Response response = service.bevestigAankomstNieuweZending(newZending);
+			Response response = service.bevestigAankomstNieuweZending(0, new Adres("Spar GSP", "8800", "Denenstraat 85", "Gent", "Belgie"));
 			logResponse(response);
 			
 			log.info(">Bevestig aankomst nieuwe zending 2");
-			newZending = new Zending("Pakket",
-					"Spar Geluwe", "8100", "Duinenweg 2", "Geluwe", "Belgie",
+			/*newZending = new Zending("Pakket",
 					"Charlie Chaplin", "4000", "Ritsstraat 55", "Brussel", "Belgie",
 					"George Washington", "2999", "Wittehuisstraat 1", "Aarlen", "Belgie",			
 					true, 
-					true);
-			response = service.bevestigAankomstNieuweZending(newZending);
+					true);*/
+			response = service.bevestigAankomstNieuweZending(1, new Adres("Spar Geluwe", "8100", "Duinenweg 2", "Geluwe", "Belgie"));
 			logResponse(response);
 			
 			log.info(">Bevestig aankomst nieuwe zending 3");
-			newZending = new Zending("Pakket",
-					"Proxy Delhaize Zulte", "7800", "Meensestraat 125", "Zulte", "Belgie",
+			/*newZending = new Zending("Pakket",
 					"Ward Kraken", "3000", "Vanbullenweg 70", "Leuven", "Belgie",
 					"Jacque Marles", "1000", "Boulangerieweg 4", "Bergen", "Belgie",			
 					true, 
-					true);
-			response = service.bevestigAankomstNieuweZending(newZending);
+					true);*/
+			response = service.bevestigAankomstNieuweZending(2, new Adres("Proxy Delhaize Zulte", "7800", "Meensestraat 125", "Zulte", "Belgie"));
 			logResponse(response);
 			
 			
