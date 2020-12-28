@@ -30,17 +30,3 @@ services:
     depends_on:
       - bestelling_db
       - kafka
-  trackandtrace:
-    build: ./TrackAndTraceService
-    container_name: trackandtrace
-    links:
-      - kafka
-    depends_on:
-      - kafka
-  externelevering:
-    build: ./ExterneLeveringService
-    container_name: externelevering
-    links:
-      - kafka
-    depends_on:
-      - kafka
