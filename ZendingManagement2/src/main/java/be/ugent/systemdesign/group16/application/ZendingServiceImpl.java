@@ -113,7 +113,6 @@ public class ZendingServiceImpl implements ZendingService {
 		return new Response(ResponseStatus.SUCCESS,"id: "+zendingId);
 	}
 
-	//enkel status aanpassen
 	@Override
 	public Response bevestigOphalenZending(Integer _zendingId) {
 		Integer zendingId = null; 

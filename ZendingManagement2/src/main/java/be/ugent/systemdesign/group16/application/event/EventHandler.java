@@ -21,16 +21,7 @@ public class EventHandler {
 	ZendingService service;
 
 	public void handleNieuweZending(ZendingDomainEvent event) {
-		log.info("-Received NieuwZendingDomainEvent van BestelManagement");
-		//TODO: juiste methode aangeroepen?????
-		/*Response response = service.bevestigAankomstNieuweZending(
-				event.getBestellingId(), 
-				
-				new Adres(event.getNaamOntvanger(), event.getPostcodeOntvanger(), event.getStraatOntvanger(),
-					event.getPlaatsOntvanger(), event.getLandOntvanger()));*/
-		
-		
-		
+		log.info("-Received NieuwZendingDomainEvent van BestelManagement");		
 		Response response = service.maakNieuweZending(event.getBestellingId(), event.getTypeBestelling(), 
 				event.getNaamOntvanger(), event.getPostcodeOntvanger(), event.getStraatOntvanger(),
 						event.getPlaatsOntvanger(), event.getLandOntvanger(),

@@ -266,7 +266,6 @@ public class ZendingManagementApplication {
 			handler.handleBevestigAfleverenZending(afleverenEvent);
 		};
 	}
-	//	public ResponseEntity<String> aankomstNieuweZendingComplete(@PathVariable("id") Integer id, Adres afhaalpunt) {
 
 	@Bean
 	CommandLineRunner testZendingManagementController() {

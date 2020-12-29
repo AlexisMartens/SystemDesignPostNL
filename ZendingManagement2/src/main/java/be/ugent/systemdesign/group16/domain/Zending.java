@@ -150,7 +150,7 @@ public class Zending extends AggregateRoot {
 	}
 	
 	public void stuurKoerier() {
-		addDomainEvent(new KlaarVoorKoerierDomainEvent(zendingId, 
+		addDomainEvent(new StuurKoerierDomainEvent(zendingId, 
 				typeZending, afzender.getNaam(), afzender.getPostcode(), afzender.getStraat(), afzender.getPlaats(), afzender.getLand(), 
 				ontvanger.getNaam(), ontvanger.getPostcode(),ontvanger.getStraat(),ontvanger.getPlaats(), ontvanger.getLand(), 
 				huidigeLocatie.getNaam(), huidigeLocatie.getPostcode(), huidigeLocatie.getStraat(), huidigeLocatie.getPlaats(), huidigeLocatie.getLand(), spoed
