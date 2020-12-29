@@ -22,6 +22,4 @@ public class Adres {
 	public boolean isCorrectAdres() {
 		return !postcode.isEmpty() && !straat.isEmpty() && !plaats.isEmpty() && !land.isEmpty();
 	}
-	
-	
 }

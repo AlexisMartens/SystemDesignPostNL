@@ -79,7 +79,5 @@ public class Pakket extends AggregateRoot {
 			addDomainEvent(new UpdateTrackAndTraceDomainEvent(pakketId, huidigeLocatie.getNaam(), huidigeLocatie.getPostcode(), huidigeLocatie.getStraat(), huidigeLocatie.getPlaats(),
 					huidigeLocatie.getLand(), status.name()));
 		}
-	
 	}
-	
 }

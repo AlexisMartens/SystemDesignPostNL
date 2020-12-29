@@ -40,8 +40,16 @@ import be.ugent.systemdesign.group16.application.event.PacketDomainEvent;
 @EnableAsync
 @EnableBinding(Channels.class)
 public class MagazijnServiceApplication {
+	
 	private static final Logger log = LoggerFactory.getLogger(MagazijnServiceApplication.class);
-
+	
+	private Pakket testPakket = new Pakket(16,
+			"Karel Veke", "7000", "Koeienstraat 10", "Merelen", "Belgie",
+			"Nick Heldens", "3330", "Paardenstraat 47", "Eergemstraat 80", "Belgie",			
+			"PAKKET",
+			true,
+			false);
+	
 	public static void main(String[] args) {
 		SpringApplication.run(MagazijnServiceApplication.class, args);
 	}
@@ -113,8 +121,7 @@ public class MagazijnServiceApplication {
 					pakket.getSpoed(),
 					pakket.getStatus());
 		}
-	}
-	
+	}	
 
 	@Bean
 	CommandLineRunner testPakketDataModelRepository(PakketDataModelRepository repo) {
@@ -212,29 +219,30 @@ public class MagazijnServiceApplication {
 	@Bean
 	CommandLineRunner testMagazijnService(MagazijnService service) {
 		return (args) -> {
-			log.info("$Testing MagazijnService.");
-			Pakket newPakket = new Pakket(16,
-					"Karel Veke", "7000", "Koeienstraat 10", "Merelen", "Belgie",
-					"Nick Heldens", "3330", "Paardenstraat 47", "Eergemstraat 80", "Belgie",			
-					"PAKKET",
-					true,
-					false);
-			
+			log.info("$Testing MagazijnService - maak nieuw Pakket - bevestigInpakken.");			
 			log.info(">Maak nieuw Pakket");
-			Response response = service.maakPakket(newPakket);
+			Response response = service.maakPakket(testPakket);
 			logResponse(response);
 			
 			log.info(">Bevestig inpakken Pakket");
-			response = service.BevestigInpakken(newPakket.getPakketId());
+			response = service.BevestigInpakken(testPakket.getPakketId());
 			logResponse(response);
-			//TODO: updaten track en trace testen
-			/*log.info(">Bevestig inpakken Pakket");
-			response = service.UpdateTrackAndTrace(new UpdateTrackAndTraceDomainEvent(newPakket.getPakketId(), naam, postcode, straat, plaats, land, newPakket.getStatus()))
-			logResponse(response);*/
-	
+			
 		};
 	}
-	
+	@Bean
+	CommandLineRunner testMagazijnServiceTracknTrace(MagazijnService service) {
+		return (args) -> {
+			log.info("$Testing MagazijnService - Track&Trace.");			
+			log.info(">Update Track&Trace");
+			Response response = service.UpdateTrackAndTrace(new UpdateTrackAndTraceDomainEvent(testPakket.getPakketId(), testPakket.getHuidigeLocatie().getNaam()
+					,  testPakket.getHuidigeLocatie().getPostcode(),  testPakket.getHuidigeLocatie().getStraat(),  testPakket.getHuidigeLocatie().getPlaats(),
+					testPakket.getHuidigeLocatie().getLand(),
+					testPakket.getStatus().toString()));
+			logResponse(response);			
+		};
+	}
+
 	
 	@Bean
 	CommandLineRunner testEventHandler(EventHandler handler) {

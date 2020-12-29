@@ -23,13 +23,12 @@ public class MagazijnServiceImpl implements MagazijnService {
 	@Autowired
 	PakketRepository repo;
 
-	/* Het pakket is uit het magazijn gehaald, ingepakt en afgeleverd aan het sorteercentrum.*/
-	// TODO: status nog updaten??
 	@Override
 	public Response BevestigInpakken(Integer _pakketId) {
 		Pakket pakket = repo.findOne(_pakketId);
 		pakket.UpdateTrackAndTrace();
 		pakket.MaakNieuwSorteerItem();
+		pakket.setStatus(PakketStatus.VERWERKT);
 		repo.save(pakket);
 		return new Response(ResponseStatus.SUCCESS, "id "+_pakketId);
 	}
@@ -41,7 +40,6 @@ public class MagazijnServiceImpl implements MagazijnService {
 		}
 		return new Response(ResponseStatus.SUCCESS, "id "+e.getPakketId());
 	}
-	
 	
 	@Override
 	public Response MaakPakket(Integer _pakketId, 
@@ -61,8 +59,7 @@ public class MagazijnServiceImpl implements MagazijnService {
 			_p.setStatus(PakketStatus.AANGEMAAKT);
 			Integer id = repo.save(_p);
 			_p.setPakketId(id);
-			repo.save(_p);
-			
+			repo.save(_p);			
 		}
 		catch(RuntimeException e) {
 			return new Response(ResponseStatus.FAIL, "Kon pakket niet aanmaken, message: "+e.getMessage());
