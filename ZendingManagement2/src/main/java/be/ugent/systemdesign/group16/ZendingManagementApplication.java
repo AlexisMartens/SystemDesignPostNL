@@ -34,15 +34,7 @@ public class ZendingManagementApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ZendingManagementApplication.class, args);
 	}
-	/*
-	@Bean
-	CommandLineRunner testKlaarVoorKoerierEvent(ZendingService service) {
-		return (args) -> {
-			Response response = service.noteLeftAgainstMedicalAdvice("3");
-			logResponse(response);
-		};
-	}
-	*/
+
 	private static void logZendingDataModels(List<ZendingDataModel> zendingen) {
 		log.info("-Number of zendingen found: {}", zendingen.size());
 		for(ZendingDataModel zending : zendingen) {
@@ -77,16 +69,18 @@ public class ZendingManagementApplication {
 			List<ZendingDataModel> zendingenByStatus = repo.findByStatus(ZendingStatus.KLAAR_OM_OP_TE_HALEN.toString());
 			logZendingDataModels(zendingenByStatus);
 		
+			log.info(">Find all zendingen by status {} from database.",ZendingStatus.AANGEMAAKT);
+			zendingenByStatus = repo.findByStatus(ZendingStatus.AANGEMAAKT.toString());
+			logZendingDataModels(zendingenByStatus);
+			
 			log.info(">Save new Zending to database.");
-//vanaf hier
-			//Caused by: org.hibernate.id.IdentifierGenerationException: ids for this class must be manually assigned before calling save(): be.ugent.systemdesign.group16.infrastructure.ZendingDataModel
 
 			ZendingDataModel newZending = 
 					new ZendingDataModel(9,"PAKKET",
 							"Spar Nieuwkerke", "8800", "Brugsesteenweg 55", "Nieuwkerke", "Belgie",
 							"Tim Deputten", "7175", "Paribenstraat 10", "Putte", "Belgie",
 							"Marc Koeke", "4500", "Miljoenenstraat 11", "Sint-Denijzen", "Belgie",
-							true, 
+							false, 
 							LocalDate.of(2020,7,20), 
 							ZendingStatus.KLAAR_OM_OP_TE_HALEN.name(), 
 							true);
