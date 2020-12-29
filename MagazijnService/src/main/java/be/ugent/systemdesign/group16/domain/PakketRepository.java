@@ -5,7 +5,10 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PakketRepository{
+	
 	public Pakket findOne(Integer id);	
+	
 	public Integer save(Pakket _p);	
+	
 	public List<Pakket> findAllAangemaakt();
 }

@@ -27,11 +27,12 @@ public class Pakket extends AggregateRoot {
 	
 	private String soort;
 	
+	private boolean ophalenBijKlant;
+
 	private boolean spoed;
 	
 	private PakketStatus status;
 	
-	private boolean ophalenBijKlant;
 
 
 	public Pakket(Integer id, String _naamOntvanger, String _postcodeOntvanger, String _straatOntvanger,

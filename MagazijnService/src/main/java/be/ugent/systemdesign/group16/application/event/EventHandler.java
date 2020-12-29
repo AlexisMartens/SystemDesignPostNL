@@ -18,7 +18,7 @@ public class EventHandler {
 	
 	@Autowired
 	MagazijnService service;
-	//TODO: nog aanpassen
+
 	public void handleNieuwPakket(PacketDomainEvent event) {
 		log.info("-Received PacketDomainEvent van FulfilmentBestelManagement");
 		Response response = service.MaakPakket(event.getBestellingId(), 
