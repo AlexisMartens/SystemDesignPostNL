@@ -28,13 +28,11 @@ public class PakketRepositoryImpl implements PakketRepository {
 	}
 
 	@Override
-	public void save(Pakket _p) {
-		PakketDataModel dataModel = mapToPakketDataModel(_p);		
-		pakketDMRepo.save(dataModel);
-		_p.setPakketId(dataModel.getPakketId());
-
+	public Integer save(Pakket _p) {
+		Integer id = pakketDMRepo.save(mapToPakketDataModel(_p)).getPakketId();
 	    _p.getDomainEvents().forEach(domainEvent -> eventPublisher.publishEvent(domainEvent));
 	    _p.clearDomainEvents();
+	    return id;
 	}
 
 	private PakketDataModel mapToPakketDataModel(Pakket _p) {

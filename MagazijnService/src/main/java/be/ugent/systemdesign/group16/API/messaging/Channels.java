@@ -16,7 +16,6 @@ public interface Channels {
 	@Output(NIEUW_SORTEERITEM_EVENT)
 	MessageChannel NieuwSorteerItemEvent();
 	
-
 	@Input(NIEUW_PAKKET_EVENT)
 	SubscribableChannel NieuwPakketEvent();
 }
