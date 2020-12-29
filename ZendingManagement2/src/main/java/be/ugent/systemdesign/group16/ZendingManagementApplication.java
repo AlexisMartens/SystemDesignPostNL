@@ -69,8 +69,9 @@ public class ZendingManagementApplication {
 		return (args) ->{
 			log.info("$Testing ZendingDataModelJPARepository.");
 			  
-			log.info(">Find all Zendingen from database."); List<ZendingDataModel>
-			zendingenAll = repo.findAll(); logZendingDataModels(zendingenAll);
+			log.info(">Find all Zendingen from database.");
+			List<ZendingDataModel>	zendingenAll = repo.findAll(); 
+			logZendingDataModels(zendingenAll);
 			
 			log.info(">Find all zendingen by status {} from database.",ZendingStatus.KLAAR_OM_OP_TE_HALEN);
 			List<ZendingDataModel> zendingenByStatus = repo.findByStatus(ZendingStatus.KLAAR_OM_OP_TE_HALEN.toString());
@@ -81,16 +82,15 @@ public class ZendingManagementApplication {
 			//Caused by: org.hibernate.id.IdentifierGenerationException: ids for this class must be manually assigned before calling save(): be.ugent.systemdesign.group16.infrastructure.ZendingDataModel
 
 			ZendingDataModel newZending = 
-					new ZendingDataModel(9,"Pakket",
+					new ZendingDataModel(9,"PAKKET",
 							"Spar Nieuwkerke", "8800", "Brugsesteenweg 55", "Nieuwkerke", "Belgie",
 							"Tim Deputten", "7175", "Paribenstraat 10", "Putte", "Belgie",
 							"Marc Koeke", "4500", "Miljoenenstraat 11", "Sint-Denijzen", "Belgie",
-							false, 
+							true, 
 							LocalDate.of(2020,7,20), 
 							ZendingStatus.KLAAR_OM_OP_TE_HALEN.name(), 
 							true);
-			repo.saveAndFlush(newZending);
-			Integer newZendingId = newZending.getZendingId();
+			Integer newZendingId = repo.saveAndFlush(newZending).getZendingId();
 			
 			log.info(">Find Zending by id {} from database.", newZendingId);
 			Optional<ZendingDataModel> zendingById= repo.findById(newZendingId);
@@ -129,20 +129,20 @@ public class ZendingManagementApplication {
 		return (args) -> {
 			log.info("$Testing ZendingRepository.");
 			
-			/*log.info(">Find one Zending by id {} from database.", 0);
+			log.info(">Find one Zending by id {} from database.", 0);
 			Zending zendingById = repo.findOne(0);
 			logZendingen(Collections.unmodifiableList(Arrays.asList(zendingById)));
-			*/
+			
 			log.info(">Save new Zending to database.");
 		
-			Zending newZending = new Zending("Pakket",
+			Zending newZending = new Zending(16,"PAKKET",
 			//		"Spar GSP", "8800", "Denenstraat 85", "Gent", "Belgie",
-					"Karel Veke", "7000", "Koeienstraat 10", "Merelen", "Belgie",
-					"Nick Heldens", "3330", "Paardenstraat 47", "Eergemstraat 80", "Belgie",			
-					false, 
+					new Adres("Karel Veke", "7000", "Koeienstraat 10", "Merelen", "Belgie"),
+					new Adres("Nick Heldens", "3330", "Paardenstraat 47", "Eergemstraat 80", "Belgie"),			
+					true, 
 					true);
 			
-			Integer newZendingId = repo.save(newZending);
+			//Integer newZendingId = repo.save(newZending);
 			//VANAF HIER GAAT HET FOUT
 			log.info(">Find all Zendingen with status OP_TE_HALEN.");
 			List<Zending> zendingen = repo.findAllOpTeHalen();
@@ -174,16 +174,16 @@ public class ZendingManagementApplication {
 			log.info(">Bevestig aankomst nieuwe zending");
 			//MERK OP als ophalenbijklantthuis = false crashed ie, want huidigelocatie wordt bij Zending.java constructor niet aangemaakt bij dat geval
 
-			Zending newZending = new Zending("Pakket",
-					"Karel Veke", "7000", "Koeienstraat 10", "Merelen", "Belgie",
-					"Nick Heldens", "3330", "Paardenstraat 47", "Male", "Belgie",			
+			Zending newZending = new Zending(15,"PAKKET",
+					new Adres("Karel Veke", "7000", "Koeienstraat 10", "Merelen", "Belgie"),
+					new Adres("Nick Heldens", "3330", "Paardenstraat 47", "Male", "Belgie"),			
 					true, 
 					true);
 			Response response = service.bevestigAankomstNieuweZending(0, new Adres("Spar GSP", "8800", "Denenstraat 85", "Gent", "Belgie"));
 			logResponse(response);
 			
 			log.info(">Bevestig aankomst nieuwe zending 2");
-			/*newZending = new Zending("Pakket",
+			/*newZending = new Zending("PAKKET",
 					"Charlie Chaplin", "4000", "Ritsstraat 55", "Brussel", "Belgie",
 					"George Washington", "2999", "Wittehuisstraat 1", "Aarlen", "Belgie",			
 					true, 
@@ -192,7 +192,7 @@ public class ZendingManagementApplication {
 			logResponse(response);
 			
 			log.info(">Bevestig aankomst nieuwe zending 3");
-			/*newZending = new Zending("Pakket",
+			/*newZending = new Zending("PAKKET",
 					"Ward Kraken", "3000", "Vanbullenweg 70", "Leuven", "Belgie",
 					"Jacque Marles", "1000", "Boulangerieweg 4", "Bergen", "Belgie",			
 					true, 

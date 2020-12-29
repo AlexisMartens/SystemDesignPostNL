@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class NieuweZendingDomainEvent extends DomainEvent{
-		
+	private Integer zendingId;
 	private String naamAfzender;
 	private String postcodeAfzender;
 	private String straatAfzender;
