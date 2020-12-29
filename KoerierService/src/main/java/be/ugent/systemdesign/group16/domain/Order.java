@@ -49,7 +49,7 @@ public class Order extends AggregateRoot{
 	public void bevestigAfleverenBuren() {
 		setOrderStatus(OrderStatus.AFGELEVERD_BIJ_BUREN);
 		addDomainEvent(new UpdateTrackAndTraceEvent(getOrderId(),getAfzender().getNaam(), getAfzender().getPostcode(), getAfzender().getStraat(), getAfzender().getPlaats(), getAfzender().getLand(), getOrderStatus().toString()));
-		addDomainEvent(new BevestigAfleverenZendingEvent(getOrderId()));
+		addDomainEvent(new BevestigAfleverenZendingEvent(getOrderId(),getAfzender().getNaam(), getAfzender().getPostcode(), getAfzender().getStraat(), getAfzender().getPlaats(), getAfzender().getLand()));
 	}
 	
 	public void bevestigOphalen() {
@@ -61,7 +61,7 @@ public class Order extends AggregateRoot{
 	public void bevestigAfleveren() {
 		setOrderStatus(OrderStatus.AFGELEVERD);
 		addDomainEvent(new UpdateTrackAndTraceEvent(getOrderId(),getAfzender().getNaam(), getAfzender().getPostcode(), getAfzender().getStraat(), getAfzender().getPlaats(), getAfzender().getLand(), getOrderStatus().toString()));
-		addDomainEvent(new BevestigAfleverenZendingEvent(getOrderId()));
+		addDomainEvent(new BevestigAfleverenZendingEvent(getOrderId(),getAfzender().getNaam(), getAfzender().getPostcode(), getAfzender().getStraat(), getAfzender().getPlaats(), getAfzender().getLand()));
 	}
 	public void wijsKoerierToeAanOrder(Koerier koerier){
 		setKoerier(koerier);
