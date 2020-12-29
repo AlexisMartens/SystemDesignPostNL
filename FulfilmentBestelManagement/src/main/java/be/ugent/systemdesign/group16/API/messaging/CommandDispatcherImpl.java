@@ -14,12 +14,12 @@ public class CommandDispatcherImpl implements CommandDispatcher {
 	MessageOutputGateway outputGateway;
 	
 	@Value("${spring.cloud.stream.bindings." + Channels.GET_KLANTEN_DATA_RESPONSE + ".destination}")
-	String assignRoomResponseDestination;
+	String responseDestination;
 
 	@Override
 	public void sendGetKlantenDataCommand(GetKlantenDataCommand command) {
 		outputGateway.sendGetKlantenDataCommand(
-			new GetKlantenDataCommand(command.getKlantId(), assignRoomResponseDestination)
+			new GetKlantenDataCommand(command.getKlantId(), responseDestination)
 		);
 	}
 
