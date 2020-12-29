@@ -33,7 +33,7 @@ public class SorteerItemServiceImpl implements SorteerItemService{
 			Integer id = repo.save(_s);
 			_s.setSorteerItemId(id);
 			_s.aangekomenOpNieuweLocatie(_s.getHuidigeLocatie());
-			repo.save(_s);ccc
+			repo.save(_s);
 			
 		}
 		catch(RuntimeException e) {

@@ -24,6 +24,7 @@ public class ZendingDataModel {
 
 	@Id
 	@Getter
+	//zendingId is hetzelfde als trackId
 	private Integer zendingId;
 	
 	private String typeZending;

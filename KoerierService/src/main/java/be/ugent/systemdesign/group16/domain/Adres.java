@@ -3,6 +3,8 @@ package be.ugent.systemdesign.group16.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
@@ -19,7 +21,5 @@ public class Adres {
 	
 	public boolean isCorrectAdres() {
 		return !postcode.isEmpty() && !straat.isEmpty() && !plaats.isEmpty() && !land.isEmpty();
-	}
-	
-	
+	}	
 }

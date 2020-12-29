@@ -18,9 +18,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor()
 public class Zending extends AggregateRoot {
-	
+	// zendingId is hetzelfde als een trackId
 	private Integer zendingId;
-
+	
 	private String typeZending;
 
 	private Adres ontvanger;
@@ -39,33 +39,82 @@ public class Zending extends AggregateRoot {
 
 	private boolean spoed;
 	
+	
+	public Zending(Integer zendingId, String typeZending, Adres afzender, Adres ontvanger, Adres huidigeLocatie, boolean ophalen, boolean spoed) {
+		this.zendingId = zendingId;
+		this.typeZending = typeZending;
+		this.afzender = afzender;
+		this.ontvanger = ontvanger;
+		this.huidigeLocatie = huidigeLocatie;
+
+		
+		this.spoed = spoed;
+		this.status = ZendingStatus.AANGEMAAKT;
+		this.ophalenBijKlantThuis = ophalen;
+		if(ophalen) {
+			this.status = ZendingStatus.KLAAR_OM_OP_TE_HALEN;
+			this.huidigeLocatie = afzender;
+		}
+		this.aanmaakDatum = LocalDate.now();
+	}
+	
+
+	public Zending(Integer zendingId, String typeZending, Adres afzender, Adres ontvanger, boolean ophalen, boolean spoed) {
+		this.zendingId = zendingId;
+		this.typeZending = typeZending;
+		this.afzender = afzender;
+		this.ontvanger = ontvanger;
+		
+		this.spoed = spoed;
+		this.status = ZendingStatus.AANGEMAAKT;
+		this.ophalenBijKlantThuis = ophalen;
+		if(ophalen) {
+			this.status = ZendingStatus.KLAAR_OM_OP_TE_HALEN;
+			this.huidigeLocatie = afzender;
+		}
+		this.aanmaakDatum = LocalDate.now();
+	}
+	
+	
+	public Zending(Integer zendingId, String typeZending, Adres afzender, Adres ontvanger, Adres huidigeLocatie, boolean spoed) {
+		this.zendingId = zendingId;
+		this.typeZending = typeZending;
+		this.afzender = afzender;
+		this.ontvanger = ontvanger;
+		this.huidigeLocatie = huidigeLocatie;
+
+		
+		this.spoed = spoed;
+		this.status = ZendingStatus.AANGEMAAKT;
+		
+		this.ophalenBijKlantThuis = false;
+		
+		this.aanmaakDatum = LocalDate.now();
+	}
+	
 	public Zending(Zending _z) {
 		typeZending = _z.typeZending;
 		ontvanger = _z.ontvanger;
 		afzender = _z.afzender;
 		aanmaakDatum = LocalDate.now();
 		spoed=_z.spoed;
-
 		huidigeLocatie = null;
-		/*bevestigafleverenzending ontvangen = kijken of het is afgeleverd bij klant (=gedaan) OF afgeleverd bij sorteercentrum dan moet ik nieuwsorteeritemdomainevent sturen
-		 * Dan
-		 * beveestigophalenzending niet op reageren */
 		
 		ophalenBijKlantThuis = _z.ophalenBijKlantThuis;
 		status = ZendingStatus.AANGEMAAKT;
 		if(ophalenBijKlantThuis) {
 			status = ZendingStatus.KLAAR_OM_OP_TE_HALEN;
-			// adres van klant thuis(afzender) naar koerier
-			huidigeLocatie =afzender;
+			// adres van klant thuis (afzender) naar koerier
+			huidigeLocatie = afzender;
 		}
 		if(!ontvanger.isCorrectAdres()) {
 			throw new GeenGeldigAdresException();
 		}
 	}
-	
-	public Zending(String _typeZending, String _huidigeLocatieNaam, String _huidigePostcode, String _huidigeStraat, String _huidigePlaats, String _huidigLand, String _naamOntvanger, String _postcodeOntvanger, String _straatOntvanger, String _plaatsOntvanger, String _landOntvanger, String _naamAfzender, String _postcodeAfzender, String _straatAfzender, String _plaatsAfzender, String _landAfzender, boolean _ophalenBijKlant, boolean _spoed) {
+/*
+	public Zending(String _typeZending,  String _naamOntvanger, String _postcodeOntvanger, String _straatOntvanger, String _plaatsOntvanger, String _landOntvanger, String _naamAfzender, String _postcodeAfzender, String _straatAfzender, String _plaatsAfzender, String _landAfzender, boolean _ophalenBijKlant, boolean _spoed) {
 		typeZending=_typeZending;
-		huidigeLocatie = new Adres(_huidigeLocatieNaam, _huidigePostcode, _huidigeStraat, _huidigePlaats, _huidigLand);
+		//huidigeLocatie = new Adres(_huidigeLocatieNaam, _huidigePostcode, _huidigeStraat, _huidigePlaats, _huidigLand);
 		afzender = new Adres(_naamAfzender, _postcodeAfzender, _straatAfzender, _plaatsAfzender, _landAfzender);
 		ontvanger = new Adres(_naamOntvanger, _postcodeOntvanger, _straatOntvanger, _plaatsOntvanger, _landOntvanger);
 		
@@ -74,12 +123,12 @@ public class Zending extends AggregateRoot {
 		status=ZendingStatus.AANGEMAAKT;
 		spoed=_spoed;
 		if(ophalenBijKlantThuis) {
-			status=ZendingStatus.KLAAR_OM_OP_TE_HALEN;
-		} 
-		if(!huidigeLocatie.isCorrectAdres()) {
-			throw new GeenGeldigAdresException();
+			status = ZendingStatus.KLAAR_OM_OP_TE_HALEN;
+			// adres van klant thuis (afzender) naar koerier
+			huidigeLocatie = afzender;
 		}
-	}
+
+	}*/
 	
 	public Zending(Zending _zending, String _huidigeLocatieNaam, String _huidigePostcode, String _huidigeStraat, String _huidigePlaats, String _huidigLand) {
 		typeZending =_zending.typeZending;
@@ -101,11 +150,11 @@ public class Zending extends AggregateRoot {
 	}
 	
 	public void stuurKoerier() {
-		addDomainEvent(new KlaarVoorKoerierDomainEvent(zendingId, 
+		addDomainEvent(new StuurKoerierDomainEvent(zendingId, 
 				typeZending, afzender.getNaam(), afzender.getPostcode(), afzender.getStraat(), afzender.getPlaats(), afzender.getLand(), 
 				ontvanger.getNaam(), ontvanger.getPostcode(),ontvanger.getStraat(),ontvanger.getPlaats(), ontvanger.getLand(), 
 				huidigeLocatie.getNaam(), huidigeLocatie.getPostcode(), huidigeLocatie.getStraat(), huidigeLocatie.getPlaats(), huidigeLocatie.getLand(), spoed
-				));;
+				));
 		status=ZendingStatus.KLAAR_OM_OP_TE_HALEN;	
 	}
 	

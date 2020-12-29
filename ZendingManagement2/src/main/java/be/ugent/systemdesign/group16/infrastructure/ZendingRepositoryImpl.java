@@ -28,15 +28,12 @@ public class ZendingRepositoryImpl implements ZendingRepository {
 	}
 
 	@Override
-	public void save(Zending _z) {
-		ZendingDataModel dataModel = mapToZendingDataModel(_z);		
-		zendingDMRepo.save(dataModel);
-		_z.setZendingId(dataModel.getZendingId());
-		
+	public Integer save(Zending _z) {
+		Integer id = zendingDMRepo.save(mapToZendingDataModel(_z)).getZendingId();		
 		_z.getDomainEvents().forEach(domainEvent -> eventPublisher.publishEvent(domainEvent));
 	    _z.clearDomainEvents();
+	    return id;
 	}
-
 
 
 	private ZendingDataModel mapToZendingDataModel(Zending _z) {
@@ -87,30 +84,30 @@ public class ZendingRepositoryImpl implements ZendingRepository {
 	}
 
 	@Override
-	public List<Zending> findAllAfgehaald() {
-		return zendingDMRepo.findByStatus(ZendingStatus.AFGEHAALD_IN_AFHAALPUNT.name())
+	public List<Zending> findAllAfgeleverd() {
+		return zendingDMRepo.findByStatus(ZendingStatus.AFGELEVERD.name())
 				.stream()
 				.map(elt -> mapToZending(elt))
 				.collect(Collectors.toList());
 	}
 	@Override
-	public List<Zending> findAllAfTeHalen() {
-		return zendingDMRepo.findByStatus(ZendingStatus.AF_TE_HALEN_IN_AFHAALPUNT.name())
+	public List<Zending> findAllOpTeHalen() {
+		return zendingDMRepo.findByStatus(ZendingStatus.KLAAR_OM_OP_TE_HALEN.name())
 				.stream()
 				.map(elt -> mapToZending(elt))
 				.collect(Collectors.toList());
 	}
 
 	@Override
-	public List<Zending> findAllOpTeHalenBijKlant() {
-		return zendingDMRepo.findByStatus(ZendingStatus.OP_TE_HALEN_BIJ_KLANT.name())
+	public List<Zending> findAllOpgehaald() {
+		return zendingDMRepo.findByStatus(ZendingStatus.OPGEHAALD.name())
 				.stream()
 				.map(elt -> mapToZending(elt))
 				.collect(Collectors.toList());
 	}
 	@Override
-	public List<Zending> findAllVerwerkt() {
-		return zendingDMRepo.findByStatus(ZendingStatus.VERWERKT.name())
+	public List<Zending> findAllAangemaakt() {
+		return zendingDMRepo.findByStatus(ZendingStatus.AANGEMAAKT.name())
 				.stream()
 				.map(elt -> mapToZending(elt))
 				.collect(Collectors.toList());

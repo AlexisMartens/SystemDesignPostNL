@@ -98,13 +98,13 @@ public class BestelManagementApplication {
 		return (args) -> {
 			log.info("$Testing BestellingRepository.");
 			
-			log.info(">Find one Bestelling by id {} from database.", 0);
-			Bestelling bestellingById = repo.findOne(0);
-			logBestellingen(Collections.unmodifiableList(Arrays.asList(bestellingById)));
+			//log.info(">Find one Bestelling by id {} from database.", 0);
+			//Bestelling bestellingById = repo.findOne(0);
+			//logBestellingen(Collections.unmodifiableList(Arrays.asList(bestellingById)));
 			
 			log.info(">Save new Bestelling to database.");
 			Bestelling newbestelling = new Bestelling(null,"Pakket",new Adres("Jan Vander Broek", "7000", "kaastraat 150", "Gent", "Belgie"), new Adres("Hans Landeghem", "4564", "geefstraat 4", "Geverghem", "Belgie"), false, LocalDate.of(2020,5,4), BestellingStatus.AANGEMAAKT, true, false, null );
-			repo.save(newbestelling);;
+			repo.save(newbestelling);
 			Integer newBestellingId = newbestelling.getBestellingId();
 			
 			log.info(">Find all Bestellingen with status Aangemaakt.");

@@ -34,6 +34,6 @@ public class MessageInputGateway {
 	
 	@StreamListener(Channels.AFLEVEREN_ZENDING_EVENT)
 	public void consumeAfleverenZendingEvent(BevestigAfleverenZendingEvent event) {
-		eventHandler.handleBevestigAfleverenNieuweZending(event);
+		eventHandler.handleBevestigAfleverenZending(event);
 	}
 }
