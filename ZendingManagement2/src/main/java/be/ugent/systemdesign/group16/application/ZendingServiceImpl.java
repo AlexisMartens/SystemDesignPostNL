@@ -66,7 +66,6 @@ public class ZendingServiceImpl implements ZendingService {
 			
 		return maakNieuweZending(z);
 	}
-	
 	@Override
 	public Response maakNieuweZending(Integer _zendingId, String _typeZending, String _naamOntvanger, String _postcodeOntvanger,
 			String _straatOntvanger, String _plaatsOntvanger, String _landOntvanger, String _naamAfzender,
@@ -87,9 +86,8 @@ public class ZendingServiceImpl implements ZendingService {
 	
 
 	
-	/*bevestigafleverenzending ontvangen = kijken of het is afgeleverd bij klant (=gedaan) OF afgeleverd bij sorteercentrum dan moet ik nieuwsorteeritemdomainevent sturen
-	 * Dan
-	 * beveestigophalenzending niet op reageren */
+	/* bevestigafleverenzending ontvangen = kijken of het is afgeleverd bij klant -> status veranderen OF afgeleverd bij sorteercentrum dan moet ik nieuwsorteeritemdomainevent sturen
+	 */
 	@Override
 	public Response bevestigAfleverenZending(Integer _zendingId, Adres _huidigeLocatie) {	
 		Integer zendingId = null; 

@@ -1,5 +1,12 @@
 package be.ugent.systemdesign.group16;
 
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpRequest.BodyPublishers;
+import java.net.http.HttpResponse.BodyHandlers;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
@@ -13,10 +20,16 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import be.ugent.systemdesign.group16.application.Response;
 import be.ugent.systemdesign.group16.application.ZendingService;
+import be.ugent.systemdesign.group16.application.event.BevestigAfleverenZendingEvent;
+import be.ugent.systemdesign.group16.application.event.BevestigOphalenZendingEvent;
+import be.ugent.systemdesign.group16.application.event.EventHandler;
 import be.ugent.systemdesign.group16.domain.Adres;
 import be.ugent.systemdesign.group16.API.messaging.Channels;
 
@@ -35,6 +48,41 @@ public class ZendingManagementApplication {
 		SpringApplication.run(ZendingManagementApplication.class, args);
 	}
 
+	@Bean
+	CommandLineRunner populateDatabase(ZendingDataModelRepository repo) {
+		return (args) -> {
+			log.info("Populating database");
+			List<ZendingDataModel> zendingen = Arrays.asList(
+				new ZendingDataModel(0, "PAKKET",
+						"Spar Deinze","9005","Deinzestraat 5","Deinze","Belgie","Geert Klaasen","9100","klopperstraat 5","Sint-Niklaas","Belgie",
+						"Piet klaasen","9000","grieksetraat 20","Gent","Belgie",
+						true, LocalDate.now(),
+						"KLAAR_OM_OP_TE_HALEN",false),
+				new ZendingDataModel(1, "PAKKET",
+						"Delhaize Affligem","9800","Bierstraat 24","Affligem","Belgie","Lucia Glacia","7000","westvlstraat 9","Westegem","Belgie",
+						"Carolien Haas","8404","ieperstraat 20","Ieper","Belgie",
+						true, LocalDate.now(),
+						"KLAAR_OM_OP_TE_HALEN",false),
+				new ZendingDataModel(2, "PAKKET",
+						"Afhaalpunt Melle","9200","Melleweg 8","Melle","Belgie","Kaat Kaas","1000","komstraat 55","Sint-Niklaas","Belgie",
+						"Piet klaasen","9000","grieksetraat 20","Gent","Belgie",
+						true, LocalDate.now(),
+						"KLAAR_OM_OP_TE_HALEN",false),
+				new ZendingDataModel(3, "PAKKET",
+						"Afhaalpunt Bergen","4044","Bergheuvelstraat 712","Bergen","Belgie","Kaat Kaas","1000","komstraat 55","Sint-Niklaas","Belgie",
+						"Piet klaasen","9000","grieksetraat 20","Gent","Belgie",
+						false, LocalDate.now(),
+						"KLAAR_OM_OP_TE_HALEN",false)
+				);
+						
+			zendingen.forEach(zending -> repo.save(zending));
+			repo.flush();
+			
+			List<ZendingDataModel> foundZendingen = repo.findAll();
+			logZendingDataModels(foundZendingen);
+		};
+	}
+	
 	private static void logZendingDataModels(List<ZendingDataModel> zendingen) {
 		log.info("-Number of zendingen found: {}", zendingen.size());
 		for(ZendingDataModel zending : zendingen) {
@@ -130,14 +178,15 @@ public class ZendingManagementApplication {
 			log.info(">Save new Zending to database.");
 		
 			Zending newZending = new Zending(16,"PAKKET",
-			//		"Spar GSP", "8800", "Denenstraat 85", "Gent", "Belgie",
+			new Adres("Spar GSP", "8800", "Denenstraat 85", "Gent", "Belgie"),
 					new Adres("Karel Veke", "7000", "Koeienstraat 10", "Merelen", "Belgie"),
 					new Adres("Nick Heldens", "3330", "Paardenstraat 47", "Eergemstraat 80", "Belgie"),			
-					true, 
+					false, 
 					true);
 			
-			//Integer newZendingId = repo.save(newZending);
-			//VANAF HIER GAAT HET FOUT
+			Integer newZendingId = repo.save(newZending);
+			
+			
 			log.info(">Find all Zendingen with status OP_TE_HALEN.");
 			List<Zending> zendingen = repo.findAllOpTeHalen();
 			logZendingen(zendingen);
@@ -164,33 +213,31 @@ public class ZendingManagementApplication {
 	CommandLineRunner testZendingService(ZendingService service) {
 		return (args) -> {
 			log.info("$Testing ZendingService.");
-			
-			log.info(">Bevestig aankomst nieuwe zending");
-			//MERK OP als ophalenbijklantthuis = false crashed ie, want huidigelocatie wordt bij Zending.java constructor niet aangemaakt bij dat geval
-
 			Zending newZending = new Zending(15,"PAKKET",
 					new Adres("Karel Veke", "7000", "Koeienstraat 10", "Merelen", "Belgie"),
 					new Adres("Nick Heldens", "3330", "Paardenstraat 47", "Male", "Belgie"),			
 					true, 
 					true);
-			Response response = service.bevestigAankomstNieuweZending(0, new Adres("Spar GSP", "8800", "Denenstraat 85", "Gent", "Belgie"));
+			
+			log.info(">Maak nieuwe zending");
+			Response response = service.maakNieuweZending(newZending);
 			logResponse(response);
 			
+			log.info(">Bevestig afhalen zending");
+			response = service.bevestigAfhalen(newZending.getZendingId());
+			logResponse(response);
+			
+			log.info(">Bevestig aankomst nieuwe zending");
+		
+			response = service.bevestigAankomstNieuweZending(0, new Adres("Spar GSP", "8800", "Denenstraat 85", "Gent", "Belgie"));
+			logResponse(response);
+			
+			
 			log.info(">Bevestig aankomst nieuwe zending 2");
-			/*newZending = new Zending("PAKKET",
-					"Charlie Chaplin", "4000", "Ritsstraat 55", "Brussel", "Belgie",
-					"George Washington", "2999", "Wittehuisstraat 1", "Aarlen", "Belgie",			
-					true, 
-					true);*/
 			response = service.bevestigAankomstNieuweZending(1, new Adres("Spar Geluwe", "8100", "Duinenweg 2", "Geluwe", "Belgie"));
 			logResponse(response);
 			
 			log.info(">Bevestig aankomst nieuwe zending 3");
-			/*newZending = new Zending("PAKKET",
-					"Ward Kraken", "3000", "Vanbullenweg 70", "Leuven", "Belgie",
-					"Jacque Marles", "1000", "Boulangerieweg 4", "Bergen", "Belgie",			
-					true, 
-					true);*/
 			response = service.bevestigAankomstNieuweZending(2, new Adres("Proxy Delhaize Zulte", "7800", "Meensestraat 125", "Zulte", "Belgie"));
 			logResponse(response);
 			
@@ -202,5 +249,91 @@ public class ZendingManagementApplication {
 			response = service.bevestigAfhalen(1000);
 			logResponse(response);
 		};
+	}
+	
+	@Bean
+	CommandLineRunner testEventHandler(EventHandler handler) {
+		return (args) -> {
+			log.info("$Testing EventHandler.");
+			
+			BevestigOphalenZendingEvent event = maakBevestigOphalenZendingEvent(0);
+			log.info(">Handle BevestigOphalenZendingEvent.");
+			handler.handleBevestigOphalenZending(event);
+			
+			
+			BevestigAfleverenZendingEvent afleverenEvent = maakBevestigAfleverenZendingEvent(0,	"Piet klaasen","9000","grieksetraat 20","Gent","Belgie");
+			log.info(">Handle BevestigAfleverenZendingEvent.");
+			handler.handleBevestigAfleverenZending(afleverenEvent);
+		};
+	}
+	//	public ResponseEntity<String> aankomstNieuweZendingComplete(@PathVariable("id") Integer id, Adres afhaalpunt) {
+
+	@Bean
+	CommandLineRunner testZendingManagementController() {
+		return (args) -> {
+			try {
+				log.info("$Testing ZendingManagementController");
+				log.info(">Bevestig aankomst nieuwe zending via Rest Controller.");
+				HttpClient client = HttpClient.newHttpClient();
+				HttpRequest request = HttpRequest.newBuilder()
+					      .uri(URI.create("http://localhost:2226/api/zendingen/0"))
+					      .timeout(Duration.ofMinutes(1))
+					      .header("Content-Type", "application/json")
+					      .POST(BodyPublishers.ofString(getBody1()))
+					      .build();
+				HttpResponse<String> response =
+				          client.send(request, BodyHandlers.ofString());
+				log.info("- response: {}", response.body());
+				
+				log.info(">Bevestig afhalen zending (zending afronden) via Rest Controller.");
+				client = HttpClient.newHttpClient();
+				request = HttpRequest.newBuilder()
+						      .uri(URI.create("http://localhost:2226/api/zendingen/0/haalAf"))
+						      .timeout(Duration.ofMinutes(1))
+						      .header("Content-Type", "application/json")
+						      .POST(BodyPublishers.ofString(getBody2()))
+						      .build();
+				response = client.send(request, BodyHandlers.ofString());
+				log.info("- response: {}", response.body());
+			}
+			catch(RuntimeException e) {
+				log.info("Failed");
+			}
+		};
+	}
+	
+	private static BevestigOphalenZendingEvent maakBevestigOphalenZendingEvent(Integer id) {
+		BevestigOphalenZendingEvent e = new BevestigOphalenZendingEvent();
+		e.setOrderId(id);
+		return e;
+	}
+	
+	private static BevestigAfleverenZendingEvent maakBevestigAfleverenZendingEvent(Integer id, String naamOntvanger, String postcodeOntvanger, String straatOntvanger, String plaatsOntvanger, String landOntvanger) {
+		BevestigAfleverenZendingEvent e = new BevestigAfleverenZendingEvent();
+		e.setOrderId(id);
+		e.setNaamOntvanger(naamOntvanger);
+		e.setPostcodeOntvanger(postcodeOntvanger);
+		e.setStraatOntvanger(straatOntvanger);
+		e.setPlaatsOntvanger(plaatsOntvanger);
+		e.setLandOntvanger(landOntvanger);
+		return e;
+	}
+
+	private static String getBody1() {
+		return "{\n"
+				+ "    \"id\": \"0\",\n"
+				+ "    \"afhaalpunt\" : {\n"
+				+ "        \"naam\" : \"Spar Deinze\",\n"
+				+ "        \"postcode\" : \"9005\",\n"
+				+ "        \"straat\" : \"Deinzestraat 5\",\n"
+				+ "        \"plaats\" : \"Deinze\",\n"
+				+ "        \"land\" : \"Belgie\"\n"
+				+ "    },\n"
+				+ "}";
+	}
+	private static String getBody2() {
+		return "{\n"
+				+ "    \"id\": \"0\",\n"
+				+ "}";
 	}
 }

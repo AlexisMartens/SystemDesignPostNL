@@ -14,4 +14,9 @@ import lombok.Setter;
 @Setter
 public class BevestigAfleverenZendingEvent extends DomainEvent {
 	private Integer orderId;
+	private String naamOntvanger;
+	private String postcodeOntvanger;
+	private String straatOntvanger;
+	private String plaatsOntvanger;
+	private String landOntvanger;
 }

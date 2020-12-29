@@ -61,9 +61,8 @@ public class EventHandler {
 	public void handleBevestigAfleverenZending(BevestigAfleverenZendingEvent event) {
 		log.info("-Received BevestigAfleverenZendingEvent van KoerierService");
 		Response response = service.bevestigAfleverenZending(event.getOrderId(), 
-				null
-				/*new Adres(event.getNaamOntvanger(), event.getPostcodeOntvanger(), event.getStraatOntvanger(),
-						event.getPlaatsOntvanger(), event.getLandOntvanger())*/
+				new Adres(event.getNaamOntvanger(), event.getPostcodeOntvanger(), event.getStraatOntvanger(),
+						event.getPlaatsOntvanger(), event.getLandOntvanger())
 				);				
 		log.info("-response status[{}] message[{}]", response.getStatus(), response.getMessage());
 	}	
