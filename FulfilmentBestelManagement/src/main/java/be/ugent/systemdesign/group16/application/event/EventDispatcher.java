@@ -8,8 +8,8 @@ public interface EventDispatcher {
 
 	void publishNieuweTrackAndTraceEvent(NieuweTrackAndTraceDomainEvent event);
 	
-	//void publishExterneBestellingEvent(GetKlantenDataDomainEvent event);
+	void sendGetKlantenDataCommand(GetKlantenDataDomainEvent event);
 	
-	void publishPacketEvent(PacketDomainEvent event);
+	void publishPacketDomainEvent(PacketDomainEvent event);
 
 }

@@ -5,15 +5,19 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import be.ugent.systemdesign.group16.application.event.KoerierEventListener;
 import be.ugent.systemdesign.group16.domain.Adres;
 import be.ugent.systemdesign.group16.domain.Koerier;
 import be.ugent.systemdesign.group16.domain.KoerierRepository;
 import be.ugent.systemdesign.group16.domain.NietInRondeException;
 import be.ugent.systemdesign.group16.domain.Order;
 import be.ugent.systemdesign.group16.domain.OrderRepository;
+import lombok.extern.java.Log;
 
 @Service
 @Transactional
@@ -24,6 +28,8 @@ public class KoerierServiceImpl implements KoerierService {
 
 	@Autowired
 	OrderRepository orderRepo;
+
+	private static final Logger log = LoggerFactory.getLogger(KoerierEventListener.class);
 
 	@Override
 	public Response stuurKoerier(Integer orderId, String naamAfzender, String postcodeAfzender, String straatAfzender,
@@ -66,7 +72,9 @@ public class KoerierServiceImpl implements KoerierService {
 
 	@Override
 	public Response bevestigOphalen(Integer orderId) {
+		log.info("orderId is "+orderId);
 		Order order = orderRepo.findOne(orderId);
+		log.info("order is NU"+order.getOrderId());
 		order.bevestigOphalen();
 		orderRepo.save(order);
 		return new Response(ResponseStatus.SUCCESS, "");

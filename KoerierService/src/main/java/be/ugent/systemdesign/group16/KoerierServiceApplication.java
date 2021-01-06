@@ -155,13 +155,17 @@ public class KoerierServiceApplication {
 			log.info("$Testing KoerierService.");
 			Response response;
 			
-			log.info(">stuurKoerier (success).");
+			log.info(">stuurKoerier (success). ---start---");
 			response = service.stuurKoerier(50,"Jan Vander Broek", "9000", "kaastraat 150", "Gent", "Belgie", "Hans Landeghem", "9900", "geefstraat 4", "Geverghem", "Belgie", true, false, false );
 			logResponse(response);
+			log.info(">stuurKoerier (success). ---einde---");
+
 			
-			log.info(">stuurKoerier (fail).");
+			log.info(">stuurKoerier (fail). ---start---");
 			response = service.stuurKoerier(51,"Jan Vander Broek", "0000", "kaastraat 150", "Gent", "Belgie", "Hans Landeghem", "0000", "geefstraat 4", "Geverghem", "Belgie", true, false, false );
 			logResponse(response);
+			log.info(">stuurKoerier (fail). ---einde---");
+
 			
 			/*log.info(">bevestigAfleverenBuren (success).");
 			response = service.bevestigAfleverenBuren(1);
@@ -171,9 +175,11 @@ public class KoerierServiceApplication {
 			response = service.bevestigAfleveren(2);
 			logResponse(response);*/
 			
-			log.info(">bevestigOphalen (success).");
+			log.info(">bevestigOphalen (success). ---start---");
 			response = service.bevestigOphalen(1);
 			logResponse(response);
+			log.info(">bevestigOphalen (success). ---einde---");
+
 		};
 	}
 	
