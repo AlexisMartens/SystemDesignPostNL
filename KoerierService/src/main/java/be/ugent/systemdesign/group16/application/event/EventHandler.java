@@ -17,7 +17,8 @@ public class EventHandler {
 	@Autowired
 	KoerierService koerierService;
 
-	public void handleStuurKoerier(StuurKoerierEvent event) {
+	
+	public void handleStuurKoerier(StuurKoerierDomainEvent event) {
 		Response response = koerierService.stuurKoerier(event.getOrderId(), event.getAfzender().getNaam(),
 				event.getAfzender().getPostcode(), event.getAfzender().getStraat(), event.getAfzender().getPlaats(),
 				event.getAfzender().getLand(), event.getOntvanger().getNaam(), event.getOntvanger().getPostcode(),

@@ -5,7 +5,7 @@ import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.stereotype.Component;
 
 import be.ugent.systemdesign.group16.application.event.EventHandler;
-import be.ugent.systemdesign.group16.application.event.StuurKoerierEvent;
+import be.ugent.systemdesign.group16.application.event.StuurKoerierDomainEvent;
 
 @Component
 public class MessageInputGateway {
@@ -17,7 +17,7 @@ public class MessageInputGateway {
 	Channels channels;
 	
 	@StreamListener(Channels.STUUR_KOERIER)
-	public void consumeStuurKoerierEvent(StuurKoerierEvent event) {
+	public void consumeStuurKoerierEvent(StuurKoerierDomainEvent event) {
 		eventHandler.handleStuurKoerier(event);
 	}
 	

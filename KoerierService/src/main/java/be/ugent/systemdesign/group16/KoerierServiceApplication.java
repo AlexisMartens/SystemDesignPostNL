@@ -156,13 +156,11 @@ public class KoerierServiceApplication {
 			Response response;
 			
 			log.info(">stuurKoerier (success).");
-			Koerier koerierById = repo.findOne(1);
 			response = service.stuurKoerier(50,"Jan Vander Broek", "9000", "kaastraat 150", "Gent", "Belgie", "Hans Landeghem", "9900", "geefstraat 4", "Geverghem", "Belgie", true, false, false );
 			logResponse(response);
 			
 			log.info(">stuurKoerier (fail).");
-			Koerier koerierById2 = repo.findOne(1);
-			response = service.stuurKoerier(50,"Jan Vander Broek", "0000", "kaastraat 150", "Gent", "Belgie", "Hans Landeghem", "0000", "geefstraat 4", "Geverghem", "Belgie", true, false, false );
+			response = service.stuurKoerier(51,"Jan Vander Broek", "0000", "kaastraat 150", "Gent", "Belgie", "Hans Landeghem", "0000", "geefstraat 4", "Geverghem", "Belgie", true, false, false );
 			logResponse(response);
 			
 			/*log.info(">bevestigAfleverenBuren (success).");
@@ -171,11 +169,11 @@ public class KoerierServiceApplication {
 			
 			log.info(">bevestigAfleveren (success).");
 			response = service.bevestigAfleveren(2);
-			logResponse(response);
+			logResponse(response);*/
 			
 			log.info(">bevestigOphalen (success).");
-			response = service.bevestigOphalen(3);
-			logResponse(response);*/
+			response = service.bevestigOphalen(1);
+			logResponse(response);
 		};
 	}
 	

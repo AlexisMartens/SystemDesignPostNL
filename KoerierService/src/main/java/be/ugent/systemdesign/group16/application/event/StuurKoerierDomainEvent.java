@@ -11,7 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-public class StuurKoerierEvent {
+public class StuurKoerierDomainEvent extends DomainEvent{
 
 	private Integer orderId;
 		
@@ -25,7 +25,7 @@ public class StuurKoerierEvent {
 	
 	private OrderStatus orderStatus;
 
-	public StuurKoerierEvent(Integer orderId, Adres ontvanger, Adres afzender,
+	public StuurKoerierDomainEvent(Integer orderId, Adres ontvanger, Adres afzender,
 			boolean spoed, boolean extern, boolean ophalen) {
 		this.orderId = orderId;
 		this.ontvanger = ontvanger;
