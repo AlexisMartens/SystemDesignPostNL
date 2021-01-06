@@ -19,35 +19,18 @@ public class KoerierEventListener {
 	@Autowired
 	EventDispatcher eventDispatcher;
 	
-	@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-	public void handleBevestigAfleverenZendingSync(BevestigAfleverenZendingEvent event) {
-		log.info(">handle handleBevestigAfleverenZending Sync of event created at {}, with id {}", event.getCreatedTime(), event.getOrderId());
-	}
-	
 	@Async
 	@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
 	public void handleBevestigAfleverenZendingAsync(BevestigAfleverenZendingEvent event) {
 		log.info(">handle handleBevestigAfleverenZending Async of event created at {}, with id {}", event.getCreatedTime(), event.getOrderId());
 		eventDispatcher.publishBevestigAfleverenZendingEvent(event);
 	}
-	
-	
-	@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-	public void handleBevestigOphalenZendingSync(BevestigOphalenZendingEvent event) {
-		log.info(">handle handleBevestigOphalenZending Sync of event created at {}, with id {}", event.getCreatedTime(), event.getOrderId());
-	}
-	
+
 	@Async
 	@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
 	public void handleBevestigOphalenZendingAsync(BevestigOphalenZendingEvent event) {
 		log.info(">handle handleBevestigOphalenZending Async of event created at {}, with id {}", event.getCreatedTime(), event.getOrderId());
 		eventDispatcher.publishBevestigOphalenZendingEvent(event);
-	}
-	
-	
-	@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-	public void handleUpdateTrackAndTraceEventSync(UpdateTrackAndTraceEvent event) {
-		log.info(">handle handleUpdateTrackAndTraceEvent Sync of event created at {}, with id {}", event.getCreatedTime(), event.getOrderId());
 	}
 	
 	@Async

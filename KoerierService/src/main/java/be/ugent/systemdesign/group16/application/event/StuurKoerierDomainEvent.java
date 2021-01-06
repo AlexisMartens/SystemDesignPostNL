@@ -11,29 +11,31 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
+@Setter
+@AllArgsConstructor
 public class StuurKoerierDomainEvent extends DomainEvent{
-
-	private Integer orderId;
-		
-	private Adres ontvanger;
+	private Integer zendingId;
 	
-	private Adres afzender;
+	private String typeZending;
+		
+	private String naamAfzender;
+	private String postcodeAfzender;
+	private String straatAfzender;
+	private String plaatsAfzender;
+	private String landAfzender;
+	
+	private String naamOntvanger;
+	private String postcodeOntvanger;
+	private String straatOntvanger;
+	private String plaatsOntvanger;
+	private String landOntvanger;
+
+	private String naamHuidigeLocatie;
+	private String postcodeHuidigeLocatie;
+	private String straatHuidigeLocatie;
+	private String plaatsHuidigeLocatie;
+	private String landHuidigeLocatie;
 	
 	private boolean spoed;
-	
-	private boolean extern;
-	
-	private OrderStatus orderStatus;
 
-	public StuurKoerierDomainEvent(Integer orderId, Adres ontvanger, Adres afzender,
-			boolean spoed, boolean extern, boolean ophalen) {
-		this.orderId = orderId;
-		this.ontvanger = ontvanger;
-		this.afzender = afzender;
-		this.spoed = spoed;
-		this.extern = extern;
-		this.orderStatus = orderStatus;
-	}
-	
-	
 }

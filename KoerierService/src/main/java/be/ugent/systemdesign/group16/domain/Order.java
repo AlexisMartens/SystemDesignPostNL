@@ -22,7 +22,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Order extends AggregateRoot{
 	
-	//@Id
 	private Integer orderId;
 	
 	private Koerier koerier;
@@ -60,7 +59,6 @@ public class Order extends AggregateRoot{
 	}
 	
 	public void bevestigOphalen() {
-		log.info("orderId is "+orderId);
 		setOrderStatus(OrderStatus.OPGEHAALD);
 		addDomainEvent(new UpdateTrackAndTraceEvent(getOrderId(),getAfzender().getNaam(), getAfzender().getPostcode(), getAfzender().getStraat(), getAfzender().getPlaats(), getAfzender().getLand(), getOrderStatus().toString()));
 		addDomainEvent(new BevestigOphalenZendingEvent(getOrderId()));

@@ -1,9 +1,12 @@
 package be.ugent.systemdesign.group16.infrastructure;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Repository;
 
+import be.ugent.systemdesign.group16.application.event.KoerierEventListener;
 import be.ugent.systemdesign.group16.domain.Adres;
 import be.ugent.systemdesign.group16.domain.Koerier;
 import be.ugent.systemdesign.group16.domain.Order;

@@ -31,8 +31,6 @@ public class FulfilmentBestelManagementApplication {
 	
 	@Value("${spring.cloud.stream.bindings." + Channels.GET_KLANTEN_DATA_RESPONSE + ".destination}")
 	String responseDestination;
-
-	
 	
 	private static void logResponse(Response response) {
 		log.info("-response status[{}] message[{}]", response.status, response.message);
