@@ -15,8 +15,8 @@ public class CommandHandler {
 	@Autowired
 	FulfilmentKlantService fulfilmentKlantService;
 	
-	public GetKlantenDataResponse assignRoom(GetKlantenDataCommand command) {
-		String id = command.getKlantId();
+	public GetKlantenDataResponse getKlantenData(GetKlantenDataCommand command) {
+		Integer id = Integer.parseInt(command.getKlantId());
 		GetKlantenDataResponse response = fulfilmentKlantService.getKlantenData(id);
 		return response;
 	}

@@ -21,7 +21,7 @@ import lombok.Setter;
 public class FulfilmentKlantDataModel {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Getter
 	private Integer klantId;
 	

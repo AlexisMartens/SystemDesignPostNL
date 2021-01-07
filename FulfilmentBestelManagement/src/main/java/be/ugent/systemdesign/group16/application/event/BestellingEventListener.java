@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
-import be.ugent.systemdesign.group16.domain.GetKlantenDataDomainEvent;
 import be.ugent.systemdesign.group16.domain.NieuweTrackAndTraceDomainEvent;
 import be.ugent.systemdesign.group16.domain.PacketDomainEvent;
 

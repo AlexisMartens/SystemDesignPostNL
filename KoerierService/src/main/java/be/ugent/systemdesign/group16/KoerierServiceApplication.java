@@ -212,25 +212,36 @@ public class KoerierServiceApplication {
 		return (args) -> {
 			try {
 				log.info("$Testing KoerierRestController");
-				log.info(">Bevestig aankomst nieuwe zending via Rest Controller.");
+				log.info(">Bevestig ophalen order via Rest Controller.");
 				HttpClient client = HttpClient.newHttpClient();
 				HttpRequest request = HttpRequest.newBuilder()
-					      .uri(URI.create("http://localhost:2229/api/koerier/1/afgeleverd"))
+					      .uri(URI.create("http://localhost:2229/api/koerier/1/opgehaald"))
 					      .timeout(Duration.ofMinutes(1))
 					      .header("Content-Type", "application/json")
-					      .POST(BodyPublishers.ofString(getBody1()))
+					      .PUT(BodyPublishers.ofString(getBody1()))
 					      .build();
 				HttpResponse<String> response =
 				          client.send(request, BodyHandlers.ofString());
 				log.info("- response: {}", response.body());
 				
-				log.info(">Bevestig afhalen zending (zending afronden) via Rest Controller.");
+				log.info(">Bevestig afleveren order via Rest Controller.");
 				client = HttpClient.newHttpClient();
 				request = HttpRequest.newBuilder()
-						      .uri(URI.create("http://localhost:2226/api/zendingen/0/haalAf"))
+					      .uri(URI.create("http://localhost:2229/api/koerier/1/afgeleverd"))
 						      .timeout(Duration.ofMinutes(1))
 						      .header("Content-Type", "application/json")
-						      .POST(BodyPublishers.ofString(getBody2()))
+						      .PUT(BodyPublishers.ofString(getBody2()))
+						      .build();
+				response = client.send(request, BodyHandlers.ofString());
+				log.info("- response: {}", response.body());
+				
+				log.info(">Bevestig afleveren buren order via Rest Controller.");
+				client = HttpClient.newHttpClient();
+				request = HttpRequest.newBuilder()
+					      .uri(URI.create("http://localhost:2229/api/koerier/2/afgeleverdBuren"))
+						      .timeout(Duration.ofMinutes(1))
+						      .header("Content-Type", "application/json")
+						      .PUT(BodyPublishers.ofString(getBody3()))
 						      .build();
 				response = client.send(request, BodyHandlers.ofString());
 				log.info("- response: {}", response.body());
@@ -255,19 +266,17 @@ public class KoerierServiceApplication {
 	
 	private static String getBody1() {
 		return "{\n"
-				+ "    \"id\": \"0\",\n"
-				+ "    \"afhaalpunt\" : {\n"
-				+ "        \"naam\" : \"Spar Deinze\",\n"
-				+ "        \"postcode\" : \"9005\",\n"
-				+ "        \"straat\" : \"Deinzestraat 5\",\n"
-				+ "        \"plaats\" : \"Deinze\",\n"
-				+ "        \"land\" : \"Belgie\"\n"
-				+ "    },\n"
+				+ "    \"id\": \"1\",\n"
 				+ "}";
 	}
 	private static String getBody2() {
 		return "{\n"
-				+ "    \"id\": \"0\",\n"
+				+ "    \"id\": \"1\",\n"
+				+ "}";
+	}
+	private static String getBody3() {
+		return "{\n"
+				+ "    \"id\": \"2\",\n"
 				+ "}";
 	}
 

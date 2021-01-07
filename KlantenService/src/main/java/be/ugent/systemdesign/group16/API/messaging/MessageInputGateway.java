@@ -20,8 +20,8 @@ public class MessageInputGateway {
 	
 	@StreamListener(Channels.GET_KLANTEN_DATA_RESPONSE)
 	public void receiveGetKlantenDataResponse(GetKlantenDataCommand command) {
-		GetKlantenDataResponse response = commandHandler.assignRoom(command);
-		channels.GetKlantenDataResponse().send(
+		GetKlantenDataResponse response = commandHandler.getKlantenData(command);
+		channels.getKlantenDataResponse().send(
 				MessageBuilder
 				.withPayload(response)
 				.setHeader("spring.cloud.stream.sendto.destination", command.getResponseDestination())

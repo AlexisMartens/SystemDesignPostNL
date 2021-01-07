@@ -11,9 +11,9 @@ public interface Channels {
 	static final String GET_KLANTEN_DATA_RESPONSE = "get_klanten_data_response";
 	
 	@Output(GET_KLANTEN_DATA_RESPONSE)
-	MessageChannel GetKlantenDataResponse();
+	MessageChannel getKlantenDataResponse();
 
 	@Input(GET_KLANTEN_DATA_REQUEST)
-	SubscribableChannel GetKlantenDataRequest();
+	SubscribableChannel getKlantenDataRequest();
 	
 }
