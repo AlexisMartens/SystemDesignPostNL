@@ -6,11 +6,11 @@ import lombok.Getter;
 
 @Getter
 public class GetKlantenDataResponse extends Response{
-	private String klantenId;
+	private String klantId;
 	private String naam;
-	public GetKlantenDataResponse(String message, ResponseStatus status, String klantenId, String naam) {
+	public GetKlantenDataResponse(String message, ResponseStatus status, String klantId, String naam) {
 		super(message, status);
-		this.klantenId = klantenId;
+		this.klantId = klantId;
 		this.naam = naam;
 	}
 	
