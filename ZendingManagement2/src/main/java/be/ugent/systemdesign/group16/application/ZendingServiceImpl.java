@@ -24,8 +24,9 @@ public class ZendingServiceImpl implements ZendingService {
 			z.setStatus(ZendingStatus.AANGEMAAKT);
 			z.setHuidigeLocatie(adresAfhaalpunt);
 			repo.save(z);
-			zendingId = z.getZendingId();
-			z.stuurKoerier();
+			zendingId = z.getZendingId();			
+			z.stuurKoerier(SorteerLocatie.getSorteerLocatie());
+			
 			repo.save(z);
 		} catch (GeenGeldigAdresException e) {
 			return new Response(ResponseStatus.FAIL,"Verkeerd adres opgegeven");
@@ -38,7 +39,6 @@ public class ZendingServiceImpl implements ZendingService {
 		Integer zendingId = null; 
 		try {
 			Zending z = repo.findOne(_zendingId);
-			z.setStatus(ZendingStatus.AFGELEVERD);
 			repo.save(z);
 			zendingId = z.getZendingId();		
 		} catch (ZendingNotFoundException e) {

@@ -111,24 +111,6 @@ public class Zending extends AggregateRoot {
 			throw new GeenGeldigAdresException();
 		}
 	}
-/*
-	public Zending(String _typeZending,  String _naamOntvanger, String _postcodeOntvanger, String _straatOntvanger, String _plaatsOntvanger, String _landOntvanger, String _naamAfzender, String _postcodeAfzender, String _straatAfzender, String _plaatsAfzender, String _landAfzender, boolean _ophalenBijKlant, boolean _spoed) {
-		typeZending=_typeZending;
-		//huidigeLocatie = new Adres(_huidigeLocatieNaam, _huidigePostcode, _huidigeStraat, _huidigePlaats, _huidigLand);
-		afzender = new Adres(_naamAfzender, _postcodeAfzender, _straatAfzender, _plaatsAfzender, _landAfzender);
-		ontvanger = new Adres(_naamOntvanger, _postcodeOntvanger, _straatOntvanger, _plaatsOntvanger, _landOntvanger);
-		
-		ophalenBijKlantThuis = _ophalenBijKlant;
-		aanmaakDatum = LocalDate.now();
-		status=ZendingStatus.AANGEMAAKT;
-		spoed=_spoed;
-		if(ophalenBijKlantThuis) {
-			status = ZendingStatus.KLAAR_OM_OP_TE_HALEN;
-			// adres van klant thuis (afzender) naar koerier
-			huidigeLocatie = afzender;
-		}
-
-	}*/
 	
 	public Zending(Zending _zending, String _huidigeLocatieNaam, String _huidigePostcode, String _huidigeStraat, String _huidigePlaats, String _huidigLand) {
 		typeZending =_zending.typeZending;
@@ -149,12 +131,12 @@ public class Zending extends AggregateRoot {
 		}		
 	}
 	
-	public void stuurKoerier() {
-		addDomainEvent(new StuurKoerierDomainEvent(zendingId, 
-				typeZending, afzender.getNaam(), afzender.getPostcode(), afzender.getStraat(), afzender.getPlaats(), afzender.getLand(), 
-				ontvanger.getNaam(), ontvanger.getPostcode(),ontvanger.getStraat(),ontvanger.getPlaats(), ontvanger.getLand(), 
-				huidigeLocatie.getNaam(), huidigeLocatie.getPostcode(), huidigeLocatie.getStraat(), huidigeLocatie.getPlaats(), huidigeLocatie.getLand(), spoed
-				));
+	public void stuurKoerier(Adres locatie) {
+		addDomainEvent(new StuurKoerierDomainEvent(zendingId,
+				typeZending,
+				huidigeLocatie.getNaam(), huidigeLocatie.getPostcode(), huidigeLocatie.getStraat(), huidigeLocatie.getPlaats(), huidigeLocatie.getLand(), 
+				locatie.getNaam(), locatie.getPostcode(),locatie.getStraat(),locatie.getPlaats(), locatie.getLand(),
+				spoed));
 		status=ZendingStatus.KLAAR_OM_OP_TE_HALEN;	
 	}
 	

@@ -16,23 +16,17 @@ public class StuurKoerierDomainEvent extends DomainEvent {
 	
 	private String typeZending;
 		
-	private String naamAfzender;
-	private String postcodeAfzender;
-	private String straatAfzender;
-	private String plaatsAfzender;
-	private String landAfzender;
+	private String naamVan;
+	private String postcodeVan;
+	private String straatVan;
+	private String plaatsVan;
+	private String landVan;
 	
-	private String naamOntvanger;
-	private String postcodeOntvanger;
-	private String straatOntvanger;
-	private String plaatsOntvanger;
-	private String landOntvanger;
-
-	private String naamHuidigeLocatie;
-	private String postcodeHuidigeLocatie;
-	private String straatHuidigeLocatie;
-	private String plaatsHuidigeLocatie;
-	private String landHuidigeLocatie;
+	private String naamNaar;
+	private String postcodeNaar;
+	private String straatNaar;
+	private String plaatsNaar;
+	private String landNaar;
 	
 	private boolean spoed;
 
