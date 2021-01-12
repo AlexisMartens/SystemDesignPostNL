@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
-import be.ugent.systemdesign.group16.domain.GetKlantenDataDomainEvent;
 import be.ugent.systemdesign.group16.domain.NieuweTrackAndTraceDomainEvent;
 import be.ugent.systemdesign.group16.domain.PacketDomainEvent;
 
@@ -20,6 +19,12 @@ public class BestellingEventListener {
 	@Autowired
 	EventDispatcher eventDispatcher;
 	
+	
+	@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+	public void handleNieuweTrackAndTraceSync(NieuweTrackAndTraceDomainEvent event) {
+		log.info(">handle NieuweTrackAndTrace Sync of event created at {}, with new status {} and id {}", event.getCreatedTime(), event.getStatus(), event.getBestellingId());
+	}
+	
 	@Async
 	@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
 	public void handleNieuweTrackAndTraceAsync(NieuweTrackAndTraceDomainEvent event) {
@@ -27,20 +32,14 @@ public class BestellingEventListener {
 		eventDispatcher.publishNieuweTrackAndTraceEvent(event);
 	}
 	
-	/*@Async
 	@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-	public void handleGetKlantenDataAsync(GetKlantenDataDomainEvent event) {
-		log.info(">handle ExterneBestelling Async of event created at {}, with new status {} and id {}", event.getCreatedTime(), event.getStatus(), event.getBestellingId());
-		//eventDispatcher.publishNieuweTrackAndTraceEvent(event);
-		eventDispatcher.publishExterneBestellingEvent(event);
-	}*/
-	
+	public void handlePacketSync(PacketDomainEvent event) {
+		log.info(">handle Packet Sync of event created at {} and id {}", event.getCreatedTime(), event.getBestellingId());
+	}
 	@Async
 	@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
 	public void handlePacketAsync(PacketDomainEvent event) {
 		log.info(">handle Packet Async of event created at {} and id {}", event.getCreatedTime(), event.getBestellingId());
-		//eventDispatcher.publishNieuweTrackAndTraceEvent(event);
-		//eventDispatcher.publishExterneBestellingEvent(event);
-		eventDispatcher.publishPacketEvent(event);
+		eventDispatcher.publishPacketDomainEvent(event);
 	}
 }

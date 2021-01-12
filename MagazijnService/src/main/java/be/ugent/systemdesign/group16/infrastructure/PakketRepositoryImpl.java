@@ -28,13 +28,11 @@ public class PakketRepositoryImpl implements PakketRepository {
 	}
 
 	@Override
-	public void save(Pakket _p) {
-		PakketDataModel dataModel = mapToPakketDataModel(_p);		
-		pakketDMRepo.save(dataModel);
-		_p.setPakketId(dataModel.getPakketId());
-
+	public Integer save(Pakket _p) {
+		Integer id = pakketDMRepo.save(mapToPakketDataModel(_p)).getPakketId();
 	    _p.getDomainEvents().forEach(domainEvent -> eventPublisher.publishEvent(domainEvent));
 	    _p.clearDomainEvents();
+	    return id;
 	}
 
 	private PakketDataModel mapToPakketDataModel(Pakket _p) {
@@ -42,7 +40,7 @@ public class PakketRepositoryImpl implements PakketRepository {
 				_p.getAfzender().getNaam(), _p.getAfzender().getPostcode(), _p.getAfzender().getStraat(), _p.getAfzender().getPlaats(), _p.getAfzender().getLand(),
 				_p.getOntvanger().getNaam(), _p.getOntvanger().getPostcode(), _p.getOntvanger().getStraat(), _p.getOntvanger().getPlaats(), _p.getOntvanger().getLand(),
 				_p.getHuidigeLocatie().getNaam(),_p.getHuidigeLocatie().getPostcode(), _p.getHuidigeLocatie().getStraat(),_p.getHuidigeLocatie().getPlaats(), _p.getHuidigeLocatie().getLand()
-				,_p.getSoort(), _p.isSpoed(), _p.getStatus().name()
+				,_p.getSoort(), _p.isOphalenBijKlant(),_p.isSpoed(), _p.getStatus().name()
 				);
 	}
 	
@@ -79,6 +77,7 @@ public class PakketRepositoryImpl implements PakketRepository {
 						)
 				
 				.soort(_p.getSoort())
+				.ophalenBijKlant(_p.getOphalen())
 				.spoed(_p.getSpoed())
 				.status(PakketStatus.valueOf(_p.getStatus()))
 				.build();

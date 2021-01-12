@@ -7,7 +7,7 @@ import org.springframework.messaging.SubscribableChannel;
 public interface Channels {
 
 	static final String NIEUW_SORTEER_ITEM = "nieuw_sorteer_item";
-	static final String KLAAR_VOOR_KOERIER_EVENT = "klaar_voor_koerier_event";
+	static final String STUUR_KOERIER_EVENT = "stuur_koerier_event";
 	static final String ZENDING_EVENT = "zending_event";
 	static final String NIEUWE_ZENDING = "nieuwe_zending";
 	static final String OPHALEN_ZENDING_EVENT = "ophalen_zending_event";
@@ -16,8 +16,8 @@ public interface Channels {
 	@Output(NIEUW_SORTEER_ITEM)
 	MessageChannel NieuwSorteerItemEvent();
 	
-	@Output(KLAAR_VOOR_KOERIER_EVENT)
-	MessageChannel KlaarVoorKoerierEvent();
+	@Output(STUUR_KOERIER_EVENT)
+	MessageChannel StuurKoerierEvent();
 
 	@Input(ZENDING_EVENT)
 	SubscribableChannel ZendingEvent();

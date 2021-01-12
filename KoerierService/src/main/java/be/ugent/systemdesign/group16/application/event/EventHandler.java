@@ -16,13 +16,13 @@ public class EventHandler {
 
 	@Autowired
 	KoerierService koerierService;
-
-	public void handleStuurKoerier(StuurKoerierEvent event) {
-		Response response = koerierService.stuurKoerier(event.getOrderId(), event.getAfzender().getNaam(),
-				event.getAfzender().getPostcode(), event.getAfzender().getStraat(), event.getAfzender().getPlaats(),
-				event.getAfzender().getLand(), event.getOntvanger().getNaam(), event.getOntvanger().getPostcode(),
-				event.getOntvanger().getStraat(), event.getOntvanger().getPlaats(), event.getOntvanger().getLand(),
-				event.isSpoed(), event.isExtern(), event.getOrderStatus() == OrderStatus.OP_TE_HALEN ? true : false);
+	
+	public void handleStuurKoerier(StuurKoerierDomainEvent event) {
+		Response response = koerierService.stuurKoerier(event.getZendingId(), event.getTypeZending(), event.getNaamAfzender(),
+				event.getPostcodeAfzender(), event.getStraatAfzender(), event.getPlaatsAfzender(), event.getLandAfzender(), 
+				event.getNaamOntvanger(), event.getPostcodeOntvanger(), event.getStraatOntvanger(), event.getPlaatsOntvanger(),
+				event.getLandOntvanger(), event.getNaamHuidigeLocatie(), event.getPostcodeHuidigeLocatie(), event.getStraatHuidigeLocatie(),
+				event.getPlaatsHuidigeLocatie(), event.getLandHuidigeLocatie(),	event.isSpoed());
 
 		log.info("-response status[{}] message[{}]", response.getStatus(), response.getMessage());
 	}

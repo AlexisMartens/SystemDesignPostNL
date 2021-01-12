@@ -11,8 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class KlaarVoorKoerierDomainEvent extends DomainEvent {
-	//TODO: attributen => afspreken met vincent
+public class StuurKoerierDomainEvent extends DomainEvent {
 	private Integer zendingId;
 	
 	private String typeZending;
@@ -36,8 +35,5 @@ public class KlaarVoorKoerierDomainEvent extends DomainEvent {
 	private String landHuidigeLocatie;
 	
 	private boolean spoed;
-
-	//zie toon met vincent interactie
-	//ophaallocatie en aflever sturen
 
 }

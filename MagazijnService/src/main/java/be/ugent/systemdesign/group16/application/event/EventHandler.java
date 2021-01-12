@@ -1,5 +1,7 @@
 package be.ugent.systemdesign.group16.application.event;
 
+import java.time.LocalDate;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,27 +18,13 @@ public class EventHandler {
 	
 	@Autowired
 	MagazijnService service;
-	//TODO: nog aanpassen
-	public void handleNieuwPakket(NieuwPakketDomainEventMOETIKKOPIERENVANFULLFILMENTMGMT event) {
-		log.info("-Nieuw Pakket");
-		Response response; 
 
-	/*	// ophalen bij klant thuis
-		if(event.isOphalen()) {
-			response = service.bevestigAankomstNieuweZending(event.getBestellingId(), new Adres(event.getNaamOntvanger(), event.getPostcodeOntvanger(), event.getStraatOntvanger(),
-					event.getPlaatsOntvanger(), event.getLandOntvanger()));
-		}
-		// zending moet naar afhaalpunt
-		else {
-			response = service.bevestigAankomstNieuweZending(event.getBestellingId(), new Adres(event.getNaamOntvanger(), event.getPostcodeOntvanger(), event.getStraatOntvanger(),
-					event.getPlaatsOntvanger(), event.getLandOntvanger()));
-		}
-				/*(new Zending(event.getTypeBestelling(), null, null, null, null, null,
+	public void handleNieuwPakket(PacketDomainEvent event) {
+		log.info("-Received PacketDomainEvent van FulfilmentBestelManagement");
+		Response response = service.MaakPakket(event.getBestellingId(), 
 				event.getNaamOntvanger(), event.getPostcodeOntvanger(), event.getStraatOntvanger(), event.getPlaatsOntvanger(), event.getLandOntvanger(),
-				event.getNaamAfzender(), event.getPostcodeAfzend*er(), event.getStraatAfzender(), event.getPlaatsAfzender(), event.getLandAfzender(),
-				event.isOphalen(), event.isSpoed()))*/
-	//	log.info("-response status[{}] message[{}]", response.getStatus(), response.getMessage());*/
+				event.getNaamAfzender(), event.getPostcodeAfzender(), event.getStraatAfzender(), event.getPlaatsAfzender(), event.getLandAfzender(),
+				event.getTypeBestelling(),event.isOphalen(), event.isSpoed());
 	}
-	
-	
+
 }

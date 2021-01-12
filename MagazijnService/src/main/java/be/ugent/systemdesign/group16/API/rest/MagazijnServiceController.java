@@ -17,14 +17,14 @@ import be.ugent.systemdesign.group16.application.Response;
 import be.ugent.systemdesign.group16.application.ResponseStatus;
 
 @RestController
-@RequestMapping(path="api/MagazijnService")
+@RequestMapping(path="api/MagazijnService/")
 @CrossOrigin(origins="*")
 public class MagazijnServiceController {
 	
 	@Autowired
 	MagazijnService service;
 	
-	@PutMapping("{id}/bevestigInpakken")
+	@PostMapping("{id}/bevestigInpakken")
 	public ResponseEntity<String> BevestigInpakkenComplete(@PathVariable("id") Integer id ) {
 		Response response = service.BevestigInpakken(id);
 		return createResponseEntity(response.status, "Pakket is uit het magazijn gehaald, ingepakt en afgeleverd aan het sorteercentrum", HttpStatus.OK, response.message,HttpStatus.CONFLICT);

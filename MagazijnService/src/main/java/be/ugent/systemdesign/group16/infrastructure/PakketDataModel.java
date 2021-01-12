@@ -21,7 +21,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class PakketDataModel {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Getter
 	private Integer pakketId;	
 	
@@ -46,6 +45,8 @@ public class PakketDataModel {
 	private String soort;
 		
 	private Boolean spoed;	
+	
+	private Boolean ophalen;
 	
 	private String status;
 	

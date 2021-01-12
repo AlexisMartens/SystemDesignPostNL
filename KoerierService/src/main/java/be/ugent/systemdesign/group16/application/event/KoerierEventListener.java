@@ -25,7 +25,7 @@ public class KoerierEventListener {
 		log.info(">handle handleBevestigAfleverenZending Async of event created at {}, with id {}", event.getCreatedTime(), event.getOrderId());
 		eventDispatcher.publishBevestigAfleverenZendingEvent(event);
 	}
-	
+
 	@Async
 	@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
 	public void handleBevestigOphalenZendingAsync(BevestigOphalenZendingEvent event) {
@@ -36,7 +36,7 @@ public class KoerierEventListener {
 	@Async
 	@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
 	public void handleUpdateTrackAndTraceEventAsync(UpdateTrackAndTraceEvent event) {
-		log.info(">handle handleUpdateTrackAndTraceEventAsync of event created at {}, with id {}", event.getCreatedTime(), event.getOrderId());
+		log.info(">handle handleUpdateTrackAndTraceEvent Async of event created at {}, with id {}", event.getCreatedTime(), event.getOrderId());
 		eventDispatcher.publishUpdateTrackAndTraceEvent(event);
 	}
 }

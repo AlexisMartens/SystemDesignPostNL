@@ -1,5 +1,7 @@
 package be.ugent.systemdesign.group16.application.event;
 
+import java.time.LocalDate;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,19 +19,26 @@ public class EventHandler {
 	
 	@Autowired
 	ZendingService service;
-	
+
 	public void handleNieuweZending(ZendingDomainEvent event) {
-		log.info("-Received NieuwZendingDomainEvent van BestelManagement");
-		Response response = service.bevestigAankomstNieuweZending(event.getBestellingId(), new Adres(event.getNaamOntvanger(), event.getPostcodeOntvanger(), event.getStraatOntvanger(),
-					event.getPlaatsOntvanger(), event.getLandOntvanger()));
+		log.info("-Received NieuwZendingDomainEvent van BestelManagement");		
+		Response response = service.maakNieuweZending(event.getBestellingId(), event.getTypeBestelling(), 
+				event.getNaamOntvanger(), event.getPostcodeOntvanger(), event.getStraatOntvanger(),
+						event.getPlaatsOntvanger(), event.getLandOntvanger(),
+				event.getNaamAfzender(), event.getPostcodeAfzender(), event.getStraatAfzender(),
+						event.getPlaatsAfzender(), event.getLandAfzender(),event.isOphalen(), event.isSpoed());
 		log.info("-response status[{}] message[{}]", response.getStatus(), response.getMessage());
 	}
 	
-	//TODO: nog aanpassen service methode! Maar hoe???
 	public void handleNieuweZending(NieuweZendingDomainEvent event) {
 		log.info("-Received NieuwZendingDomainEvent van SorteerItemManagement");
-		Response response=null; 
-		//TODO: operaties uitvoeren...
+		Response response = service.maakNieuweZending(event.getZendingId(), event.getSoort(), 
+				event.getNaamOntvanger(), event.getPostcodeOntvanger(), event.getStraatOntvanger(),
+						event.getPlaatsOntvanger(), event.getLandOntvanger(),
+				event.getNaamAfzender(), event.getPostcodeAfzender(), event.getStraatAfzender(),
+						event.getPlaatsAfzender(), event.getLandAfzender(),
+				event.getNaamHuidigeLocatie(), event.getPostcodeHuidigeLocatie(), event.getStraatHuidigeLocatie(),
+						event.getPlaatsHuidigeLocatie(), event.getLandHuidigeLocatie(), event.isSpoed());
 		
 		log.info("-response status[{}] message[{}]", response.getStatus(), response.getMessage());
 	}
@@ -44,7 +53,8 @@ public class EventHandler {
 		log.info("-Received BevestigAfleverenZendingEvent van KoerierService");
 		Response response = service.bevestigAfleverenZending(event.getOrderId(), 
 				new Adres(event.getNaamOntvanger(), event.getPostcodeOntvanger(), event.getStraatOntvanger(),
-						event.getPlaatsOntvanger(), event.getLandOntvanger()));				
+						event.getPlaatsOntvanger(), event.getLandOntvanger())
+				);				
 		log.info("-response status[{}] message[{}]", response.getStatus(), response.getMessage());
 	}	
 }

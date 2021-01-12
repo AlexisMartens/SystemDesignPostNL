@@ -17,7 +17,7 @@ import be.ugent.systemdesign.group16.application.ResponseStatus;
 import be.ugent.systemdesign.group16.domain.FulfilmentKlant;
 
 @RestController
-@RequestMapping(path="api/fulfilmentbestel")
+@RequestMapping(path="api/fulfilmentklant")
 @CrossOrigin(origins="*")
 public class FulfilmentKlantManagementController {
 	
@@ -28,14 +28,14 @@ public class FulfilmentKlantManagementController {
 	public ResponseEntity<String> maakFulfilmentKlant(@RequestBody FulfilmentKlant k) {
 		Response response = fulFilmentBestelService.maakFulfilmentKlant(k);
 		//according to REST specification, we should return the path of the newly created resource after a POST
-		return createResponseEntity(response.status, "Nieuwe Fulfilmentklant gemaakt in FulfilmentBestelManagement", HttpStatus.OK, response.message,HttpStatus.CONFLICT);
+		return createResponseEntity(response.status, "Nieuwe Fulfilmentklant gemaakt in FulfilmentBestelManagement with "+response.message, HttpStatus.OK, response.message,HttpStatus.CONFLICT);
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> stopFulfilmentKlant(@PathVariable("id") Integer id) {
 		Response response = fulFilmentBestelService.stopFulfilmentKlant(id);
 		//according to REST specification, we should return the path of the newly created resource after a POST
-		return createResponseEntity(response.status, "Fulfilmentklant verwijderd uit FulfilmentBestelManagement", HttpStatus.OK, response.message,HttpStatus.CONFLICT);
+		return createResponseEntity(response.status, "Fulfilmentklant verwijderd uit FulfilmentBestelManagement with "+response.message, HttpStatus.OK, response.message,HttpStatus.CONFLICT);
 	}
 	
 	private ResponseEntity<String> createResponseEntity(ResponseStatus status, String happyMessage, HttpStatus happyStatus, String sadMessage, HttpStatus sadStatus){

@@ -13,15 +13,15 @@ public interface Channels {
 	public static final String PACKET_EVENT = "packet_event";
 	
 	@Output(NIEUWE_TRACKANDTRACE_EVENT)
-	MessageChannel NieuweTrackAndTraceEvent();
+	MessageChannel nieuweTrackAndTraceEvent();
 	
 	@Output(GET_KLANTEN_DATA_REQUEST)
-	MessageChannel GetKlantenDataRequest();
+	MessageChannel getKlantenDataRequest();
 	
 	@Output(PACKET_EVENT)
-	MessageChannel PacketEvent();
+	MessageChannel packetEvent();
 
 	@Input(GET_KLANTEN_DATA_RESPONSE)
-	SubscribableChannel GetKlantenDataResponse();
+	SubscribableChannel getKlantenDataResponse();
 	
 }

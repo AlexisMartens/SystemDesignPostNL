@@ -50,43 +50,44 @@ public class ZendingServiceImpl implements ZendingService {
 	}
 	
 	@Override
-	public Response maakNieuweZending(String _typeZending, String _naamOntvanger, String _postcodeOntvanger,
+	public Response maakNieuweZending(Integer _zendingId, String _typeZending, String _naamOntvanger, String _postcodeOntvanger,
+			String _straatOntvanger, String _plaatsOntvanger, String _landOntvanger, String _naamAfzender,
+			String _postcodeAfzender, String _straatAfzender, String _plaatsAfzender, String _landAfzender, 
+			String _naamHuidigeLocatie,String _postcodeHuidigeLocatie, String _straatHuidigeLocatie, String _plaatsHuidigeLocatie, String _landHuidigeLocatie,			
+			boolean _spoed) {
+		
+		Zending z = new Zending(
+				_zendingId,
+				_typeZending, 
+				new Adres(_naamAfzender, _postcodeAfzender, _straatAfzender, _plaatsAfzender, _landAfzender)
+				, new Adres(_naamOntvanger, _postcodeOntvanger, _straatOntvanger, _plaatsOntvanger, _landOntvanger),
+				new Adres(_naamHuidigeLocatie,_postcodeHuidigeLocatie, _straatHuidigeLocatie, _plaatsHuidigeLocatie, _landHuidigeLocatie),
+				_spoed);
+			
+		return maakNieuweZending(z);
+	}
+	@Override
+	public Response maakNieuweZending(Integer _zendingId, String _typeZending, String _naamOntvanger, String _postcodeOntvanger,
 			String _straatOntvanger, String _plaatsOntvanger, String _landOntvanger, String _naamAfzender,
 			String _postcodeAfzender, String _straatAfzender, String _plaatsAfzender, String _landAfzender,
-			boolean _ophalenBijKlant, boolean _spoed) {
-		Integer zendingId = null;
-		try {
-			Zending z = new Zending(_typeZending, _naamOntvanger, _postcodeOntvanger, _straatOntvanger, _plaatsOntvanger, _landOntvanger,
-					_naamAfzender, _postcodeAfzender, _straatAfzender, _plaatsAfzender, _landAfzender, _ophalenBijKlant, _spoed);
-			z.setStatus(ZendingStatus.AANGEMAAKT);
-			zendingId = repo.save(z);	
-			z.setZendingId(zendingId);
-			repo.save(z);
-		}
-		catch(RuntimeException e) {
-			return new Response(ResponseStatus.FAIL, "Kon zending niet aanmaken, message: "+e.getMessage());
-		}
-		return new Response(ResponseStatus.SUCCESS,"id: "+zendingId);
-	}
-
-	@Override
-	public Response maakNieuweZending(Zending _z) {
-		Integer zendingId = null;
-		try {
-			_z.setStatus(ZendingStatus.AANGEMAAKT);
-			zendingId = repo.save(_z);
-			_z.setZendingId(zendingId);
-			repo.save(_z);			
-		}
-		catch(RuntimeException e) {
-			return new Response(ResponseStatus.FAIL, "Kon zending niet aanmaken, message: "+e.getMessage());
-		}
-		return new Response(ResponseStatus.SUCCESS,"id: "+zendingId);
+			boolean _ophalen,
+			boolean _spoed) {
+		
+		Zending z = new Zending(
+				_zendingId,
+				_typeZending, 
+				new Adres(_naamAfzender, _postcodeAfzender, _straatAfzender, _plaatsAfzender, _landAfzender)
+				, new Adres(_naamOntvanger, _postcodeOntvanger, _straatOntvanger, _plaatsOntvanger, _landOntvanger),
+				_ophalen,
+				_spoed);
+			
+		return maakNieuweZending(z);
 	}
 	
-	/*bevestigafleverenzending ontvangen = kijken of het is afgeleverd bij klant (=gedaan) OF afgeleverd bij sorteercentrum dan moet ik nieuwsorteeritemdomainevent sturen
-	 * Dan
-	 * beveestigophalenzending niet op reageren */
+
+	
+	/* bevestigafleverenzending ontvangen = kijken of het is afgeleverd bij klant -> status veranderen OF afgeleverd bij sorteercentrum dan moet ik nieuwsorteeritemdomainevent sturen
+	 */
 	@Override
 	public Response bevestigAfleverenZending(Integer _zendingId, Adres _huidigeLocatie) {	
 		Integer zendingId = null; 
@@ -112,7 +113,6 @@ public class ZendingServiceImpl implements ZendingService {
 		return new Response(ResponseStatus.SUCCESS,"id: "+zendingId);
 	}
 
-	//enkel status aanpassen
 	@Override
 	public Response bevestigOphalenZending(Integer _zendingId) {
 		Integer zendingId = null; 
@@ -125,6 +125,21 @@ public class ZendingServiceImpl implements ZendingService {
 		} catch (GeenGeldigAdresException e) {
 			return new Response(ResponseStatus.FAIL,"Verkeerd adres opgegeven");
 		}		
+		return new Response(ResponseStatus.SUCCESS,"id: "+zendingId);
+	}
+
+	@Override
+	public Response maakNieuweZending(Zending _z) {
+		Integer zendingId = null;
+		try {
+			_z.setStatus(ZendingStatus.AANGEMAAKT);
+			zendingId = repo.save(_z);
+			_z.setZendingId(zendingId);
+			repo.save(_z);			
+		}
+		catch(RuntimeException e) {
+			return new Response(ResponseStatus.FAIL, "Kon zending niet aanmaken, message: "+e.getMessage());
+		}
 		return new Response(ResponseStatus.SUCCESS,"id: "+zendingId);
 	}
 }

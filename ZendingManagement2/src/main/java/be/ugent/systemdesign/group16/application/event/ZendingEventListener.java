@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
-import be.ugent.systemdesign.group16.domain.KlaarVoorKoerierDomainEvent;
 import be.ugent.systemdesign.group16.domain.NieuwSorteerItemDomainEvent;
+import be.ugent.systemdesign.group16.domain.StuurKoerierDomainEvent;
 
 
 @Service
@@ -22,9 +22,9 @@ public class ZendingEventListener {
 	
 	@Async
 	@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-	public void handleKlaarVoorKoerierAsync(KlaarVoorKoerierDomainEvent event) {
-		log.info(">handle KlaarVoorKoerier Async of event created at {}, with new status {} and id {}", event.getCreatedTime(), event.getZendingId());
-		eventDispatcher.publishKlaarVoorKoerierEvent(event);
+	public void handleStuurKoerierAsync(StuurKoerierDomainEvent event) {
+		log.info(">handle StuurKoerier Async of event created at {}, with new status {} and id {}", event.getCreatedTime(), event.getZendingId());
+		eventDispatcher.publishStuurKoerierEvent(event);
 	}
 	
 	@Async

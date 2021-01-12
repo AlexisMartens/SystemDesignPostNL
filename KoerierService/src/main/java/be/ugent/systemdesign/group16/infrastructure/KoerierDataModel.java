@@ -16,8 +16,8 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 public class KoerierDataModel {
+	
 	@Id
-	@Getter
 	private Integer koerierId;
 	
 	private String naam;
