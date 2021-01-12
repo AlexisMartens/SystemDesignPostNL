@@ -1,0 +1,33 @@
+version: "3.0"
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper
+    environment:
+      - ZOOKEEPER_CLIENT_PORT=2181
+  kafka:
+    image: confluentinc/cp-kafka
+    depends_on: 
+      - zookeeper
+    environment: 
+      - KAFKA_BROKER_ID=1
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+    logging:
+      driver: none
+  magazijn_db:
+    image: mysql:5.7
+    container_name: koerier_db
+    #command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=koerier_db
+  koerierservice:
+    build: ./KoerierService
+    container_name: koerier-service
+    links:
+      - kafka
+      - koerier_db
+    depends_on:
+      - kafka
+      - koerier_db

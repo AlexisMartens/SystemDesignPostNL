@@ -7,10 +7,12 @@ import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Duration;
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,14 +21,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 import be.ugent.systemdesign.group16.API.messaging.Channels;
-import be.ugent.systemdesign.group16.API.messaging.MessageInputGateway;
 import be.ugent.systemdesign.group16.application.FulfilmentKlantService;
 import be.ugent.systemdesign.group16.application.FulfilmentKlantServiceImpl;
 import be.ugent.systemdesign.group16.application.Response;
-import be.ugent.systemdesign.group16.application.command.GetKlantenDataCommand;
 import be.ugent.systemdesign.group16.application.command.GetKlantenDataResponse;
 import be.ugent.systemdesign.group16.domain.FulfilmentKlant;
 import be.ugent.systemdesign.group16.domain.FulfilmentKlantRepository;
+import be.ugent.systemdesign.group16.infrastructure.FulfilmentKlantDataModel;
+import be.ugent.systemdesign.group16.infrastructure.FulfilmentKlantDataModelRepository;
 
 @EnableAsync
 @EnableBinding(Channels.class)
@@ -46,6 +48,20 @@ public class KlantenServiceApplication {
 	private static void logGetKlantenDataResponse(GetKlantenDataResponse response) {
 		log.info("-response status[{}] message[{}] naam[{}] id[{}]", response.status, response.message,
 				response.getNaam(), response.getKlantId());
+	}
+	
+	@Bean
+	public CommandLineRunner populateDatabase(FulfilmentKlantDataModelRepository repo) {
+		return (args) -> {
+			log.info("Populating databse");
+			List<FulfilmentKlantDataModel> klanten = Arrays.asList(
+					new FulfilmentKlantDataModel(0, "Jan"),
+					new FulfilmentKlantDataModel(1, "Piet"),
+					new FulfilmentKlantDataModel(2, "Joris")
+					);
+			klanten.forEach(klant -> repo.save(klant));
+			repo.flush();
+		};
 	}
 
 	@Bean
@@ -97,7 +113,7 @@ public class KlantenServiceApplication {
 				log.info(">stopFulfilment klant bij KlantenService via Rest Controller.");
 				client = HttpClient.newHttpClient();
 				request = HttpRequest.newBuilder()
-						.uri(URI.create("http://localhost:2233/api/fulfilmentklant/0"))
+						.uri(URI.create("http://localhost:2233/api/fulfilmentklant/555"))
 						.timeout(Duration.ofMinutes(1))
 						.DELETE()
 						.build();
