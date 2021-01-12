@@ -21,7 +21,7 @@ services:
     #command: --default-authentication-plugin=mysql_native_password
     environment:
       - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=Magazijn
+      - MYSQL_DATABASE=Pakket
   zending_db:
     image: mysql:5.7
     container_name: zending_db
