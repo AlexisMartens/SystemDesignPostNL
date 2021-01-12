@@ -46,6 +46,37 @@ public class KoerierServiceApplication {
 		SpringApplication.run(KoerierServiceApplication.class, args);
 	}
 
+	@Bean
+	public CommandLineRunner populateDatabase(KoerierDataModelJpaRepository kRepo, OrderDataModelJpaRepository oRepo) {
+		return (args) -> {
+			log.info("Populating databse");
+			KoerierDataModel k1 = new KoerierDataModel(1, "Eric", "9900", 150);
+			KoerierDataModel k2 = new KoerierDataModel(2, "Chris", "9000", 80);
+			KoerierDataModel k3 = new KoerierDataModel(3, "Martin", "9000", 100);
+			KoerierDataModel k4 = new KoerierDataModel(4, "John", "4000", 90);
+			List<KoerierDataModel> koeriers = Arrays.asList(k1, k2, k3, k4);
+			koeriers.forEach(koerier -> kRepo.save(koerier));
+			kRepo.flush();
+			List<KoerierDataModel> foundKoeriers = kRepo.findAll();
+			logKoerierDataModels(foundKoeriers);
+
+			List<OrderDataModel> orders = Arrays.asList(
+					new OrderDataModel(1, k1, "Jan klaasen", "9000", "griekstraat 5", "Gent", "Belgie", "Geert Klaasen",
+							"9100", "klopperstraat 5", "Sint-Niklaas", "Belgie", LocalDate.now(), false, false,
+							"OP_TE_HALEN"),
+					new OrderDataModel(2, k2, "Jan klaasen", "9000", "griekstraat 5", "Gent", "Belgie", "Geert Klaasen",
+							"9100", "klopperstraat 5", "Sint-Niklaas", "Belgie", LocalDate.now(), false, false,
+							"OP_TE_HALEN"),
+					new OrderDataModel(3, k2, "Jan klaasen", "9000", "griekstraat 5", "Gent", "Belgie", "Geert Klaasen",
+							"9100", "klopperstraat 5", "Sint-Niklaas", "Belgie", LocalDate.now(), false, false,
+							"OP_TE_HALEN"));
+			orders.forEach(order -> oRepo.save(order));
+			oRepo.flush();
+			List<OrderDataModel> foundOrders = oRepo.findAll();
+			logOrderDataModels(foundOrders);
+		};
+	}
+
 	private static void logKoerierDataModels(List<KoerierDataModel> koeriers) {
 		log.info("-Number of koeriersDM found: {}", koeriers.size());
 		for (KoerierDataModel koerier : koeriers) {
@@ -206,7 +237,7 @@ public class KoerierServiceApplication {
 			handler.handleStuurKoerier(event);
 		};
 	}
-	
+
 	@Bean
 	CommandLineRunner testKoerierRestController() {
 		return (args) -> {
@@ -215,38 +246,28 @@ public class KoerierServiceApplication {
 				log.info(">Bevestig ophalen order via Rest Controller.");
 				HttpClient client = HttpClient.newHttpClient();
 				HttpRequest request = HttpRequest.newBuilder()
-					      .uri(URI.create("http://localhost:2229/api/koerier/1/opgehaald"))
-					      .timeout(Duration.ofMinutes(1))
-					      .header("Content-Type", "application/json")
-					      .PUT(BodyPublishers.ofString(getBody1()))
-					      .build();
-				HttpResponse<String> response =
-				          client.send(request, BodyHandlers.ofString());
+						.uri(URI.create("http://localhost:2229/api/koerier/1/opgehaald")).timeout(Duration.ofMinutes(1))
+						.header("Content-Type", "application/json").PUT(BodyPublishers.ofString(getBody1())).build();
+				HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
 				log.info("- response: {}", response.body());
-				
+
 				log.info(">Bevestig afleveren order via Rest Controller.");
 				client = HttpClient.newHttpClient();
-				request = HttpRequest.newBuilder()
-					      .uri(URI.create("http://localhost:2229/api/koerier/1/afgeleverd"))
-						      .timeout(Duration.ofMinutes(1))
-						      .header("Content-Type", "application/json")
-						      .PUT(BodyPublishers.ofString(getBody2()))
-						      .build();
+				request = HttpRequest.newBuilder().uri(URI.create("http://localhost:2229/api/koerier/1/afgeleverd"))
+						.timeout(Duration.ofMinutes(1)).header("Content-Type", "application/json")
+						.PUT(BodyPublishers.ofString(getBody2())).build();
 				response = client.send(request, BodyHandlers.ofString());
 				log.info("- response: {}", response.body());
-				
+
 				log.info(">Bevestig afleveren buren order via Rest Controller.");
 				client = HttpClient.newHttpClient();
 				request = HttpRequest.newBuilder()
-					      .uri(URI.create("http://localhost:2229/api/koerier/2/afgeleverdBuren"))
-						      .timeout(Duration.ofMinutes(1))
-						      .header("Content-Type", "application/json")
-						      .PUT(BodyPublishers.ofString(getBody3()))
-						      .build();
+						.uri(URI.create("http://localhost:2229/api/koerier/2/afgeleverdBuren"))
+						.timeout(Duration.ofMinutes(1)).header("Content-Type", "application/json")
+						.PUT(BodyPublishers.ofString(getBody3())).build();
 				response = client.send(request, BodyHandlers.ofString());
 				log.info("- response: {}", response.body());
-			}
-			catch(RuntimeException e) {
+			} catch (RuntimeException e) {
 				log.info("Failed");
 			}
 		};
@@ -260,24 +281,20 @@ public class KoerierServiceApplication {
 		StuurKoerierDomainEvent event = new StuurKoerierDomainEvent(zendingId, typeZending, naamAfzender,
 				postcodeAfzender, straatAfzender, plaatsAfzender, landAfzender, naamOntvanger, postcodeOntvanger,
 				straatOntvanger, plaatsOntvanger, landOntvanger, naamHuidigeLocatie, postcodeHuidigeLocatie,
-				straatHuidigeLocatie,plaatsHuidigeLocatie,landHuidigeLocatie,spoed);
+				straatHuidigeLocatie, plaatsHuidigeLocatie, landHuidigeLocatie, spoed);
 		return event;
 	}
-	
+
 	private static String getBody1() {
-		return "{\n"
-				+ "    \"id\": \"1\",\n"
-				+ "}";
+		return "{\n" + "    \"id\": \"1\",\n" + "}";
 	}
+
 	private static String getBody2() {
-		return "{\n"
-				+ "    \"id\": \"1\",\n"
-				+ "}";
+		return "{\n" + "    \"id\": \"1\",\n" + "}";
 	}
+
 	private static String getBody3() {
-		return "{\n"
-				+ "    \"id\": \"2\",\n"
-				+ "}";
+		return "{\n" + "    \"id\": \"2\",\n" + "}";
 	}
 
 }

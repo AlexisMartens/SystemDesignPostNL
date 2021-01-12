@@ -7,6 +7,9 @@ import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Duration;
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +27,8 @@ import be.ugent.systemdesign.group16.application.FulfilmentBestelService;
 import be.ugent.systemdesign.group16.application.Response;
 import be.ugent.systemdesign.group16.application.command.GetKlantenDataCommand;
 import be.ugent.systemdesign.group16.domain.Bestelling;
+import be.ugent.systemdesign.group16.infrastructure.BestellingDataModel;
+import be.ugent.systemdesign.group16.infrastructure.BestellingDataModelRepository;
 
 @EnableAsync
 @EnableBinding(Channels.class)
@@ -36,6 +41,20 @@ public class FulfilmentBestelManagementApplication {
 
 	private static final Logger log = LoggerFactory.getLogger(FulfilmentBestelManagementApplication.class);
 
+	@Bean
+	public CommandLineRunner populateDatabase(BestellingDataModelRepository repo) {
+		return (args) -> {
+			log.info("Populating databse");
+			List<BestellingDataModel> bestellingen = Arrays.asList(
+					new BestellingDataModel(0,"Pakket","Jan klaasen","9000","griekstraat 5","Gent","Belgie","Geert Klaasen","9100","klopperstraat 5","Sint-Niklaas","Belgie",true,LocalDate.now(),"AANGEMAAKT",false),
+					new BestellingDataModel(1,"Pakket","Piet klaasen","9000","grieksetraat 20","Gent","Belgie","Guy Klaasen","9100","klopperstraat 3","Sint-Niklaas","Belgie",false,LocalDate.now(),"AANGEMAAKT",false),
+					new BestellingDataModel(2,"Pakket","Piet klaasen","9000","grieksetraat 20","Gent","Belgie","Guy Klaasen","9100","klopperstraat 3","Sint-Niklaas","Belgie",false,LocalDate.now(),"AANGEMAAKT",false)
+					);
+			bestellingen.forEach(bestelling -> repo.save(bestelling));
+			repo.flush();
+		};
+	}
+	
 	@Value("${spring.cloud.stream.bindings." + Channels.GET_KLANTEN_DATA_RESPONSE + ".destination}")
 	String responseDestination;
 
@@ -74,7 +93,7 @@ public class FulfilmentBestelManagementApplication {
 				log.info(">Plaats Bestelling bij FulfilmentBestelManagement via Rest Controller.");
 				HttpClient client = HttpClient.newHttpClient();
 				HttpRequest request = HttpRequest.newBuilder()
-						.uri(URI.create("http://localhost:2228/api/fulfilmentbestel/"))
+						.uri(URI.create("http://localhost:2288/api/fulfilmentbestel/"))
 						.timeout(Duration.ofMinutes(1))
 						.header("Content-Type", "application/json")
 						.POST(BodyPublishers.ofString(getBody()))
