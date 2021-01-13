@@ -30,6 +30,8 @@ import be.ugent.systemdesign.group16.application.ZendingService;
 import be.ugent.systemdesign.group16.application.event.BevestigAfleverenZendingEvent;
 import be.ugent.systemdesign.group16.application.event.BevestigOphalenZendingEvent;
 import be.ugent.systemdesign.group16.application.event.EventHandler;
+import be.ugent.systemdesign.group16.application.event.NieuweZendingDomainEvent;
+import be.ugent.systemdesign.group16.application.event.ZendingDomainEvent;
 import be.ugent.systemdesign.group16.domain.Adres;
 import be.ugent.systemdesign.group16.API.messaging.Channels;
 
@@ -223,10 +225,6 @@ public class ZendingManagementApplication {
 			Response response = service.maakNieuweZending(newZending);
 			logResponse(response);
 			
-			log.info(">Bevestig afhalen zending");
-			response = service.bevestigAfhalen(newZending.getZendingId());
-			logResponse(response);
-			
 			log.info(">Bevestig aankomst nieuwe zending");
 		
 			response = service.bevestigAankomstNieuweZending(0, new Adres("Spar GSP", "8800", "Denenstraat 85", "Gent", "Belgie"));
@@ -241,13 +239,10 @@ public class ZendingManagementApplication {
 			response = service.bevestigAankomstNieuweZending(2, new Adres("Proxy Delhaize Zulte", "7800", "Meensestraat 125", "Zulte", "Belgie"));
 			logResponse(response);
 			
-			
-			log.info(">bevestigAfhalen zending voor id {}", newZending.getZendingId());
-			response = service.bevestigAfhalen(newZending.getZendingId());
-			
-			log.info(">bevestigAfhalen zending voor id {} (fail)",1000);
-			response = service.bevestigAfhalen(1000);
+			log.info(">Bevestig afleveren zending 3");
+			response = service.bevestigAfleverenZending(2,new Adres("Proxy Delhaize Zulte", "7800", "Meensestraat 125", "Zulte", "Belgie"));
 			logResponse(response);
+
 		};
 	}
 	
@@ -259,11 +254,10 @@ public class ZendingManagementApplication {
 			BevestigOphalenZendingEvent event = maakBevestigOphalenZendingEvent(0);
 			log.info(">Handle BevestigOphalenZendingEvent.");
 			handler.handleBevestigOphalenZending(event);
-			
-			
-			BevestigAfleverenZendingEvent afleverenEvent = maakBevestigAfleverenZendingEvent(0,	"Piet klaasen","9000","grieksetraat 20","Gent","Belgie");
+		/*	BevestigAfleverenZendingEvent event2 = maakBevestigAfleverenZendingEvent(0,new Adres("Spar GSP", "8800", "Denenstraat 85", "Gent", "Belgie"));
 			log.info(">Handle BevestigAfleverenZendingEvent.");
-			handler.handleBevestigAfleverenZending(afleverenEvent);
+			handler.handleBevestigAfleverenZending(event2);*/
+			
 		};
 	}
 
@@ -295,7 +289,19 @@ public class ZendingManagementApplication {
 		e.setOrderId(id);
 		return e;
 	}
+	
+	private static BevestigAfleverenZendingEvent maakBevestigAfleverenZendingEvent(Integer id, Adres locatie) {
+		BevestigAfleverenZendingEvent e = new BevestigAfleverenZendingEvent();
+		e.setOrderId(id);
+		e.setNaamOntvanger(locatie.getNaam());
+		e.setPostcodeOntvanger(locatie.getPostcode());
+		e.setStraatOntvanger(locatie.getStraat());
+		e.setPlaatsOntvanger(locatie.getPlaats());
+		e.setLandOntvanger(locatie.getLand());
 
+		return e;
+	}
+	
 	private static String getBody1() {
 		return "{\n"
 				+ "    \"id\": \"0\",\n"

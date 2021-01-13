@@ -35,24 +35,5 @@ public class ZendingDomainEvent extends DomainEvent {
 	private LocalDate aanmaakDatum;
 	
 	private boolean spoed;
-	
-	public ZendingDomainEvent(Integer bestellingId2, String typeBestelling2, String naam, String postcode,
-			String straat, String plaats, String land, String naam2, String postcode2, String straat2, String plaats2,
-			String land2, boolean ophalen2, boolean spoed2) {
-		this.bestellingId=bestellingId2;
-		this.typeBestelling=typeBestelling2;
-		this.naamOntvanger=naam;
-		this.postcodeOntvanger=postcode;
-		this.straatOntvanger=straat;
-		this.plaatsOntvanger=plaats;
-		this.landOntvanger=land;
-		this.naamAfzender=naam2;
-		this.postcodeAfzender=postcode2;
-		this.straatAfzender=straat2;
-		this.plaatsAfzender=plaats2;
-		this.landAfzender=land2;
-		this.ophalen=ophalen2;
-		this.spoed=spoed2;
-		
-	}
+
 }
