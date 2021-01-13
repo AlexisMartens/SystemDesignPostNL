@@ -33,21 +33,6 @@ public class ZendingServiceImpl implements ZendingService {
 		}		
 		return new Response(ResponseStatus.SUCCESS,"id: "+zendingId);
 	}
-
-	@Override
-	public Response bevestigAfhalen(Integer _zendingId) {
-		Integer zendingId = null; 
-		try {
-			Zending z = repo.findOne(_zendingId);
-			repo.save(z);
-			zendingId = z.getZendingId();		
-		} catch (ZendingNotFoundException e) {
-			return new Response(ResponseStatus.FAIL,"Geen zending gevonden voor id " + zendingId);
-		}catch (GeenGeldigAdresException e) {
-			return new Response(ResponseStatus.FAIL,"Verkeerd huidig adres opgegeven");
-		}
-		return new Response(ResponseStatus.SUCCESS,"id: "+zendingId);
-	}
 	
 	@Override
 	public Response maakNieuweZending(Integer _zendingId, String _typeZending, String _naamOntvanger, String _postcodeOntvanger,

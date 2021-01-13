@@ -283,17 +283,6 @@ public class ZendingManagementApplication {
 				HttpResponse<String> response =
 				          client.send(request, BodyHandlers.ofString());
 				log.info("- response: {}", response.body());
-				
-				log.info(">Bevestig afhalen zending (zending afronden) via Rest Controller.");
-				client = HttpClient.newHttpClient();
-				request = HttpRequest.newBuilder()
-						      .uri(URI.create("http://localhost:2226/api/zendingen/0/haalAf"))
-						      .timeout(Duration.ofMinutes(1))
-						      .header("Content-Type", "application/json")
-						      .POST(BodyPublishers.ofString(getBody2()))
-						      .build();
-				response = client.send(request, BodyHandlers.ofString());
-				log.info("- response: {}", response.body());
 			}
 			catch(RuntimeException e) {
 				log.info("Failed");
@@ -304,17 +293,6 @@ public class ZendingManagementApplication {
 	private static BevestigOphalenZendingEvent maakBevestigOphalenZendingEvent(Integer id) {
 		BevestigOphalenZendingEvent e = new BevestigOphalenZendingEvent();
 		e.setOrderId(id);
-		return e;
-	}
-	
-	private static BevestigAfleverenZendingEvent maakBevestigAfleverenZendingEvent(Integer id, String naamOntvanger, String postcodeOntvanger, String straatOntvanger, String plaatsOntvanger, String landOntvanger) {
-		BevestigAfleverenZendingEvent e = new BevestigAfleverenZendingEvent();
-		e.setOrderId(id);
-		e.setNaamOntvanger(naamOntvanger);
-		e.setPostcodeOntvanger(postcodeOntvanger);
-		e.setStraatOntvanger(straatOntvanger);
-		e.setPlaatsOntvanger(plaatsOntvanger);
-		e.setLandOntvanger(landOntvanger);
 		return e;
 	}
 
@@ -328,11 +306,6 @@ public class ZendingManagementApplication {
 				+ "        \"plaats\" : \"Deinze\",\n"
 				+ "        \"land\" : \"Belgie\"\n"
 				+ "    },\n"
-				+ "}";
-	}
-	private static String getBody2() {
-		return "{\n"
-				+ "    \"id\": \"0\",\n"
 				+ "}";
 	}
 }

@@ -5,7 +5,6 @@ import be.ugent.systemdesign.group16.domain.Zending;
 
 public interface ZendingService {
 	Response bevestigAankomstNieuweZending(Integer _zendingId, Adres adresAfhaalpunt);
-	Response bevestigAfhalen(Integer _zendingId);
 
 	Response maakNieuweZending(Integer _zendingId, String _typeZending, String _naamOntvanger, String _postcodeOntvanger,
 			String _straatOntvanger, String _plaatsOntvanger, String _landOntvanger, String _naamAfzender,
