@@ -22,7 +22,7 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=Sorteerder
-  vervoerservice:
+  sorteerservice:
     build: ./SorteerService
     container_name: SorteerService
     links:
