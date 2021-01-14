@@ -267,6 +267,8 @@ public class KoerierServiceApplication {
 				log.info("- response: {}", response.body());
 			} catch (RuntimeException e) {
 				log.info("Failed");
+			} catch (Exception e) {
+				log.info("Failed");
 			}
 		};
 	}
