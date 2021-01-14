@@ -65,7 +65,6 @@ public class Pakket extends AggregateRoot {
 		status=PakketStatus.AANGEMAAKT;	
 	}
 	
-	// TODO: conditie toevoegen??
 	public void MaakNieuwSorteerItem() {
 		//status = ..
 		addDomainEvent(new NieuwSorteerItemDomainEvent(pakketId, afzender.getNaam(), afzender.getPostcode(), afzender.getStraat(), afzender.getPlaats(), afzender.getPlaats(),
