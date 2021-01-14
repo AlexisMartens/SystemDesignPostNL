@@ -66,7 +66,6 @@ public class Pakket extends AggregateRoot {
 	}
 	
 	public void MaakNieuwSorteerItem() {
-		//status = ..
 		addDomainEvent(new NieuwSorteerItemDomainEvent(pakketId, afzender.getNaam(), afzender.getPostcode(), afzender.getStraat(), afzender.getPlaats(), afzender.getPlaats(),
 				ontvanger.getNaam(), ontvanger.getPostcode(), ontvanger.getStraat(), ontvanger.getPlaats(), ontvanger.getLand(), 
 				huidigeLocatie.getNaam(), huidigeLocatie.getPostcode(), huidigeLocatie.getStraat(), huidigeLocatie.getPlaats(), huidigeLocatie.getLand(),
