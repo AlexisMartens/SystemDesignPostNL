@@ -144,4 +144,743 @@ spec:
         image: alexismartens72/bestelmanagementsql:v2
         args: ["--spring.datasource.url=jdbc:mysql://bestel-db.default.svc.cluster.local:3306/Bestelling"]
 ---
-
+apiVersion: v1
+kind: Service
+metadata:
+  name: bestel-service
+spec:
+  selector:
+    app: bestel-service
+  ports:
+    - port: 2000
+---
+#ExterneLeveringService
+##DB
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: externelevering-db
+  labels:
+    app: externelevering-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: externelevering-db
+  template:
+    metadata:
+      labels:
+        app: externelevering-db
+    spec:
+      containers:
+      - name: externelevering-db
+        image: mysql:5.7
+        args: ["--default-authentication-plugin=mysql_native_password"]
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "root"
+        - name: MYSQL_DATABASE
+          value: "ExterneLevering"
+        ports:
+        - containerPort: 3306
+          name: mysql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: externelevering-db
+spec:
+  selector:
+    app: externelevering-db
+  ports:
+    - port: 3306
+---
+##Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: externelevering-service
+  labels:
+    app: externelevering-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: externelevering-service
+  template:
+    metadata:
+      labels:
+        app: externelevering-service
+    spec:
+      containers:
+      - name: externelevering-service
+        image: ###################################
+        args: ["--spring.datasource.url=jdbc:mysql://externelevering-db.default.svc.cluster.local:3306/ExterneLevering"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: externelevering-service
+spec:
+  selector:
+    app: externelevering-service
+  ports:
+    - port: 2001
+---
+#FullfilmentBestellingService
+##DB
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fullfilmentbestelling-db
+  labels:
+    app: fullfilmentbestelling-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fullfilmentbestelling-db
+  template:
+    metadata:
+      labels:
+        app: fullfilmentbestelling-db
+    spec:
+      containers:
+      - name: fullfilmentbestelling-db
+        image: mysql:5.7
+        args: ["--default-authentication-plugin=mysql_native_password"]
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "root"
+        - name: MYSQL_DATABASE
+          value: "Bestelling"
+        ports:
+        - containerPort: 3306
+          name: mysql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fullfilmentbestelling-db
+spec:
+  selector:
+    app: fullfilmentbestelling-db
+  ports:
+    - port: 3306
+---
+##Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fullfilmentbestelling-service
+  labels:
+    app: fullfilmentbestelling-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fullfilmentbestelling-service
+  template:
+    metadata:
+      labels:
+        app: fullfilmentbestelling-service
+    spec:
+      containers:
+      - name: fullfilmentbestelling-service
+        image: ##############################################
+        args: ["--spring.datasource.url=jdbc:mysql://fullfilmentbestelling-db.default.svc.cluster.local:3306/Bestelling"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fullfilmentbestelling-service
+spec:
+  selector:
+    app: fullfilmentbestelling-service
+  ports:
+    - port: 2002
+---
+#KlantenService
+##DB
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: klanten-db
+  labels:
+    app: klanten-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: klanten-db
+  template:
+    metadata:
+      labels:
+        app: klanten-db
+    spec:
+      containers:
+      - name: klanten-db
+        image: mysql:5.7
+        args: ["--default-authentication-plugin=mysql_native_password"]
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "root"
+        - name: MYSQL_DATABASE
+          value: "Klanten"
+        ports:
+        - containerPort: 3306
+          name: mysql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: klanten-db
+spec:
+  selector:
+    app: klanten-db
+  ports:
+    - port: 3306
+---
+##Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: klanten-service
+  labels:
+    app: klanten-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: klanten-service
+  template:
+    metadata:
+      labels:
+        app: klanten-service
+    spec:
+      containers:
+      - name: klanten-service
+        image: ##############################################
+        args: ["--spring.datasource.url=jdbc:mysql://klanten-db.default.svc.cluster.local:3306/Klanten"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: klanten-service
+spec:
+  selector:
+    app: klanten-service
+  ports:
+    - port: 2003
+---
+#KoerierService
+##DB
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: koerier-db
+  labels:
+    app: koerier-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: koerier-db
+  template:
+    metadata:
+      labels:
+        app: koerier-db
+    spec:
+      containers:
+      - name: koerier-db
+        image: mysql:5.7
+        args: ["--default-authentication-plugin=mysql_native_password"]
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "root"
+        - name: MYSQL_DATABASE
+          value: "Koerier"
+        ports:
+        - containerPort: 3306
+          name: mysql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: koerier-db
+spec:
+  selector:
+    app: koerier-db
+  ports:
+    - port: 3306
+---
+##Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: koerier-service
+  labels:
+    app: koerier-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: koerier-service
+  template:
+    metadata:
+      labels:
+        app: koerier-service
+    spec:
+      containers:
+      - name: koerier-service
+        image: ##############################################
+        args: ["--spring.datasource.url=jdbc:mysql://koerier-db.default.svc.cluster.local:3306/Koerier"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: koerier-service
+spec:
+  selector:
+    app: koerier-service
+  ports:
+    - port: 2004
+---
+#MagazijnService
+##DB
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: magazijn-db
+  labels:
+    app: magazijn-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: magazijn-db
+  template:
+    metadata:
+      labels:
+        app: magazijn-db
+    spec:
+      containers:
+      - name: magazijn-db
+        image: mysql:5.7
+        args: ["--default-authentication-plugin=mysql_native_password"]
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "root"
+        - name: MYSQL_DATABASE
+          value: "Magazijn"
+        ports:
+        - containerPort: 3306
+          name: mysql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: magazijn-db
+spec:
+  selector:
+    app: magazijn-db
+  ports:
+    - port: 3306
+---
+##Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: magazijn-service
+  labels:
+    app: magazijn-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: magazijn-service
+  template:
+    metadata:
+      labels:
+        app: magazijn-service
+    spec:
+      containers:
+      - name: magazijn-service
+        image: ##############################################
+        args: ["--spring.datasource.url=jdbc:mysql://magazijn-db.default.svc.cluster.local:3306/Magazijn"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: magazijn-service
+spec:
+  selector:
+    app: magazijn-service
+  ports:
+    - port: 2005
+---
+#SorteerItemService
+##DB
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sorteeritem-db
+  labels:
+    app: sorteeritem-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sorteeritem-db
+  template:
+    metadata:
+      labels:
+        app: sorteeritem-db
+    spec:
+      containers:
+      - name: sorteeritem-db
+        image: mysql:5.7
+        args: ["--default-authentication-plugin=mysql_native_password"]
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "root"
+        - name: MYSQL_DATABASE
+          value: "SorteerItem"
+        ports:
+        - containerPort: 3306
+          name: mysql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sorteeritem-db
+spec:
+  selector:
+    app: sorteeritem-db
+  ports:
+    - port: 3306
+---
+##Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sorteeritem-service
+  labels:
+    app: sorteeritem-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sorteeritem-service
+  template:
+    metadata:
+      labels:
+        app: sorteeritem-service
+    spec:
+      containers:
+      - name: sorteeritem-service
+        image: ##############################################
+        args: ["--spring.datasource.url=jdbc:mysql://sorteeritem-db.default.svc.cluster.local:3306/SorteerItem"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sorteeritem-service
+spec:
+  selector:
+    app: sorteeritem-service
+  ports:
+    - port: 2006
+---
+#SorteerService
+##DB
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sorteer-db
+  labels:
+    app: sorteer-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sorteer-db
+  template:
+    metadata:
+      labels:
+        app: sorteer-db
+    spec:
+      containers:
+      - name: sorteer-db
+        image: mysql:5.7
+        args: ["--default-authentication-plugin=mysql_native_password"]
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "root"
+        - name: MYSQL_DATABASE
+          value: "Sorteer"
+        ports:
+        - containerPort: 3306
+          name: mysql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sorteer-db
+spec:
+  selector:
+    app: sorteer-db
+  ports:
+    - port: 3306
+---
+##Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sorteer-service
+  labels:
+    app: sorteer-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sorteer-service
+  template:
+    metadata:
+      labels:
+        app: sorteer-service
+    spec:
+      containers:
+      - name: sorteer-service
+        image: ##############################################
+        args: ["--spring.datasource.url=jdbc:mysql://sorteer-db.default.svc.cluster.local:3306/Sorteer"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sorteer-service
+spec:
+  selector:
+    app: sorteer-service
+  ports:
+    - port: 2007
+---
+#TrackAndTraceService
+##DB
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trackandtrace-db
+  labels:
+    app: trackandtrace-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: trackandtrace-db
+  template:
+    metadata:
+      labels:
+        app: trackandtrace-db
+    spec:
+      containers:
+      - name: trackandtrace-db
+        image: mysql:5.7
+        args: ["--default-authentication-plugin=mysql_native_password"]
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "root"
+        - name: MYSQL_DATABASE
+          value: "TrackAndTrace"
+        ports:
+        - containerPort: 3306
+          name: mysql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: trackandtrace-db
+spec:
+  selector:
+    app: trackandtrace-db
+  ports:
+    - port: 3306
+---
+##Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trackandtrace-service
+  labels:
+    app: trackandtrace-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: trackandtrace-service
+  template:
+    metadata:
+      labels:
+        app: trackandtrace-service
+    spec:
+      containers:
+      - name: trackandtrace-service
+        image: ##############################################
+        args: ["--spring.datasource.url=jdbc:mysql://trackandtrace-db.default.svc.cluster.local:3306/TrackAndTrace"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: trackandtrace-service
+spec:
+  selector:
+    app: trackandtrace-service
+  ports:
+    - port: 2008
+---
+#VervoerService
+##DB
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vervoer-db
+  labels:
+    app: vervoer-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vervoer-db
+  template:
+    metadata:
+      labels:
+        app: vervoer-db
+    spec:
+      containers:
+      - name: vervoer-db
+        image: mysql:5.7
+        args: ["--default-authentication-plugin=mysql_native_password"]
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "root"
+        - name: MYSQL_DATABASE
+          value: "Vervoer"
+        ports:
+        - containerPort: 3306
+          name: mysql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vervoer-db
+spec:
+  selector:
+    app: vervoer-db
+  ports:
+    - port: 3306
+---
+##Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vervoer-service
+  labels:
+    app: vervoer-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vervoer-service
+  template:
+    metadata:
+      labels:
+        app: vervoer-service
+    spec:
+      containers:
+      - name: vervoer-service
+        image: ##############################################
+        args: ["--spring.datasource.url=jdbc:mysql://vervoer-db.default.svc.cluster.local:3306/Vervoer"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vervoer-service
+spec:
+  selector:
+    app: vervoer-service
+  ports:
+    - port: 2009
+---
+#ZendingService
+##DB
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zending-db
+  labels:
+    app: zending-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zending-db
+  template:
+    metadata:
+      labels:
+        app: zending-db
+    spec:
+      containers:
+      - name: zending-db
+        image: mysql:5.7
+        args: ["--default-authentication-plugin=mysql_native_password"]
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "root"
+        - name: MYSQL_DATABASE
+          value: "Zending"
+        ports:
+        - containerPort: 3306
+          name: mysql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zending-db
+spec:
+  selector:
+    app: zending-db
+  ports:
+    - port: 3306
+---
+##Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zending-service
+  labels:
+    app: zending-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zending-service
+  template:
+    metadata:
+      labels:
+        app: zending-service
+    spec:
+      containers:
+      - name: zending-service
+        image: ##############################################
+        args: ["--spring.datasource.url=jdbc:mysql://zending-db.default.svc.cluster.local:3306/Zending"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zending-service
+spec:
+  selector:
+    app: zending-service
+  ports:
+    - port: 2010
+---
