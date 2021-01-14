@@ -18,12 +18,11 @@ public class EventHandler {
 	KoerierService koerierService;
 	
 	public void handleStuurKoerier(StuurKoerierDomainEvent event) {
-		Response response = koerierService.stuurKoerier(event.getZendingId(), event.getTypeZending(), event.getNaamAfzender(),
-				event.getPostcodeAfzender(), event.getStraatAfzender(), event.getPlaatsAfzender(), event.getLandAfzender(), 
-				event.getNaamOntvanger(), event.getPostcodeOntvanger(), event.getStraatOntvanger(), event.getPlaatsOntvanger(),
-				event.getLandOntvanger(), event.getNaamHuidigeLocatie(), event.getPostcodeHuidigeLocatie(), event.getStraatHuidigeLocatie(),
-				event.getPlaatsHuidigeLocatie(), event.getLandHuidigeLocatie(),	event.isSpoed());
-
+		Response response = koerierService.stuurKoerier(event.getZendingId(), event.getTypeZending(), event.getNaamVan(),
+				event.getPostcodeVan(), event.getStraatVan(), event.getPlaatsVan(), event.getLandVan(), 
+				event.getNaamNaar(), event.getPostcodeNaar(), event.getStraatNaar(), event.getPlaatsNaar(),
+				event.getLandNaar());
+		
 		log.info("-response status[{}] message[{}]", response.getStatus(), response.getMessage());
 	}
 

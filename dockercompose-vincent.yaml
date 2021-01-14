@@ -15,19 +15,52 @@ services:
       - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
     logging:
       driver: none
-  magazijn_db:
+  koerierdb:
     image: mysql:5.7
-    container_name: koerier_db
+    container_name: koerierdb
     #command: --default-authentication-plugin=mysql_native_password
     environment:
       - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=koerier_db
+      - MYSQL_DATABASE=Koerier
+  klantendb:
+    image: mysql:5.7
+    container_name: klantendb
+    #command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=Klant
+  fulfilmentbesteldb:
+    image: mysql:5.7
+    container_name: fulfilmentbesteldb
+    #command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=Bestelling
   koerierservice:
     build: ./KoerierService
-    container_name: koerier-service
+    container_name: koerierservice
     links:
       - kafka
-      - koerier_db
+      - koerierdb
     depends_on:
       - kafka
-      - koerier_db
+      - koerierdb
+  klantenservice:
+    build: ./KlantenService
+    container_name: klantenservice
+    links:
+      - kafka
+      - klantendb
+    depends_on:
+      - kafka
+      - klantendb
+  fulfilmentbestelmanagement:
+    build: ./FulfilmentBestelManagement
+    container_name: fulfilmentbestelmanagement
+    links:
+      - kafka
+      - fulfilmentbesteldb
+    depends_on:
+      - kafka
+      - fulfilmentbesteldb
+

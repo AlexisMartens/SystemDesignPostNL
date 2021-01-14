@@ -13,29 +13,25 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class StuurKoerierDomainEvent extends DomainEvent{
-	private Integer zendingId;
-	
-	private String typeZending;
-		
-	private String naamAfzender;
-	private String postcodeAfzender;
-	private String straatAfzender;
-	private String plaatsAfzender;
-	private String landAfzender;
-	
-	private String naamOntvanger;
-	private String postcodeOntvanger;
-	private String straatOntvanger;
-	private String plaatsOntvanger;
-	private String landOntvanger;
+public class StuurKoerierDomainEvent extends DomainEvent {
+    private Integer zendingId;
+    
+    private String typeZending;
+        
+    private String naamVan;
+    private String postcodeVan;
+    private String straatVan;
+    private String plaatsVan;
+    private String landVan;
+    
+    private String naamNaar;
+    private String postcodeNaar;
+    private String straatNaar;
+    private String plaatsNaar;
+    private String landNaar;
+    
+    private boolean spoed;
 
-	private String naamHuidigeLocatie;
-	private String postcodeHuidigeLocatie;
-	private String straatHuidigeLocatie;
-	private String plaatsHuidigeLocatie;
-	private String landHuidigeLocatie;
-	
-	private boolean spoed;
+ 
 
 }

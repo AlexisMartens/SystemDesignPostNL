@@ -28,18 +28,16 @@ public class KoerierServiceImpl implements KoerierService {
 
 
 	@Override
-	public Response stuurKoerier(Integer zendingId, String typeZending, String naamAfzender, String postcodeAfzender,
-			String straatAfzender, String plaatsAfzender, String landAfzender, String naamOntvanger,
-			String postcodeOntvanger, String straatOntvanger, String plaatsOntvanger, String landOntvanger,
-			String naamHuidigeLocatie, String postcodeHuidigeLocatie, String straatHuidigeLocatie,
-			String plaatsHuidigeLocatie, String landHuidigeLocatie, boolean spoed) {
-		String postcodeRonde = postcodeAfzender;
+	public Response stuurKoerier(Integer zendingId, String typeZending, String naamVan, String postcodeVan,
+			String straatVan, String plaatsVan, String landVan, String naamNaar,
+			String postcodeNaar, String straatNaar, String plaatsNaar, String landNaar) {
+		String postcodeRonde = postcodeVan;
 		List<Koerier> koeriers = koerierRepo.findByPostcodeRonde(postcodeRonde);
 		for (Koerier k : koeriers) {
 			if (orderRepo.countByKoerier(k) < k.getVervoercapaciteit()) {
 				try {
-					Order o = new Order(zendingId, k, new Adres(naamAfzender,postcodeAfzender,straatAfzender,plaatsAfzender,landAfzender),
-							new Adres(naamAfzender,postcodeOntvanger,straatOntvanger,plaatsOntvanger,landOntvanger), LocalDate.now(), spoed, false);
+					Order o = new Order(zendingId, k, new Adres(naamVan,postcodeVan,straatVan,plaatsVan,landVan),
+							new Adres(naamNaar,postcodeNaar,straatNaar,plaatsNaar,landNaar), LocalDate.now(), false, false);
 					o.wijsKoerierToeAanOrder(k);
 					orderRepo.save(o);
 					return new Response(ResponseStatus.SUCCESS, "id: " + o.getOrderId());

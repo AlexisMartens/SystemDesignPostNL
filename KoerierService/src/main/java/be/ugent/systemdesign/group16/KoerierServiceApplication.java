@@ -201,14 +201,12 @@ public class KoerierServiceApplication {
 
 			log.info(">stuurKoerier (success).");
 			response = service.stuurKoerier(50, "PAKKET", "Jan Vander Broek", "9000", "Hoektraat 150", "Gent", "Belgie",
-					"Hans Landeghem", "9900", "Grootstraat 4", "Geverghem", "Belgie", "Piet klaasen", "9000",
-					"grieksetraat 20", "Gent", "Belgie", false);
+					"Hans Landeghem", "9900", "Grootstraat 4", "Geverghem", "Belgie");
 			logResponse(response);
 
 			log.info(">stuurKoerier (fail).");
 			response = service.stuurKoerier(51, "PAKKET", "Jan Vander Broek", "0000", "Hoektraat 150", "Gent", "Belgie",
-					"Hans Landeghem", "9900", "Grootstraat 4", "Geverghem", "Belgie", "Piet klaasen", "9000",
-					"grieksetraat 20", "Gent", "Belgie", false);
+					"Hans Landeghem", "9900", "Grootstraat 4", "Geverghem", "Belgie");
 			logResponse(response);
 
 			log.info(">bevestigAfleverenBuren (success).");
@@ -232,7 +230,7 @@ public class KoerierServiceApplication {
 
 			StuurKoerierDomainEvent event = maakStuurKoerierDomainEvent(52, "PAKKET", "Jan Vander Broek", "9000",
 					"Hoektraat 150", "Gent", "Belgie", "Hans Landeghem", "9900", "Grootstraat 4", "Geverghem", "Belgie",
-					"Piet klaasen", "9000", "grieksetraat 20", "Gent", "Belgie", false);
+					false);
 			log.info(">Handle StuurKoerierDomainEvent.");
 			handler.handleStuurKoerier(event);
 		};
@@ -276,12 +274,10 @@ public class KoerierServiceApplication {
 	private static StuurKoerierDomainEvent maakStuurKoerierDomainEvent(Integer zendingId, String typeZending,
 			String naamAfzender, String postcodeAfzender, String straatAfzender, String plaatsAfzender,
 			String landAfzender, String naamOntvanger, String postcodeOntvanger, String straatOntvanger,
-			String plaatsOntvanger, String landOntvanger, String naamHuidigeLocatie, String postcodeHuidigeLocatie,
-			String straatHuidigeLocatie, String plaatsHuidigeLocatie, String landHuidigeLocatie, boolean spoed) {
+			String plaatsOntvanger, String landOntvanger, boolean spoed) {
 		StuurKoerierDomainEvent event = new StuurKoerierDomainEvent(zendingId, typeZending, naamAfzender,
 				postcodeAfzender, straatAfzender, plaatsAfzender, landAfzender, naamOntvanger, postcodeOntvanger,
-				straatOntvanger, plaatsOntvanger, landOntvanger, naamHuidigeLocatie, postcodeHuidigeLocatie,
-				straatHuidigeLocatie, plaatsHuidigeLocatie, landHuidigeLocatie, spoed);
+				straatOntvanger, plaatsOntvanger, landOntvanger, spoed);
 		return event;
 	}
 
