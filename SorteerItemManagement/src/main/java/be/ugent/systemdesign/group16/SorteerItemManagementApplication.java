@@ -238,6 +238,9 @@ public class SorteerItemManagementApplication {
 			catch(RuntimeException e) {
 				log.info("Failed");
 			}
+			catch(Exception e){
+				log.info("Failed");
+			}
 		};
 	}
 	
