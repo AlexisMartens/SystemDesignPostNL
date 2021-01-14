@@ -16,15 +16,14 @@ public class ApiGatewayApplication {
 	@Bean
 	public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
 		return builder.routes()
-				// Inpatient service routes
 				.route(r -> r.host("*").and().path("api/bestel/**").uri("http://localhost:2222"))
-				// Reception service routes
 				.route(r -> r.host("*").and().path("api/fulfilmentbestel/**").uri("http://localhost:2223"))
-				.route(r -> r.host("*").and().path("api/fulfilmentklant/**").uri("http://localhost:2223"))
-				.route(r -> r.host("*").and().path("api/koerier/**").uri("http://localhost:2223"))
-				.route(r -> r.host("*").and().path("api/MagazijnService/**").uri("http://localhost:2223"))
-				.route(r -> r.host("*").and().path("api/sorteeritem/**").uri("http://localhost:2223"))
-				.route(r -> r.host("*").and().path("api/koerier/**").uri("http://localhost:2223"))
+				.route(r -> r.host("*").and().path("api/fulfilmentklant/**").uri("http://localhost:2224"))
+				.route(r -> r.host("*").and().path("api/koerier/**").uri("http://localhost:2225"))
+				.route(r -> r.host("*").and().path("api/MagazijnService/**").uri("http://localhost:2226"))
+				.route(r -> r.host("*").and().path("api/sorteeritem/**").uri("http://localhost:2227"))
+				.route(r -> r.host("*").and().path("api/TrackAndTrace/**").uri("http://localhost:2228"))
+				.route(r -> r.host("*").and().path("api/zendingen/**").uri("http://localhost:2229"))
 
 				// it is also possible to give independent paths:
 				// .route(r ->

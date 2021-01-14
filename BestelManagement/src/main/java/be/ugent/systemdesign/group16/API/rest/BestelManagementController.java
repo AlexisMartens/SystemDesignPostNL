@@ -33,7 +33,7 @@ public class BestelManagementController {
 		return createResponseEntity(response.status, "Intake registered", HttpStatus.OK, response.message,HttpStatus.CONFLICT);
 	}
 	
-	@PostMapping("retour/{id}")
+	@PostMapping("/retour/{id}")
 	public ResponseEntity<String> maakRetour(@PathVariable("id") Integer id) {
 		Response response = bestelService.plaatsRetour(id);
 		//according to REST specification, we should return the path of the newly created resource after a POST

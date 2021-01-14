@@ -227,26 +227,26 @@ spec:
   ports:
     - port: 2001
 ---
-#FullfilmentBestellingService
+#FulfilmentBestellingService
 ##DB
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fullfilmentbestelling-db
+  name: fulfilmentbestelling-db
   labels:
-    app: fullfilmentbestelling-db
+    app: fulfilmentbestelling-db
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: fullfilmentbestelling-db
+      app: fulfilmentbestelling-db
   template:
     metadata:
       labels:
-        app: fullfilmentbestelling-db
+        app: fulfilmentbestelling-db
     spec:
       containers:
-      - name: fullfilmentbestelling-db
+      - name: fulfilmentbestelling-db
         image: mysql:5.7
         args: ["--default-authentication-plugin=mysql_native_password"]
         env:
@@ -261,10 +261,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: fullfilmentbestelling-db
+  name: fulfilmentbestelling-db
 spec:
   selector:
-    app: fullfilmentbestelling-db
+    app: fulfilmentbestelling-db
   ports:
     - port: 3306
 ---
@@ -272,31 +272,31 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fullfilmentbestelling-service
+  name: fulfilmentbestelling-service
   labels:
-    app: fullfilmentbestelling-service
+    app: fulfilmentbestelling-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: fullfilmentbestelling-service
+      app: fulfilmentbestelling-service
   template:
     metadata:
       labels:
-        app: fullfilmentbestelling-service
+        app: fulfilmentbestelling-service
     spec:
       containers:
-      - name: fullfilmentbestelling-service
-        image: ##############################################
-        args: ["--spring.datasource.url=jdbc:mysql://fullfilmentbestelling-db.default.svc.cluster.local:3306/Bestelling"]
+      - name: fulfilmentbestelling-service
+        image: vvdsompe/fulfilmentbestelmanagement:latest
+        args: ["--spring.datasource.url=jdbc:mysql://fulfilmentbestelling-db.default.svc.cluster.local:3306/Bestelling"]
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: fullfilmentbestelling-service
+  name: fulfilmentbestelling-service
 spec:
   selector:
-    app: fullfilmentbestelling-service
+    app: fulfilmentbestelling-service
   ports:
     - port: 2002
 ---
@@ -360,7 +360,7 @@ spec:
     spec:
       containers:
       - name: klanten-service
-        image: ##############################################
+        image: vvdsompe/klantenservice:latest
         args: ["--spring.datasource.url=jdbc:mysql://klanten-db.default.svc.cluster.local:3306/Klanten"]
 ---
 apiVersion: v1
@@ -433,7 +433,7 @@ spec:
     spec:
       containers:
       - name: koerier-service
-        image: ##############################################
+        image: vvdsompe/koerierservice:latest
         args: ["--spring.datasource.url=jdbc:mysql://koerier-db.default.svc.cluster.local:3306/Koerier"]
 ---
 apiVersion: v1
