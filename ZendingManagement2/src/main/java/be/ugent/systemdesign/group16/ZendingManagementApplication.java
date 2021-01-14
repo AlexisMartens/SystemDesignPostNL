@@ -280,10 +280,25 @@ public class ZendingManagementApplication {
 			}
 			catch(RuntimeException e) {
 				log.info("Failed");
+			}catch(Exception e) {
+				log.info("Failed");
 			}
 		};
 	}
 	
+	private static String getBody1() {
+		return "{\n"
+				+ "    \"id\": \"0\",\n"
+				+ "    \"afhaalpunt\" : {\n"
+				+ "        \"naam\" : \"Spar Deinze\",\n"
+				+ "        \"postcode\" : \"9005\",\n"
+				+ "        \"straat\" : \"Deinzestraat 5\",\n"
+				+ "        \"plaats\" : \"Deinze\",\n"
+				+ "        \"land\" : \"Belgie\"\n"
+				+ "    },\n"
+				+ "}";
+	}
+
 	private static BevestigOphalenZendingEvent maakBevestigOphalenZendingEvent(Integer id) {
 		BevestigOphalenZendingEvent e = new BevestigOphalenZendingEvent();
 		e.setOrderId(id);
@@ -300,18 +315,5 @@ public class ZendingManagementApplication {
 		e.setLandOntvanger(locatie.getLand());
 
 		return e;
-	}
-	
-	private static String getBody1() {
-		return "{\n"
-				+ "    \"id\": \"0\",\n"
-				+ "    \"afhaalpunt\" : {\n"
-				+ "        \"naam\" : \"Spar Deinze\",\n"
-				+ "        \"postcode\" : \"9005\",\n"
-				+ "        \"straat\" : \"Deinzestraat 5\",\n"
-				+ "        \"plaats\" : \"Deinze\",\n"
-				+ "        \"land\" : \"Belgie\"\n"
-				+ "    },\n"
-				+ "}";
 	}
 }

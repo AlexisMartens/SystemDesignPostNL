@@ -308,6 +308,8 @@ public class MagazijnServiceApplication {
 			}
 			catch(RuntimeException e) {
 				log.info("Failed");
+			}catch(Exception e) {
+				log.info("Failed");
 			}
 		};
 	}
