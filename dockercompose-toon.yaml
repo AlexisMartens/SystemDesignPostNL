@@ -18,21 +18,21 @@ services:
   sorteerder_db:
     image: mysql:5.7
     container_name: sorteerder_db
-    #command: --default-authentication-plugin=mysql_native_password
+    command: --default-authentication-plugin=mysql_native_password
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=Sorteerder
   vervoerder_db:
     image: mysql:5.7
     container_name: vervoerder_db
-    #command: --default-authentication-plugin=mysql_native_password
+    command: --default-authentication-plugin=mysql_native_password
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=Vervoerder
   sorteeritem_db:
     image: mysql:5.7
     container_name: sorteeritem_db
-    #command: --default-authentication-plugin=mysql_native_password
+    command: --default-authentication-plugin=mysql_native_password
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=SorteerItem
