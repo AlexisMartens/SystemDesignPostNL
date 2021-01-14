@@ -32,6 +32,48 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=ExterneLevering
+  fullfilmentbestelling_db:
+    image: mysql:5.7
+    container_name: fullfilmentbestelling_db
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=Bestelling
+  klanten_db:
+    image: mysql:5.7
+    container_name: klanten_db
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=Klanten
+  koerier_db:
+    image: mysql:5.7
+    container_name: koerier_db
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=Koerier
+  magazijn_db:
+    image: mysql:5.7
+    container_name: magazijn_db
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=Magazijn
+  sorteeritem_db:
+    image: mysql:5.7
+    container_name: sorteeritem_db
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=SorteerItem
+  sorteer_db:
+    image: mysql:5.7
+    container_name: sorteer_db
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=Sorteer
   trackandtrace_db:
     image: mysql:5.7
     container_name: trackandtrace_db
@@ -39,35 +81,122 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=TrackAndTrace
+  vervoer_db:
+    image: mysql:5.7
+    container_name: vervoer_db
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=Vervoer
+  zending_db:
+    image: mysql:5.7
+    container_name: zending_db
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=Zending
 
 #Services
-  bestelling:
+  bestel-service:
     build: ./BestelManagement
-    container_name: bestelling
+    container_name: bestel-service
     links:
       - bestelling_db
-      - kafka
+      - kafka-container
     depends_on:
       - bestelling_db
-      - kafka
-  trackandtrace:
-    build: ./TrackAndTraceService
-    container_name: trackandtrace
-    links:
-      - trackandtrace_db
-      - kafka
-    depends_on:
-      - trackandtrace_db
-      - kafka
-  externelevering:
+      - kafka-container
+  externelevering-service:
     build: ./ExterneLeveringService
-    container_name: externelevering
+    container_name: externelevering-service
     links:
       - externelevering_db
-      - kafka
+      - kafka-container
     depends_on:
       - externelevering_db
-      - kafka
+      - kafka-container
+  fullfilmentbestelling-service:
+    build: ./FullfilmentBestelManagement
+    container_name: fullfilmentbestelling-service
+    links:
+      - fullfilmentbestelling_db
+      - kafka-container
+    depends_on:
+      - fullfilmentbestelling_db
+      - kafka-container
+  klanten-service:
+    build: ./KlantenService
+    container_name: klanten-service
+    links:
+      - klanten_db
+      - kafka-container
+    depends_on:
+      - klanten_db
+      - kafka-container
+  koerier-service:
+    build: ./KoerierService
+    container_name: koerier-service
+    links:
+      - koerier_db
+      - kafka-container
+    depends_on:
+      - koerier_db
+      - kafka-container
+  magazijn-service:
+    build: ./MagazijnService
+    container_name: magazijn-service
+    links:
+      - magazijn_db
+      - kafka-container
+    depends_on:
+      - magazijn_db
+      - kafka-container
+  sorteeritem-service:
+    build: ./SorteerItemManagement
+    container_name: sorteeritem-service
+    links:
+      - sorteeritem_db
+      - kafka-container
+    depends_on:
+      - sorteeritem_db
+      - kafka-container
+  sorteer-service:
+    build: ./SorteerService
+    container_name: sorteer-service
+    links:
+      - sorteer_db
+      - kafka-container
+    depends_on:
+      - sorteer_db
+      - kafka-container
+  trackandtrace-service:
+    build: ./TrackAndTraceService
+    container_name: trackandtrace-service
+    links:
+      - trackandtrace_db
+      - kafka-container
+    depends_on:
+      - trackandtrace_db
+      - kafka-container
+  vervoer-service:
+    build: ./VervoerService
+    container_name: vervoer-service
+    links:
+      - vervoer_db
+      - kafka-container
+    depends_on:
+      - vervoer_db
+      - kafka-container
+  zending-service:
+    build: ./ZendingManagement2
+    container_name: zending-service
+    links:
+      - zending_db
+      - kafka-container
+    depends_on:
+      - zending_db
+      - kafka-container
+  
 
 
 
