@@ -579,7 +579,7 @@ spec:
     spec:
       containers:
       - name: sorteeritem-service
-        image: ##############################################
+        image: toonmertens/sorteeritemmanagement
         args: ["--spring.datasource.url=jdbc:mysql://sorteeritem-db.default.svc.cluster.local:3306/SorteerItem"]
 ---
 apiVersion: v1
@@ -652,7 +652,7 @@ spec:
     spec:
       containers:
       - name: sorteer-service
-        image: ##############################################
+        image: toonmertens/sorteerservice
         args: ["--spring.datasource.url=jdbc:mysql://sorteer-db.default.svc.cluster.local:3306/Sorteer"]
 ---
 apiVersion: v1
@@ -798,7 +798,7 @@ spec:
     spec:
       containers:
       - name: vervoer-service
-        image: ##############################################
+        image: toonmertens/vervoerservice
         args: ["--spring.datasource.url=jdbc:mysql://vervoer-db.default.svc.cluster.local:3306/Vervoer"]
 ---
 apiVersion: v1
