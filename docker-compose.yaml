@@ -1,0 +1,73 @@
+version: "3"
+services:
+
+#kafka and zookeeeper
+  zookeeper-container:
+    image: confluentinc/cp-zookeeper
+    environment:
+      - ZOOKEEPER_CLIENT_PORT=2181
+  kafka-container:
+    image: confluentinc/cp-kafka
+    depends_on: 
+      - zookeeper-container
+    environment: 
+      - KAFKA_BROKER_ID=1
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper-container:2181
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka-container:9092
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+
+#Databases
+
+  bestelling_db:
+    image: mysql:5.7
+    container_name: bestelling_db
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=Bestelling
+  externelevering_db:
+    image: mysql:5.7
+    container_name: externelevering_db
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=ExterneLevering
+  trackandtrace_db:
+    image: mysql:5.7
+    container_name: trackandtrace_db
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=TrackAndTrace
+
+#Services
+  bestelling:
+    build: ./BestelManagement
+    container_name: bestelling
+    links:
+      - bestelling_db
+      - kafka
+    depends_on:
+      - bestelling_db
+      - kafka
+  trackandtrace:
+    build: ./TrackAndTraceService
+    container_name: trackandtrace
+    links:
+      - trackandtrace_db
+      - kafka
+    depends_on:
+      - trackandtrace_db
+      - kafka
+  externelevering:
+    build: ./ExterneLeveringService
+    container_name: externelevering
+    links:
+      - externelevering_db
+      - kafka
+    depends_on:
+      - externelevering_db
+      - kafka
+
+
+
