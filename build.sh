@@ -16,7 +16,7 @@ declare -a services=(
 
 for s in "${services[@]}"
 do
-	cd s
+	cd $s
 	chmod +x mvnw
 	./mvnw package -DskipTests
 	cd ..

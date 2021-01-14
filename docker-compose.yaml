@@ -116,7 +116,7 @@ services:
       - externelevering_db
       - kafka-container
   fullfilmentbestelling-service:
-    build: ./FullfilmentBestelManagement
+    build: ./FulfilmentBestelManagement
     container_name: fullfilmentbestelling-service
     links:
       - fullfilmentbestelling_db
@@ -196,7 +196,3 @@ services:
     depends_on:
       - zending_db
       - kafka-container
-  
-
-
-
