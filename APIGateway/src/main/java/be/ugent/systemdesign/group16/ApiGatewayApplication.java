@@ -22,14 +22,9 @@ public class ApiGatewayApplication {
 				.route(r -> r.host("*").and().path("api/fulfilmentklant/**").uri("http://localhost:2003"))
 				.route(r -> r.host("*").and().path("api/koerier/**").uri("http://localhost:2004"))
 				.route(r -> r.host("*").and().path("api/magazijnservice/**").uri("http://localhost:2005"))
-				.route(r -> r.host("*").and().path("api/sorteeritem/**").uri("http://localhost:2006"))
+				.route(r -> r.host("*").and().path("/api/sorteeritem/brief").uri("http://localhost:2006"))
 				.route(r -> r.host("*").and().path("api/trackandtrace/**").uri("http://localhost:2008"))
 				.route(r -> r.host("*").and().path("api/zendingen/**").uri("http://localhost:2010"))
-
-				// it is also possible to give independent paths:
-				// .route(r ->
-				// r.host("*").and().path("/inpatients").uri("http://localhost:2222/inpatients") )
-
 				.build();
 	}
 }

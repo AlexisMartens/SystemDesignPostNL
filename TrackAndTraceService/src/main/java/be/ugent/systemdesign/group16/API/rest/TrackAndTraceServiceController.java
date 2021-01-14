@@ -17,7 +17,7 @@ import be.ugent.systemdesign.group16.application.TrackAndTraceService;
 import be.ugent.systemdesign.group16.domain.TrackAndTrace;
 
 @RestController
-@RequestMapping(path="api/TrackAndTrace")
+@RequestMapping(path="/api/TrackAndTrace")
 @CrossOrigin(origins="*")
 public class TrackAndTraceServiceController {
 

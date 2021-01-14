@@ -226,7 +226,7 @@ public class SorteerItemManagementApplication {
 				log.info(">Nieuw sorteerItem aanmaken via Rest Controller.");
 				HttpClient client = HttpClient.newHttpClient();
 				HttpRequest request = HttpRequest.newBuilder()
-					      .uri(URI.create("http://localhost:8080/api/sorteeritem/brief"))
+					      .uri(URI.create("http://localhost:2006/api/sorteeritem/brief"))
 					      .timeout(Duration.ofMinutes(1))
 					      .header("Content-Type", "application/json")
 					      .POST(BodyPublishers.ofString(getBody()))

@@ -19,7 +19,7 @@ import be.ugent.systemdesign.group16.application.ResponseStatus;
 import be.ugent.systemdesign.group16.domain.Bestelling;
 
 @RestController
-@RequestMapping(path="api/bestel")
+@RequestMapping(path="/api/bestel")
 @CrossOrigin(origins="*")
 public class BestelManagementController {
 	

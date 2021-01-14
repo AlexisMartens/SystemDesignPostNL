@@ -17,7 +17,7 @@ import be.ugent.systemdesign.group16.application.ResponseStatus;
 import be.ugent.systemdesign.group16.domain.FulfilmentKlant;
 
 @RestController
-@RequestMapping(path="api/fulfilmentklant")
+@RequestMapping(path="/api/fulfilmentklant")
 @CrossOrigin(origins="*")
 public class FulfilmentKlantManagementController {
 	

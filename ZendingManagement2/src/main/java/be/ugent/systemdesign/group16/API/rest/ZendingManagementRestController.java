@@ -17,14 +17,14 @@ import be.ugent.systemdesign.group16.domain.Adres;
 import be.ugent.systemdesign.group16.domain.Zending;
 
 @RestController
-@RequestMapping(path="api/zendingen/")
+@RequestMapping(path="/api/zendingen/")
 @CrossOrigin(origins="*")
 public class ZendingManagementRestController {
 	
 	@Autowired
 	ZendingService zendingService;
 	
-	@PostMapping("{id}")
+	@PostMapping("/{id}")
 	public ResponseEntity<String> aankomstNieuweZendingComplete(@PathVariable("id") Integer id, Adres afhaalpunt) {
 		Response response = zendingService.bevestigAankomstNieuweZending(id, afhaalpunt);
 		//according to REST specification, we should return the path of the newly created resource after a POST

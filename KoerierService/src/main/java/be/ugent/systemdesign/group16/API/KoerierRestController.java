@@ -14,28 +14,28 @@ import be.ugent.systemdesign.group16.application.Response;
 import be.ugent.systemdesign.group16.application.ResponseStatus;
 
 @RestController
-@RequestMapping(path="api/koerier/")
+@RequestMapping(path="/api/koerier/")
 @CrossOrigin(origins="*")
 public class KoerierRestController {
 
 	@Autowired
 	KoerierService koerierService;
 	
-	@PutMapping("{orderId}/afgeleverd")
+	@PutMapping("/{orderId}/afgeleverd")
 	public ResponseEntity<String> bevestigAfleveren(@PathVariable("orderId") Integer orderId) {
 		Response response = koerierService.bevestigAfleveren(orderId);
 		//according to REST specification, we should return the path of the newly created resource after a POST
 		return createResponseEntity(response.status, "Aflevering bevestigd", HttpStatus.OK, response.message,HttpStatus.CONFLICT);
 	}
 	
-	@PutMapping("{orderId}/afgeleverdBuren")
+	@PutMapping("/{orderId}/afgeleverdBuren")
 	public ResponseEntity<String> bevestigAfleverenBuren(@PathVariable("orderId") Integer orderId) {
 		Response response = koerierService.bevestigAfleveren(orderId);
 		//according to REST specification, we should return the path of the newly created resource after a POST
 		return createResponseEntity(response.status, "Aflevering bij buren bevestigd", HttpStatus.OK, response.message,HttpStatus.CONFLICT);
 	}
 	 
-	@PutMapping("{orderId}/opgehaald")
+	@PutMapping("/{orderId}/opgehaald")
 	public ResponseEntity<String> bevestigOphalen(@PathVariable("orderId") Integer orderId) {
 		Response response = koerierService.bevestigOphalen(orderId);
 		//according to REST specification, we should return the path of the newly created resource after a POST

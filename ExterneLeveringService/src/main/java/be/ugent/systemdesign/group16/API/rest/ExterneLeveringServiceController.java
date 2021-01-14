@@ -16,14 +16,14 @@ import be.ugent.systemdesign.group16.application.ResponseStatus;
 import be.ugent.systemdesign.group16.application.event.UpdateTrackAndTraceEvent;
 
 @RestController
-@RequestMapping(path="api/ExterneLeveringService")
+@RequestMapping(path="/api/ExterneLeveringService")
 @CrossOrigin(origins="*")
 public class ExterneLeveringServiceController {
 	
 	@Autowired
 	ExterneLeveringService service;
 	
-	@PutMapping("{id}/update")
+	@PutMapping("/{id}/update")
 	public ResponseEntity<String> UpdateStatusZending(@RequestBody UpdateTrackAndTraceEvent event ) {
 		Response response = service.UpdateTrackAndTrace(event);
 		return createResponseEntity(response.status, "Intake registered", HttpStatus.OK, response.message,HttpStatus.CONFLICT);
