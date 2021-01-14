@@ -41,19 +41,19 @@ services:
     container_name: sorteerservice
     links:
       - kafka
-      - sorteerder_db
+      - sorteer_db
     depends_on:
       - kafka
-      - sorteerder_db
+      - sorteer_db
   vervoerservice:
     build: ./VervoerService
     container_name: vervoerservice
     links:
       - kafka
-      - vervoerder_db
+      - vervoer_db
     depends_on:
       - kafka
-      - vervoerder_db
+      - vervoer_db
   sorteeritemmanagement:
     build: ./SorteerItemManagement
     container_name: sorteeritemmanagement
