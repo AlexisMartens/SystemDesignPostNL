@@ -17,7 +17,7 @@ import be.ugent.systemdesign.group16.application.SorteerItemService;
 import be.ugent.systemdesign.group16.domain.SorteerItem;
 
 @RestController
-@RequestMapping(path = "api/sorteeritem")
+@RequestMapping(path = "")
 @CrossOrigin(origins = "*")
 public class SorteerItemManagementController {
 
