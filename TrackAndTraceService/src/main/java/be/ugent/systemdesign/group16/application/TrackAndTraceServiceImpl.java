@@ -16,7 +16,7 @@ public class TrackAndTraceServiceImpl implements TrackAndTraceService {
 	
 	@Override
 	public Response MaakTrackAndTrace(Integer bestellingId, String status) {
-		if(repo.existsById(bestellingId)) {
+		if(bestellingId == null || repo.existsById(bestellingId)) {
 			return new Response(ResponseStatus.FAIL, "id "+bestellingId);
 		}
 		repo.save(new TrackAndTrace(bestellingId, status));
@@ -26,7 +26,7 @@ public class TrackAndTraceServiceImpl implements TrackAndTraceService {
 	@Override
 	public Response UpdateTrackAndTrace(Integer bestellingId, String naam, String postcode, String straat,
 			String plaats, String land, String status) {
-		if(!repo.existsById(bestellingId)) {
+		if(bestellingId == null || !repo.existsById(bestellingId)) {
 			return new Response(ResponseStatus.FAIL, "id "+bestellingId);
 		}
 		TrackAndTrace tnt = repo.getOne(bestellingId);
