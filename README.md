@@ -10,7 +10,7 @@ Om de front-end te testen, surf je naar 'http:localhost/swagger-ui.html'. Hier k
 ### ZendingManagement
 maakNiet verkeerd
 
-
+#### aankomstNieuweZendingComplete
 {
 "correctAdres": true,
 "land": "string",
