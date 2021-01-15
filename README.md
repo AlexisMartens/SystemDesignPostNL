@@ -49,34 +49,6 @@ Om de front-end te testen, surf je naar 'http:localhost/swagger-ui.html'. Hier k
 "straat": "Bijlenstraat 2"
 }
 ```
-#### 3
-```
-{
-"aanmaakDatum": "2021-01-15",
-"afzender": {
-"correctAdres": true,
-"land": "België",
-"naam": "Bob Marley",
-"plaats": "Putte",
-"postcode": "6000",
-"straat": "Bobstraat 55"
-},
-"bestellingId": 0,
-"ontvanger": {
-"correctAdres": true,
-"land": "België",
-"naam": "Damien Marley",
-"plaats": "Bobbegem",
-"postcode": "4200",
-"straat": "Marleystraat 1"
-},
-"ophalen": true,
-"spoed": true,
-"status": "AANGEMAAKT",
-"typeBestelling": "PAKKET"
-}
-```
-
 ### ZendingManagement
 #### aankomstNieuweZendingComplete
 ```
