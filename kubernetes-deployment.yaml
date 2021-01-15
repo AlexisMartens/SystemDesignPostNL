@@ -884,3 +884,36 @@ spec:
   ports:
     - port: 2010
 ---
+#APIGateway
+##Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apigateway
+  labels:
+    app: apigateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: apigateway
+  template:
+    metadata:
+      labels:
+        app: apigateway
+    spec:
+      containers:
+      - name: apigateway
+        image: toonmertens/apigateway
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apigateway
+spec:
+  selector:
+    app: apigateway
+  ports:
+    - port: 8080
+      targetport: 80
+---
