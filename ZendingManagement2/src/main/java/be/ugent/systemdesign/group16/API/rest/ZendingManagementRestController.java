@@ -29,7 +29,7 @@ public class ZendingManagementRestController {
 		return createResponseEntity(r.status,"Zending correct aangemaakt",HttpStatus.OK,r.getMessage(),HttpStatus.CONFLICT);
 	}
 	@PostMapping("/{id}")
-	public ResponseEntity<String> aankomstNieuweZendingComplete(@PathVariable("id") Integer id, Adres afhaalpunt) {
+	public ResponseEntity<String> aankomstNieuweZendingComplete(@PathVariable("id") Integer id, @RequestBody Adres afhaalpunt) {
 		Response response = zendingService.bevestigAankomstNieuweZending(id, afhaalpunt);
 		//according to REST specification, we should return the path of the newly created resource after a POST
 		return createResponseEntity(response.status, "Aankomst nieuwe zending bevestigd, klant kan zending komen ophalen", HttpStatus.OK, response.message,HttpStatus.CONFLICT);
