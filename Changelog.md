@@ -1,4 +1,4 @@
-# Titel
+# Changelog
 
 Hieronder is een overzicht terug te vinden van alle gerealiseerde services samen met de naam van de verantwoordelijke.
 Er wordt ook telkens aangegeven voor elke service welke eventuele architectuurwijzigingen aangebracht zijn.
