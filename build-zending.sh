@@ -1,7 +1,8 @@
 #! /bin/bash
 
 declare -a services=(
-	"KoerierService"
+	"BestelManagement"
+	"MagazijnService"
 	"APIGateway"
 )
 

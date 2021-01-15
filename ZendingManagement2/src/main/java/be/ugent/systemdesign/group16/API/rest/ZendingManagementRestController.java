@@ -25,8 +25,8 @@ public class ZendingManagementRestController {
 	ZendingService zendingService;
 	@PostMapping("/")
 	public ResponseEntity<String> maakNiets(@RequestBody Zending z){
-		Response r = new Response(ResponseStatus.SUCCESS,"Aangemaakt");
-		return createResponseEntity(r.getStatus(),HttpStatus.OK,"Zending correct aangemaakt",HttpStatus.CONFLICT,r.getMessage());
+		Response r = new Response("Aangemaakt",ResponseStatus.SUCCESS);
+		return createResponseEntity(r.status,"Zending correct aangemaakt",HttpStatus.OK,r.getMessage(),HttpStatus.CONFLICT);
 	}
 	@PostMapping("/{id}")
 	public ResponseEntity<String> aankomstNieuweZendingComplete(@PathVariable("id") Integer id, Adres afhaalpunt) {

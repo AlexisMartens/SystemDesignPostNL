@@ -297,7 +297,7 @@ public class MagazijnServiceApplication {
 				log.info(">Bevestig inpakken pakket via Rest Controller.");
 				HttpClient client = HttpClient.newHttpClient();
 				HttpRequest request = HttpRequest.newBuilder()
-					      .uri(URI.create("http://localhost:2225/api/MagazijnService/0/bevestigInpakken"))
+					      .uri(URI.create("http://localhost:2005/api/pakket/0/bevestigInpakken"))
 					      .timeout(Duration.ofMinutes(1))
 					      .header("Content-Type", "application/json")
 					      .POST(BodyPublishers.ofString(getBody()))
