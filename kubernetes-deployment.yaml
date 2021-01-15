@@ -915,5 +915,5 @@ spec:
     app: apigateway
   ports:
     - port: 8080
-      targetport: 80
+      targetPort: 80
 ---
