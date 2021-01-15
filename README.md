@@ -124,3 +124,6 @@ Om de front-end te testen, surf je naar 'http:localhost/swagger-ui.html'. Hier k
 (verschillend van de changelog, 
 zoals Christof zegt:  'Als een deel van jullie functionaliteit niet werkt, gelieve dit hier dan ook te vermelden zodat wij niet nodeloos moeten zoeken.'
 )
+
+## Architectuurwijzigingen
+zie [here](Changelog.md)
