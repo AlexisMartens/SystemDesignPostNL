@@ -5,8 +5,7 @@ Er wordt ook telkens aangegeven voor elke service welke eventuele architectuurwi
 
 Met een pijltje ">" wordt aangegeven of de microservice een 'hoofdimplementatie' is.
 
-## >**ZendingManagement** 
--- Tristan De Groote
+## >**ZendingManagement** `Tristan De Groote`
 
 ## MagazijnService
 
