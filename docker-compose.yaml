@@ -97,6 +97,31 @@ services:
       - MYSQL_DATABASE=Zending
 
 #Services
+  api-gw:
+    build: ./APIGateway
+    container_name: api-gw
+    links:
+      - bestel-service
+      - externelevering-service
+      - fullfilmentbestelling-service
+      - klanten-service
+      - koerier-service
+      - magazijn-service
+      - sorteeritem-service
+      - trackandtrace-service
+      - zending-service
+    depends_on:
+      - bestel-service
+      - externelevering-service
+      - fullfilmentbestelling-service
+      - klanten-service
+      - koerier-service
+      - magazijn-service
+      - sorteeritem-service
+      - trackandtrace-service
+      - zending-service
+    ports:
+      - 80:8080
   bestel-service:
     build: ./BestelManagement
     container_name: bestel-service

@@ -93,7 +93,7 @@ public class FulfilmentBestelManagementApplication {
 				log.info(">Plaats Bestelling bij FulfilmentBestelManagement via Rest Controller.");
 				HttpClient client = HttpClient.newHttpClient();
 				HttpRequest request = HttpRequest.newBuilder()
-						.uri(URI.create("http://localhost:2288/api/fulfilmentbestel/"))
+						.uri(URI.create("http://localhost:2002/api/fulfilmentbestel/"))
 						.timeout(Duration.ofMinutes(1))
 						.header("Content-Type", "application/json")
 						.POST(BodyPublishers.ofString(getBody()))

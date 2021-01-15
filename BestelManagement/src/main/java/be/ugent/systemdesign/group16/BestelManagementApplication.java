@@ -16,11 +16,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 import be.ugent.systemdesign.group16.infrastructure.*;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import be.ugent.systemdesign.group16.API.messaging.Channels;
 import be.ugent.systemdesign.group16.application.BestelService;
 import be.ugent.systemdesign.group16.application.Response;
 import be.ugent.systemdesign.group16.domain.*;
 
+@EnableSwagger2
 @EnableAsync
 @EnableBinding(Channels.class)
 @SpringBootApplication
