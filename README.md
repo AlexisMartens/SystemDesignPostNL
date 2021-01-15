@@ -33,8 +33,8 @@ Om de front-end te testen, surf je naar 'http:localhost/swagger-ui.html'. Hier k
         "plaats" : "Gent",
         "land" : "Belgie"
     },
-    "soort": "PAKKET",
-    "spoed": "true"
+    "soort": "BRIEF",
+    "spoed": "false"
 }
 ```
 
