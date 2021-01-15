@@ -126,4 +126,4 @@ zoals Christof zegt:  'Als een deel van jullie functionaliteit niet werkt, gelie
 )
 
 ## Architectuurwijzigingen
-zie [here](Changelog.md)
+Overzicht wijzigingen [here](Changelog.md)
