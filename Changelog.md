@@ -7,6 +7,7 @@ Er wordt ook telkens aangegeven voor elke service welke eventuele architectuurwi
 `Tristan De Groote`
 Dit is de service die volledig werd uitgewerkt.
 De systeemoperatie bevestigAfhalen werd weggelaten aangezien deze operatie als redundant kan beschouwd worden: bevestigAfleverenZending wordt ontvangen als event vanuit KoerierService bij ZendingManagement. 'bevestigAfleverenZending' bevestigt namelijk de aflevering van de zending.
+
 Het verwerken van bevestigAfleverenZending werd vereenvoudigd: er wordt met een willekeurige kans bepaald of de zending wordt afgeleverd bij de klant. In het andere geval zal de zending bij een tussenliggend sorteercentrum afgeleverd worden.
 
 ## MagazijnService
