@@ -7,7 +7,7 @@ Met een pijltje ">" wordt aangegeven of de microservice een 'hoofdimplementatie'
 
 ## >**ZendingManagement** 
 `Tristan De Groote`
-De systeemoperatie 'bevestigAfhalen' werd weggelaten aangezien deze operatie als redundant kan beschouwd worden: 'bevestigAfleverenZending' wordt ontvangen als event vanuit KoerierService bij ZendingManagement. 'bevestigAfleverenZending' bevestigt namelijk de aflevering van de zending.
+De systeemoperatie bevestigAfhalen werd weggelaten aangezien deze operatie als redundant kan beschouwd worden: bevestigAfleverenZending wordt ontvangen als event vanuit KoerierService bij ZendingManagement. 'bevestigAfleverenZending' bevestigt namelijk de aflevering van de zending.
 ## MagazijnService
 `Tristan De Groote`
 
