@@ -13,13 +13,18 @@ De systeemoperatie 'bevestigAfhalen' werd weggelaten aangezien deze operatie als
 
 ## >**SorteerItemManagement**
 `Toon Mertens`
+Dit is de service die volledig werd uitgewerkt.
+In de plaats van een document-database als MongoDB, werd de keuze toch gemaakt om met een relationele database te werken. De data is gepast om in een relationeel schema te steken zonder toegevingen te moeten doen in  performantie. 
+In het verslag werd aangegeven dat de twee services SorteerService en VervoerService verantwoordelijk zouden zijn voor het uitsturen van UpdateTrackAndTraceDomainEvents. Omdat de SorteerItemManagement een beter overzicht heeft over de locatie van het sorteeritem werd ervoor gekozen om dit in deze service af te handelen. 
 
 ## VervoerService
 `Toon Mertens`
-
+Dit is een stubservice. Zoals hierboven reeds aangekaart, zal het niet deze service zijn die de UpdateTrackAndTraceDomainEvents verstuurt, maar SorteerItemManagement. 
+De systeemoperatie BevestigVervoeren werd niet uitgewerkt aangezien dit een stubservice is.
 ## SorteerService
 `Toon Mertens`
-
+Dit is een stubservice. Ook hier werd het updaten van de trackandtrace niet aangepakt. 
+De systeemoperatie BevestigSorteren werd niet uitgewerkt aangezien dit een stubservice is.
 ## >**BestelManagement**
 `Alexis Martens`
 
