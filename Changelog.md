@@ -3,16 +3,14 @@
 Hieronder is een overzicht terug te vinden van alle gerealiseerde services samen met de naam van de verantwoordelijke.
 Er wordt ook telkens aangegeven voor elke service welke eventuele architectuurwijzigingen aangebracht zijn.
 
-Met een pijltje ">" wordt aangegeven of de microservice een 'hoofdimplementatie' is.
-
-## >**ZendingManagement** 
+## **ZendingManagement** 
 `Tristan De Groote`
 Dit is de service die volledig werd uitgewerkt.
 De systeemoperatie bevestigAfhalen werd weggelaten aangezien deze operatie als redundant kan beschouwd worden: bevestigAfleverenZending wordt ontvangen als event vanuit KoerierService bij ZendingManagement. 'bevestigAfleverenZending' bevestigt namelijk de aflevering van de zending.
 ## MagazijnService
 `Tristan De Groote`
 Dit is een stubservice.
-## >**SorteerItemManagement**
+## **SorteerItemManagement**
 `Toon Mertens`
 Dit is de service die volledig werd uitgewerkt.
 In de plaats van een document-database als MongoDB, werd de keuze toch gemaakt om met een relationele database te werken. De data is gepast om in een relationeel schema te steken zonder toegevingen te moeten doen in  performantie. 
@@ -26,7 +24,7 @@ De systeemoperatie BevestigVervoeren werd niet uitgewerkt aangezien dit een stub
 `Toon Mertens`
 Dit is een stubservice. Ook hier werd het updaten van de trackandtrace niet aangepakt. 
 De systeemoperatie BevestigSorteren werd niet uitgewerkt aangezien dit een stubservice is.
-## >**BestelManagement**
+## **BestelManagement**
 `Alexis Martens`
 Dit is de service die volledig werd uitgewerkt.
 ## ExterneLeveringService
@@ -35,7 +33,7 @@ Dit is een stubservice.
 ## TrackAndTraceService
 `Alexis Martens`
 Dit is een stubservice.
-## >**KoerierService**
+## **KoerierService**
 `Vincent Van de Sompele`
 Dit is de service die volledig werd uitgewerkt.
 ## FulfilmentBestelManagement
