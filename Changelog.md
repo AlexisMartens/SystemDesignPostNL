@@ -9,23 +9,32 @@ Met een pijltje ">" wordt aangegeven of de microservice een 'hoofdimplementatie'
 `Tristan De Groote`
 
 ## MagazijnService
+`Tristan De Groote`
 
 ## >**SorteerItemManagement**
+`Toon Mertens`
 
 ## VervoerService
+`Toon Mertens`
 
 ## SorteerService
+`Toon Mertens`
 
 ## >**BestelManagement**
+`Alexis Martens`
 
 ## ExterneLeveringService
+`Alexis Martens`
 
 ## TrackAndTraceService
-
-## ExterneLeveringService
+`Alexis Martens`
 
 ## >**KoerierService**
+`Vincent Van de Sompele`
 
 ## FulfilmentBestelManagement
+`Vincent Van de Sompele`
 
 ## KlantenService
+`Vincent Van de Sompele`
+
