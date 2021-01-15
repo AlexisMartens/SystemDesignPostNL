@@ -519,7 +519,7 @@ spec:
         image: abcdefghijklmnop12345/tristan-services      
         env:
         - name: spring.datasource.url
-          value: "jdbc:mysql://magazijn-db.default.svc.cluster.local:3306/Magazijn"
+          value: "jdbc:mysql://magazijn-db.default.svc.cluster.local:3306/ Pakket"
 ---
 apiVersion: v1
 kind: Service
