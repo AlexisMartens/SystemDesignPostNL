@@ -5,7 +5,7 @@ Er wordt ook telkens aangegeven voor elke service welke eventuele architectuurwi
 
 in het rood: services die stub implementatie zijn.
 
-## <u>ZendingManagement</u>
+## **ZendingManagement**
 
 ## MagazijnService
 
@@ -15,7 +15,7 @@ in het rood: services die stub implementatie zijn.
 
 ## SorteerService
 
-## <b>BestelManagement</b>
+## **BestelManagement**
 
 ## ExterneLeveringService
 
@@ -23,7 +23,7 @@ in het rood: services die stub implementatie zijn.
 
 ## ExterneLeveringService
 
-## <b>KoerierService</b>
+## **KoerierService**
 
 ## FulfilmentBestelManagement
 
