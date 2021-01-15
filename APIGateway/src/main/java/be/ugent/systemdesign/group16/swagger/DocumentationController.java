@@ -20,7 +20,7 @@ public class DocumentationController implements SwaggerResourcesProvider {
 	   public List<SwaggerResource> get() {
 	      List<SwaggerResource> resources = new ArrayList<>();
 	      resources.add(swaggerResource("bestel-service:2000", "/api/bestel/v2/api-docs", "2.0"));
-	      resources.add(swaggerResource("sorteeritem-service:2006", "/api/sorteeritem/v2/api-docs", "2.0"));
+	      resources.add(swaggerResource("sorteeritem-service:2006", "/v2/api-docs", "2.0"));
 	      return resources;
 	   }
 	
