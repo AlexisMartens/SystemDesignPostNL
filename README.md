@@ -42,11 +42,11 @@ Om de front-end te testen, surf je naar 'http:localhost/swagger-ui.html'. Hier k
 {
 "bestellingId": 0,
 "land": "België",
-"naam": "Clive Standen",
-"plaats": "Waregem",
-"postcode": "9102",
-"status": "AANGEMAAKT",
-"straat": "Beringenstraat"
+"naam": "Michael Hirst",
+"plaats": "Bijlen",
+"postcode": "7770",
+"status": "VERWERKT",
+"straat": "Bijlenstraat 2"
 }
 ```
 #### 3
