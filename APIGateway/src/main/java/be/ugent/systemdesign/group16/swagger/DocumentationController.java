@@ -24,7 +24,7 @@ public class DocumentationController implements SwaggerResourcesProvider {
 	      resources.add(swaggerResource("fullfilmentbestelling-service:2002", "/api/fulfilmentbestel/v2/api-docs", "2.0"));
 	      resources.add(swaggerResource("klanten-service:2003", "/api/fulfilmentklant/v2/api-docs", "2.0"));
 	      resources.add(swaggerResource("koerier-service:2004", "/api/koerier/v2/api-docs", "2.0"));
-	      resources.add(swaggerResource("magazijn-service:2005", "/api/magazijn/v2/api-docs", "2.0"));
+	      resources.add(swaggerResource("magazijn-service:2005", "/api/pakket/v2/api-docs", "2.0"));
 	      resources.add(swaggerResource("sorteeritem-service:2006", "/api/sorteeritem/v2/api-docs", "2.0"));
 	      resources.add(swaggerResource("trackandtrace-service:2008", "/api/trackandtrace/v2/api-docs", "2.0"));
 	      resources.add(swaggerResource("zending-service:2010", "/api/zending/v2/api-docs", "2.0"));	      
