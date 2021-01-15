@@ -36,7 +36,9 @@ import be.ugent.systemdesign.group16.domain.SorteerItemStatus;
 import be.ugent.systemdesign.group16.infrastructure.AdresDataModel;
 import be.ugent.systemdesign.group16.infrastructure.SorteerItemDataModel;
 import be.ugent.systemdesign.group16.infrastructure.SorteerItemDataModelJpaRepository;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+@EnableSwagger2
 @EnableBinding(Channels.class)
 @SpringBootApplication
 public class SorteerItemManagementApplication {

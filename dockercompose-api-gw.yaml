@@ -25,6 +25,13 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=SorteerItem
+  bestelling_db:
+    image: mysql:5.7
+    container_name: bestelling_db
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=Bestelling
 
 #Services
   api-gw:
@@ -45,3 +52,16 @@ services:
     depends_on:
       - sorteeritem_db
       - kafka-container
+    ports:
+      - 2006:2006
+  bestel-service:
+    build: ./BestelManagement
+    container_name: bestel-service
+    links:
+      - bestelling_db
+      - kafka-container
+    depends_on:
+      - bestelling_db
+      - kafka-container
+    ports:
+      - 2000:2000

@@ -1,4 +1,4 @@
-package be.ugent.systemdesign.group16.Swagger;
+package be.ugent.systemdesign.group16.swagger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +17,10 @@ public class DocumentationController implements SwaggerResourcesProvider {
 
 	
 	@Override
-	   public List get() {
-	      List resources = new ArrayList<>();
-	      resources.add(swaggerResource("bestel-service", "/api/bestel/v2/api-docs", "2.0"));
+	   public List<SwaggerResource> get() {
+	      List<SwaggerResource> resources = new ArrayList<>();
+	      resources.add(swaggerResource("bestel-service:2000", "/api/bestel/v2/api-docs", "2.0"));
+	      resources.add(swaggerResource("sorteeritem-service:2006", "/api/sorteeritem/v2/api-docs", "2.0"));
 	      return resources;
 	   }
 	
