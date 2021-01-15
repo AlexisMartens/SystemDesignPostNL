@@ -273,7 +273,7 @@ public class ZendingManagementApplication {
 				log.info(">Bevestig aankomst nieuwe zending via Rest Controller.");
 				HttpClient client = HttpClient.newHttpClient();
 				HttpRequest request = HttpRequest.newBuilder()
-					      .uri(URI.create("http://localhost:2226/api/zendingen/0"))
+					      .uri(URI.create("http://localhost:2010/api/zending/0"))
 					      .timeout(Duration.ofMinutes(1))
 					      .header("Content-Type", "application/json")
 					      .POST(BodyPublishers.ofString(getBody1()))
