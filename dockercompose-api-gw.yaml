@@ -1,0 +1,47 @@
+version: "3"
+services:
+
+#kafka and zookeeeper
+  zookeeper-container:
+    image: confluentinc/cp-zookeeper
+    environment:
+      - ZOOKEEPER_CLIENT_PORT=2181
+  kafka-container:
+    image: confluentinc/cp-kafka
+    depends_on: 
+      - zookeeper-container
+    environment: 
+      - KAFKA_BROKER_ID=1
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper-container:2181
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka-container:9092
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+
+#Databases
+
+  sorteeritem_db:
+    image: mysql:5.7
+    container_name: sorteeritem_db
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=SorteerItem
+
+#Services
+  api-gw:
+    build: ./APIGateway
+    container_name: api-gw
+    links:
+      - sorteeritem-service
+    depends_on:
+      - sorteeritem-service
+    ports:
+      - 80:8080
+  sorteeritem-service:
+    build: ./SorteerItemManagement
+    container_name: sorteeritem-service
+    links:
+      - sorteeritem_db
+      - kafka-container
+    depends_on:
+      - sorteeritem_db
+      - kafka-container
