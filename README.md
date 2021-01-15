@@ -78,6 +78,7 @@ Om de front-end te testen, surf je naar 'http:localhost/swagger-ui.html'. Hier k
 ```
 
 ### ZendingManagement
+#### aankomstNieuweZendingComplete
 ```
 {
 "correctAdres": true,
