@@ -5,7 +5,7 @@ Er wordt ook telkens aangegeven voor elke service welke eventuele architectuurwi
 
 in het rood: services die stub implementatie zijn.
 
-## <b>ZendingManagement</b>
+## <u>ZendingManagement</u>
 
 ## MagazijnService
 
