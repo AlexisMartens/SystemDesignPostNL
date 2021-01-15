@@ -217,7 +217,9 @@ spec:
       containers:
       - name: externelevering-service
         image: alexismartens72/externeleveringservice:v1
-        args: ["--spring.datasource.url=jdbc:mysql://externelevering-db.default.svc.cluster.local:3306/ExterneLevering"]
+        env:
+        - name: spring.datasource.url
+          value: "jdbc:mysql://externelevering-db.default.svc.cluster.local:3306/ExterneLevering"        
 ---
 apiVersion: v1
 kind: Service
@@ -290,7 +292,9 @@ spec:
       containers:
       - name: fulfilmentbestelling-service
         image: vvdsompe/fulfilmentbestelmanagement:latest
-        args: ["--spring.datasource.url=jdbc:mysql://fulfilmentbestelling-db.default.svc.cluster.local:3306/Bestelling"]
+        env:
+        - name: spring.datasource.url
+          value: "jdbc:mysql://fulfilmentbestelling-db.default.svc.cluster.local:3306/Bestelling"
 ---
 apiVersion: v1
 kind: Service
@@ -362,8 +366,10 @@ spec:
     spec:
       containers:
       - name: klanten-service
-        image: vvdsompe/klantenservice:latest
-        args: ["--spring.datasource.url=jdbc:mysql://klanten-db.default.svc.cluster.local:3306/Klanten"]
+        image: vvdsompe/klantenservice:latest       
+        env:
+        - name: spring.datasource.url
+          value: "jdbc:mysql://klanten-db.default.svc.cluster.local:3306/Klanten"
 ---
 apiVersion: v1
 kind: Service
@@ -436,7 +442,9 @@ spec:
       containers:
       - name: koerier-service
         image: vvdsompe/koerierservice:latest
-        args: ["--spring.datasource.url=jdbc:mysql://koerier-db.default.svc.cluster.local:3306/Koerier"]
+        env:
+        - name: spring.datasource.url
+          value: "jdbc:mysql://koerier-db.default.svc.cluster.local:3306/Koerier"
 ---
 apiVersion: v1
 kind: Service
@@ -508,8 +516,10 @@ spec:
     spec:
       containers:
       - name: magazijn-service
-        image: abcdefghijklmnop12345/tristan-services
-        args: ["--spring.datasource.url=jdbc:mysql://magazijn-db.default.svc.cluster.local:3306/Magazijn"]
+        image: abcdefghijklmnop12345/tristan-services      
+        env:
+        - name: spring.datasource.url
+          value: "jdbc:mysql://magazijn-db.default.svc.cluster.local:3306/Magazijn"
 ---
 apiVersion: v1
 kind: Service
@@ -582,7 +592,9 @@ spec:
       containers:
       - name: sorteeritem-service
         image: toonmertens/sorteeritemmanagement
-        args: ["--spring.datasource.url=jdbc:mysql://sorteeritem-db.default.svc.cluster.local:3306/SorteerItem"]
+        env:
+        - name: spring.datasource.url
+          value: "jdbc:mysql://sorteeritem-db.default.svc.cluster.local:3306/SorteerItem"
 ---
 apiVersion: v1
 kind: Service
@@ -655,7 +667,9 @@ spec:
       containers:
       - name: sorteer-service
         image: toonmertens/sorteerservice
-        args: ["--spring.datasource.url=jdbc:mysql://sorteer-db.default.svc.cluster.local:3306/Sorteer"]
+        env:
+        - name: spring.datasource.url
+          value: "jdbc:mysql://sorteer-db.default.svc.cluster.local:3306/Sorteer"
 ---
 apiVersion: v1
 kind: Service
@@ -728,7 +742,9 @@ spec:
       containers:
       - name: trackandtrace-service
         image: alexismartens72/trackandtraceservice:v1
-        args: ["--spring.datasource.url=jdbc:mysql://trackandtrace-db.default.svc.cluster.local:3306/TrackAndTrace"]
+        env:
+        - name: spring.datasource.url
+          value: "jdbc:mysql://trackandtrace-db.default.svc.cluster.local:3306/TrackAndTrace"
 ---
 apiVersion: v1
 kind: Service
@@ -800,8 +816,10 @@ spec:
     spec:
       containers:
       - name: vervoer-service
-        image: toonmertens/vervoerservice
-        args: ["--spring.datasource.url=jdbc:mysql://vervoer-db.default.svc.cluster.local:3306/Vervoer"]
+        image: toonmertens/vervoerservice        
+        env:
+        - name: spring.datasource.url
+          value: "jdbc:mysql://vervoer-db.default.svc.cluster.local:3306/Vervoer"
 ---
 apiVersion: v1
 kind: Service
@@ -873,8 +891,10 @@ spec:
     spec:
       containers:
       - name: zending-service
-        image: abcdefghijklmnop12345/tristan-services-zending
-        args: ["--spring.datasource.url=jdbc:mysql://zending-db.default.svc.cluster.local:3306/Zending"]
+        image: abcdefghijklmnop12345/tristan-services-zending       
+        env:
+        - name: spring.datasource.url
+          value: "jdbc:mysql://zending-db.default.svc.cluster.local:3306/Zending"
 ---
 apiVersion: v1
 kind: Service
