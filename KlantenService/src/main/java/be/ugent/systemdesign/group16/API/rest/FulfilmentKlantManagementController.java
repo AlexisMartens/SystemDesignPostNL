@@ -27,14 +27,12 @@ public class FulfilmentKlantManagementController {
 	@PostMapping("/")
 	public ResponseEntity<String> maakFulfilmentKlant(@RequestBody FulfilmentKlant k) {
 		Response response = fulFilmentBestelService.maakFulfilmentKlant(k);
-		//according to REST specification, we should return the path of the newly created resource after a POST
 		return createResponseEntity(response.status, "Nieuwe Fulfilmentklant gemaakt in FulfilmentBestelManagement with "+response.message, HttpStatus.OK, response.message,HttpStatus.CONFLICT);
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> stopFulfilmentKlant(@PathVariable("id") Integer id) {
 		Response response = fulFilmentBestelService.stopFulfilmentKlant(id);
-		//according to REST specification, we should return the path of the newly created resource after a POST
 		return createResponseEntity(response.status, "Fulfilmentklant verwijderd uit FulfilmentBestelManagement with "+response.message, HttpStatus.OK, response.message,HttpStatus.CONFLICT);
 	}
 	

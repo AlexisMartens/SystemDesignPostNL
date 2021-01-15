@@ -11,16 +11,7 @@ import be.ugent.systemdesign.group16.domain.UpdateTrackAndTraceEvent;
 
 @MessagingGateway
 public interface MessageOutputGateway extends EventDispatcher {
-    
-//    @Gateway(requestChannel = Channels.BEVESTIG_AFLEVEREN_ZENDING_EVENT)
-//    void publishNieuweTrackAndTraceEvent(BevestigAfleverenZendingEvent event);
-//    
-//    @Gateway(requestChannel = Channels.BEVESTIG_OPHALEN_ZENDING_EVENT)
-//    void publishExterneBestellingEvent(BevestigOphalenZendingEvent event);
-//    
-//    @Gateway(requestChannel = Channels.UPDATE_TRACKANDTRACE_EVENT)
-//    void publishZendingEvent(UpdateTrackAndTraceEvent event);
-    
+      
     @Gateway(requestChannel = Channels.BEVESTIG_OPHALEN_ZENDING_EVENT)
     void publishBevestigOphalenZendingEvent(BevestigOphalenZendingEvent event);
     

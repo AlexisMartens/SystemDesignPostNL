@@ -244,14 +244,14 @@ public class KoerierServiceApplication {
 				log.info(">Bevestig ophalen order via Rest Controller.");
 				HttpClient client = HttpClient.newHttpClient();
 				HttpRequest request = HttpRequest.newBuilder()
-						.uri(URI.create("http://localhost:2229/api/koerier/1/opgehaald")).timeout(Duration.ofMinutes(1))
+						.uri(URI.create("http://localhost:2004/api/koerier/1/opgehaald")).timeout(Duration.ofMinutes(1))
 						.header("Content-Type", "application/json").PUT(BodyPublishers.ofString(getBody1())).build();
 				HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
 				log.info("- response: {}", response.body());
 
 				log.info(">Bevestig afleveren order via Rest Controller.");
 				client = HttpClient.newHttpClient();
-				request = HttpRequest.newBuilder().uri(URI.create("http://localhost:2229/api/koerier/1/afgeleverd"))
+				request = HttpRequest.newBuilder().uri(URI.create("http://localhost:2004/api/koerier/1/afgeleverd"))
 						.timeout(Duration.ofMinutes(1)).header("Content-Type", "application/json")
 						.PUT(BodyPublishers.ofString(getBody2())).build();
 				response = client.send(request, BodyHandlers.ofString());
@@ -260,7 +260,7 @@ public class KoerierServiceApplication {
 				log.info(">Bevestig afleveren buren order via Rest Controller.");
 				client = HttpClient.newHttpClient();
 				request = HttpRequest.newBuilder()
-						.uri(URI.create("http://localhost:2229/api/koerier/2/afgeleverdBuren"))
+						.uri(URI.create("http://localhost:2004/api/koerier/2/afgeleverdBuren"))
 						.timeout(Duration.ofMinutes(1)).header("Content-Type", "application/json")
 						.PUT(BodyPublishers.ofString(getBody3())).build();
 				response = client.send(request, BodyHandlers.ofString());

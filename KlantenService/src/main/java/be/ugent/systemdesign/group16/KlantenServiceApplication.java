@@ -85,14 +85,6 @@ public class KlantenServiceApplication {
 		};
 	}
 
-	/*@Bean
-	CommandLineRunner testgetKlantenDataCommand(MessageInputGateway inputGateway) {
-		return (args) -> {
-			log.info("$ test receiveGetKlantenData");
-			inputGateway.receiveGetKlantenDataResponse(new GetKlantenDataCommand("1", "get_klanten_data_response"));
-		};
-	}*/
-
 
 	@Bean
 	CommandLineRunner testFulfilmentKlantManagementController(FulfilmentKlantServiceImpl service) {
@@ -102,7 +94,7 @@ public class KlantenServiceApplication {
 				log.info(">maakFulfilment klant bij KlantenService via Rest Controller.");
 				HttpClient client = HttpClient.newHttpClient();
 				HttpRequest request = HttpRequest.newBuilder()
-						.uri(URI.create("http://localhost:2233/api/fulfilmentklant/"))
+						.uri(URI.create("http://localhost:2003/api/fulfilmentklant/"))
 						.timeout(Duration.ofMinutes(1))
 						.header("Content-Type", "application/json")
 						.POST(BodyPublishers.ofString(getBody()))
@@ -113,7 +105,7 @@ public class KlantenServiceApplication {
 				log.info(">stopFulfilment klant bij KlantenService via Rest Controller.");
 				client = HttpClient.newHttpClient();
 				request = HttpRequest.newBuilder()
-						.uri(URI.create("http://localhost:2233/api/fulfilmentklant/555"))
+						.uri(URI.create("http://localhost:2003/api/fulfilmentklant/555"))
 						.timeout(Duration.ofMinutes(1))
 						.DELETE()
 						.build();
