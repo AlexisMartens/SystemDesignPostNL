@@ -24,12 +24,6 @@ public class SorteerItemManagementController {
 	@Autowired
 	SorteerItemService service;
 	
-	@PostMapping("/")
-	public ResponseEntity<String> maakNiets(@RequestBody SorteerItem _s){
-		Response r = new Response(ResponseStatus.SUCCESS,"Aangemaakt");
-		return createResponseEntity(r.getStatus(),HttpStatus.OK,"SorteerItem correct aangemaakt",HttpStatus.CONFLICT,r.getMessage());
-	}
-	
 	@PostMapping("/brief")
 	public ResponseEntity<String> maakBriefSorteerItem(@RequestBody SorteerItem _s){
 		_s.setAanmaakDatum(LocalDate.now());
