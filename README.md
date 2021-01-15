@@ -7,21 +7,98 @@ bash build.sh && docker-compose up --build
 ## Front-end runnen met Swagger
 Om de front-end te testen, surf je naar 'http:localhost/swagger-ui.html'. Hier kan er een service worden geselecteerd en kan een REST-call worden verstuurd. Hieronder zijn mogelijke JSON-bodies voor elke service en elke methode.
 
-### ZendingManagement
-#### maakNiets
-overbodig
-
-#### aankomstNieuweZendingComplete
+### BestelManagement
+#### 1
 ```
 {
-    "correctAdres": true,
-    "land": "string",
-    "naam": "string",
-    "plaats": "string",
-    "postcode": "string",
-    "straat": "string"
+"aanmaakDatum": "2021-01-15",
+"afzender": {
+"correctAdres": true,
+"land": "string",
+"naam": "string",
+"plaats": "string",
+"postcode": "string",
+"straat": "string"
+},
+"bestellingId": 0,
+"domainEvents": [
+{
+"createdTime": "2021-01-15T20:56:25.191Z"
+}
+],
+"extern": true,
+"externeLeveringService": "EXTRAATHOME",
+"ontvanger": {
+"correctAdres": true,
+"land": "string",
+"naam": "string",
+"plaats": "string",
+"postcode": "string",
+"straat": "string"
+},
+"ophalen": true,
+"spoed": true,
+"status": "AANGEMAAKT",
+"typeBestelling": "string"
 }
 ```
+#### 2
+```
+{
+"bestellingId": 0,
+"land": "string",
+"naam": "string",
+"plaats": "string",
+"postcode": "string",
+"status": "string",
+"straat": "string"
+}
+```
+#### 3
+```
+{
+"aanmaakDatum": "2021-01-15",
+"afzender": {
+"correctAdres": true,
+"land": "string",
+"naam": "string",
+"plaats": "string",
+"postcode": "string",
+"straat": "string"
+},
+"bestellingId": 0,
+"domainEvents": [
+{
+"createdTime": "2021-01-15T20:57:10.415Z"
+}
+],
+"ontvanger": {
+"correctAdres": true,
+"land": "string",
+"naam": "string",
+"plaats": "string",
+"postcode": "string",
+"straat": "string"
+},
+"ophalen": true,
+"spoed": true,
+"status": "AANGEMAAKT",
+"typeBestelling": "string"
+}
+```
+
+### ZendingManagement
+maakNiet verkeerd
+
+
+{
+"correctAdres": true,
+"land": "string",
+"naam": "string",
+"plaats": "string",
+"postcode": "string",
+"straat": "string"
+}
 
 ### SorteerItemManagement
 #### maakBriefSorteerItem
