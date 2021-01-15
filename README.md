@@ -7,6 +7,16 @@ bash build.sh && docker-compose up --build
 ## Front-end runnen met Swagger
 Om de front-end te testen, surf je naar 'http:localhost/swagger-ui.html'. Hier kan er een service worden geselecteerd en kan een REST-call worden verstuurd. Hieronder zijn mogelijke JSON-bodies voor elke service en elke methode.
 
+### ZendingManagement
+{
+"correctAdres": true,
+"land": "string",
+"naam": "string",
+"plaats": "string",
+"postcode": "string",
+"straat": "string"
+}
+
 ### SorteerItemManagement
 #### maakBriefSorteerItem
 ```
