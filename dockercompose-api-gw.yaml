@@ -37,10 +37,6 @@ services:
   api-gw:
     build: ./APIGateway
     container_name: api-gw
-    links:
-      - sorteeritem-service
-    depends_on:
-      - sorteeritem-service
     ports:
       - 80:8080
   sorteeritem-service:
