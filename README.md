@@ -121,7 +121,7 @@ Om de front-end te testen, surf je naar 'http:localhost/swagger-ui.html'. Hier k
 ```
 
 ## Wat niet werkt
-Als BestelManagement een event (ZendingDomainEvent) stuurt naar ZendingManagement om aan te geven dat er een nieuwe zending is aangemaakt, wordt dit verworpen door ZendingManagement. Er wordt bijgevolg geen event (StuurKoerierDomainEvent) uitgestuurd naar KoerierService.
+Als BestelManagement een event (ZendingDomainEvent) stuurt naar ZendingManagement om aan te geven dat er een nieuwe zending is aangemaakt, wordt dit verworpen door ZendingManagement. Er kan bijgevolg geen event meer (StuurKoerierDomainEvent) uitgestuurd worden naar KoerierService.
 
 ## Architectuurwijzigingen
 Overzicht wijzigingen [here](Changelog.md)
