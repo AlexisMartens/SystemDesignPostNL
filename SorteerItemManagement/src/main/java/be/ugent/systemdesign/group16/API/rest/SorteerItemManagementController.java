@@ -24,7 +24,7 @@ public class SorteerItemManagementController {
 	@Autowired
 	SorteerItemService service;
 	
-	@PostMapping("/")
+	@PostMapping("/brief")
 	public ResponseEntity<String> maakBriefSorteerItem(@RequestBody SorteerItem _s){
 		_s.setAanmaakDatum(LocalDate.now());
 		Response r = service.maakNieuwSorteerItem(_s);
