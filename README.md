@@ -12,14 +12,16 @@ Om de front-end te testen, surf je naar 'http:localhost/swagger-ui.html'. Hier k
 overbodig
 
 #### aankomstNieuweZendingComplete
+```
 {
-"correctAdres": true,
-"land": "string",
-"naam": "string",
-"plaats": "string",
-"postcode": "string",
-"straat": "string"
+    "correctAdres": true,
+    "land": "string",
+    "naam": "string",
+    "plaats": "string",
+    "postcode": "string",
+    "straat": "string"
 }
+```
 
 ### SorteerItemManagement
 #### maakBriefSorteerItem
