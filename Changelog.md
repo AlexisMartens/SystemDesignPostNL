@@ -11,20 +11,20 @@ in het rood: services die stub implementatie zijn.
 
 ## SorteerItemManagement
 
-## VervoerService
+## <i>VervoerService</i>
 
-## SorteerService
+## <i>SorteerService</i>
 
 ## BestelManagement
 
-## ExterneLeveringService
+## <i>ExterneLeveringService</i>
 
-## TrackAndTraceService
+## <i>TrackAndTraceService</i>
 
-## ExterneLeveringService
+## <i>ExterneLeveringService</i>
 
 ## KoerierService
 
-## FulfilmentBestelManagement
+## <i>FulfilmentBestelManagement</i>
 
-## KlantenService
+## <i>KlantenService</i>
