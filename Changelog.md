@@ -5,26 +5,26 @@ Er wordt ook telkens aangegeven voor elke service welke eventuele architectuurwi
 
 in het rood: services die stub implementatie zijn.
 
-## ZendingManagement
+## <b>ZendingManagement</b>
 
-## <i>MagazijnService</i>
+## MagazijnService
 
 ## SorteerItemManagement
 
-## <i>VervoerService</i>
+## VervoerService
 
-## <i>SorteerService</i>
+## SorteerService
 
-## BestelManagement
+## <b>BestelManagement</b>
 
-## <i>ExterneLeveringService</i>
+## ExterneLeveringService
 
-## <i>TrackAndTraceService</i>
+## TrackAndTraceService
 
-## <i>ExterneLeveringService</i>
+## ExterneLeveringService
 
-## KoerierService
+## <b>KoerierService</b>
 
-## <i>FulfilmentBestelManagement</i>
+## FulfilmentBestelManagement
 
-## <i>KlantenService</i>
+## KlantenService
