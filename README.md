@@ -5,7 +5,38 @@ bash build.sh && docker-compose up --build
 ```
 
 ## Front-end runnen met Swagger
-...
+Om de front-end te testen, surf je naar 'http:localhost/swagger-ui.html'. Hier kan er een service worden geselecteerd en kan een REST-call worden verstuurd. Hieronder zijn mogelijke JSON-bodies voor elke service en elke methode.
+
+### SorteerItemManagement
+#### maakBriefSorteerItem
+```
+{
+    "trackId": "1000",
+    "doel" : {
+        "naam" : "Lodewijk XIV",
+        "postcode" : "9000",
+        "straat" : "straat",
+        "plaats" : "Nevele",
+        "land" : "Belgie"
+    },
+    "afkomst" : {
+        "naam" : "Karel de Grote",
+        "postcode" : "9000",
+        "straat" : "straat",
+        "plaats" : "Nevele",
+        "land" : "Belgie"
+    },
+    "huidigeLocatie" : {
+        "naam" : "Sorteercentrum Gent",
+        "postcode" : "9000",
+        "straat" : "Gentstraat 10",
+        "plaats" : "Gent",
+        "land" : "Belgie"
+    },
+    "soort": "PAKKET",
+    "spoed": "true"
+}
+```
 
 ## Wat niet werkt
 (verschillend van de changelog, 
