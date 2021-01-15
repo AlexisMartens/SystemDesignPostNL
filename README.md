@@ -9,6 +9,7 @@ Om de front-end te testen, surf je naar 'http:localhost/swagger-ui.html'. Hier k
 
 ### BestelManagement
 #### maakBestelling
+Indien geen externe bestelling: extern: false
 ```
 {
 "aanmaakDatum": "2021-01-15",
@@ -93,7 +94,7 @@ Om de front-end te testen, surf je naar 'http:localhost/swagger-ui.html'. Hier k
 ```
 
 ## Wat niet werkt
-Als BestelManagement een event (ZendingDomainEvent) stuurt naar ZendingManagement om aan te geven dat er een nieuwe zending is aangemaakt, wordt dit verworpen door ZendingManagement. Er kan bijgevolg geen event meer (StuurKoerierDomainEvent) uitgestuurd worden naar KoerierService.
+Als BestelManagement een event (ZendingDomainEvent) stuurt naar ZendingManagement om aan te geven dat er een nieuwe zending is aangemaakt, wordt dit verworpen door ZendingManagement. Er kan bijgevolg geen event meer (StuurKoerierDomainEvent) uitgestuurd worden naar KoerierService. De kubernetes deployment werkt niet voor kafka en zookeeper. Docker-compose werkt wel. 
 
 ## Architectuurwijzigingen
 Overzicht wijzigingen [here](Changelog.md)
