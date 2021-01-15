@@ -41,33 +41,6 @@ public class OrderRepositoryImpl implements OrderRepository{
 	public Integer countByKoerier(Koerier koerier) {
 		return orderDMJPARepo.countByKoerierDataModel(mapToKoerierDataModel(koerier));
 	}
-	
-	
-/*
- * 	private Integer orderId;
-	
-	private Adres ontvanger;
-	
-	private Adres afzender;
-	
-	private boolean ophalen;
-	
-	private LocalDate aanmaakDatum;
-	
-	private boolean spoed;
-	
-	private boolean extern;
-	
-	private OrderStatus orderStatus;*/
-	
-	
-	
-	/*OrderDataModel(Integer orderId, KoerierDataModel koerierDataModel, String naamAfzender,
-			String postcodeAfzender, String straatAfzender, String plaatsAfzender, String landAfzender,
-			String naamOntvanger, String postcodeOntvanger, String straatOntvanger, String plaatsOntvanger,
-			String landOntvanger, LocalDate aanmaakDatum, boolean spoed, boolean extern, String orderType,
-			String orderStatus)
-			*/
  
 	private OrderDataModel mapToOrderDataModel(Order o) {
 		return new OrderDataModel(o.getOrderId(),mapToKoerierDataModel(o.getKoerier()),o.getAfzender().getNaam(), o.getAfzender().getPostcode(), o.getAfzender().getStraat(), o.getAfzender().getPlaats(), o.getAfzender().getLand(), o.getOntvanger().getNaam(), o.getOntvanger().getPostcode(), o.getOntvanger().getStraat(), o.getOntvanger().getPlaats(), o.getOntvanger().getLand(), o.getAanmaakDatum(), o.isSpoed(),o.isExtern(),o.getOrderStatus().toString());
