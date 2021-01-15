@@ -16,7 +16,7 @@ import be.ugent.systemdesign.group16.application.ResponseStatus;
 import be.ugent.systemdesign.group16.application.event.UpdateTrackAndTraceEvent;
 
 @RestController
-@RequestMapping(path="/api/ExterneLeveringService")
+@RequestMapping(path="/api/externelevering")
 @CrossOrigin(origins="*")
 public class ExterneLeveringServiceController {
 	

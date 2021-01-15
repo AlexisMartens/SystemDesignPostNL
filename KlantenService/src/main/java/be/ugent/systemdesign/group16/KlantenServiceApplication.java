@@ -7,7 +7,6 @@ import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,7 +28,9 @@ import be.ugent.systemdesign.group16.domain.FulfilmentKlant;
 import be.ugent.systemdesign.group16.domain.FulfilmentKlantRepository;
 import be.ugent.systemdesign.group16.infrastructure.FulfilmentKlantDataModel;
 import be.ugent.systemdesign.group16.infrastructure.FulfilmentKlantDataModelRepository;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+@EnableSwagger2
 @EnableAsync
 @EnableBinding(Channels.class)
 @SpringBootApplication

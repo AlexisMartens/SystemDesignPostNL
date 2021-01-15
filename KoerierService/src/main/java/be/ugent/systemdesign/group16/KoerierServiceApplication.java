@@ -3,8 +3,8 @@ package be.ugent.systemdesign.group16;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.net.http.HttpRequest.BodyPublishers;
+import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -27,14 +27,15 @@ import be.ugent.systemdesign.group16.application.KoerierService;
 import be.ugent.systemdesign.group16.application.Response;
 import be.ugent.systemdesign.group16.application.event.EventHandler;
 import be.ugent.systemdesign.group16.application.event.StuurKoerierDomainEvent;
-import be.ugent.systemdesign.group16.domain.BevestigAfleverenZendingEvent;
 import be.ugent.systemdesign.group16.domain.Koerier;
 import be.ugent.systemdesign.group16.domain.KoerierRepository;
 import be.ugent.systemdesign.group16.infrastructure.KoerierDataModel;
 import be.ugent.systemdesign.group16.infrastructure.KoerierDataModelJpaRepository;
 import be.ugent.systemdesign.group16.infrastructure.OrderDataModel;
 import be.ugent.systemdesign.group16.infrastructure.OrderDataModelJpaRepository;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+@EnableSwagger2
 @SpringBootApplication
 @EnableAsync
 @EnableBinding(Channels.class)

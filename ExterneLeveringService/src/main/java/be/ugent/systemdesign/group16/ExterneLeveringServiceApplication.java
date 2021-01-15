@@ -1,11 +1,5 @@
 package be.ugent.systemdesign.group16;
 
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -17,7 +11,9 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 import be.ugent.systemdesign.group16.API.messaging.Channels;
 import be.ugent.systemdesign.group16.application.ExterneLeveringService;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+@EnableSwagger2
 @EnableAsync
 @EnableBinding(Channels.class)
 @SpringBootApplication
@@ -32,10 +28,7 @@ public class ExterneLeveringServiceApplication {
 	@Bean
 	CommandLineRunner testBestellingDataModelRepository(ExterneLeveringService service) {
 		return (args) ->{
-			log.info("$Testing ExterneLeveringService.");
-			
-			//testen
-			
+			log.info("$Testing ExterneLeveringService.");			
 		};
 	}
 

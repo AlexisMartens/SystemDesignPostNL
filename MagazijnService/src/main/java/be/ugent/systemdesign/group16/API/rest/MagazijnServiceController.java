@@ -17,7 +17,7 @@ import be.ugent.systemdesign.group16.application.Response;
 import be.ugent.systemdesign.group16.application.ResponseStatus;
 
 @RestController
-@RequestMapping(path="/api/MagazijnService/")
+@RequestMapping(path="/api/magazijn")
 @CrossOrigin(origins="*")
 public class MagazijnServiceController {
 	

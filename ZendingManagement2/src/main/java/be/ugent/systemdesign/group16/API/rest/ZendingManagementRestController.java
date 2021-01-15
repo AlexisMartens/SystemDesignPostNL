@@ -17,7 +17,7 @@ import be.ugent.systemdesign.group16.domain.Adres;
 import be.ugent.systemdesign.group16.domain.Zending;
 
 @RestController
-@RequestMapping(path="/api/zendingen/")
+@RequestMapping(path="/api/zending")
 @CrossOrigin(origins="*")
 public class ZendingManagementRestController {
 	

@@ -1,6 +1,7 @@
 package be.ugent.systemdesign.group16;
 
 import java.net.URI;
+
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -40,6 +41,9 @@ import be.ugent.systemdesign.group16.domain.ZendingRepository;
 import be.ugent.systemdesign.group16.domain.ZendingStatus;
 import be.ugent.systemdesign.group16.infrastructure.ZendingDataModel;
 import be.ugent.systemdesign.group16.infrastructure.ZendingDataModelRepository;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+@EnableSwagger2
 @EnableAsync
 @EnableBinding(Channels.class)
 @SpringBootApplication

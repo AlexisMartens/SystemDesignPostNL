@@ -29,7 +29,9 @@ import be.ugent.systemdesign.group16.application.command.GetKlantenDataCommand;
 import be.ugent.systemdesign.group16.domain.Bestelling;
 import be.ugent.systemdesign.group16.infrastructure.BestellingDataModel;
 import be.ugent.systemdesign.group16.infrastructure.BestellingDataModelRepository;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+@EnableSwagger2
 @EnableAsync
 @EnableBinding(Channels.class)
 @SpringBootApplication
