@@ -1,4 +1,19 @@
-# Zookeeper
+## Zookeeper
+apiVersion: v1
+kind: Service
+metadata:
+  name: zookeeper-container
+  labels:
+    app: zookeeper-container
+spec:
+  type: ClusterIP
+  selector:
+    app: zookeeper-container
+  ports:
+  - port: 2181
+    targetPort: 2181
+    protocol: TCP
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -22,22 +37,21 @@ spec:
           - name: ZOOKEEPER_CLIENT_PORT
             value: "2181"
 ---
+## Kafka
 apiVersion: v1
 kind: Service
 metadata:
-  name: zookeeper-container
+  name: kafka-container
   labels:
-    app: zookeeper-container
+    app: kafka-container
 spec:
-  type: ClusterIP
   selector:
-    app: zookeeper-container
+    app: kafka-container
   ports:
-  - port: 2181
-    targetPort: 2181
+  - port: 9092
+    targetPort: 9092
     protocol: TCP
 ---
-# Kafka
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -67,547 +81,131 @@ spec:
           - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
             value: "1"
 ---
+## APIGateWay
 apiVersion: v1
 kind: Service
 metadata:
-  name: kafka-container
-  labels:
-    app: kafka-container
+  name: apigateway
 spec:
   selector:
-    app: kafka-container
+    app: apigateway
   ports:
-  - port: 9092
-    targetPort: 9092
-    protocol: TCP
-
-#BestelManagement
-##DB
+    - port: 8080
+      targetPort: 80
+  externalIPs: 
+    - 10.2.0.53
+---       
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bestel-db
+  name: apigateway
   labels:
-    app: bestel-db
+    app: apigateway
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: bestel-db
+      app: apigateway
   template:
     metadata:
       labels:
-        app: bestel-db
+        app: apigateway
     spec:
       containers:
-      - name: bestel-db
-        image: mysql:5.7
-        args: ["--default-authentication-plugin=mysql_native_password"]
-        env:
-        - name: MYSQL_ROOT_PASSWORD
-          value: "root"
-        - name: MYSQL_DATABASE
-          value: "Bestelling"
-        ports:
-        - containerPort: 3306
-          name: mysql
+      - name: apigateway
+        image: toonmertens/apigateway          
 ---
+## SorteerItemManagement
 apiVersion: v1
 kind: Service
-metadata:
-  name: bestel-db
-spec:
-  selector:
-    app: bestel-db
-  ports:
-    - port: 3306
+metadata:  
+ name: sorteeritem-db-service
+spec:  
+ selector:
+  app: sorteeritem-db
+ ports:
+  - port: 3306
 ---
-##Service
 apiVersion: apps/v1
 kind: Deployment
-metadata:
-  name: bestel-service
-  labels:
-    app: bestel-service
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: bestel-service
-  template:
-    metadata:
-      labels:
-        app: bestel-service
-    spec:
-      containers:
-      - name: bestel-service
-        image: alexismartens72/bestelmanagement:v1
-        env:
-        - name: spring.datasource.url
-          value: "jdbc:mysql://bestel-db-service.default.svc.cluster.local:3306/Bestelling"
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: bestel-service
-spec:
-  selector:
-    app: bestel-service
-  ports:
-    - port: 2000
----
-#ExterneLeveringService
-##DB
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: externelevering-db
-  labels:
-    app: externelevering-db
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: externelevering-db
-  template:
-    metadata:
-      labels:
-        app: externelevering-db
-    spec:
-      containers:
-      - name: externelevering-db
-        image: mysql:5.7
-        args: ["--default-authentication-plugin=mysql_native_password"]
-        env:
-        - name: MYSQL_ROOT_PASSWORD
-          value: "root"
-        - name: MYSQL_DATABASE
-          value: "ExterneLevering"
-        ports:
-        - containerPort: 3306
-          name: mysql
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: externelevering-db
-spec:
-  selector:
-    app: externelevering-db
-  ports:
-    - port: 3306
----
-##Service
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: externelevering-service
-  labels:
-    app: externelevering-service
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: externelevering-service
-  template:
-    metadata:
-      labels:
-        app: externelevering-service
-    spec:
-      containers:
-      - name: externelevering-service
-        image: alexismartens72/externeleveringservice:v1
-        env:
-        - name: spring.datasource.url
-          value: "jdbc:mysql://externelevering-db.default.svc.cluster.local:3306/ExterneLevering"        
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: externelevering-service
-spec:
-  selector:
-    app: externelevering-service
-  ports:
-    - port: 2001
----
-#FulfilmentBestellingService
-##DB
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: fulfilmentbestelling-db
-  labels:
-    app: fulfilmentbestelling-db
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: fulfilmentbestelling-db
-  template:
-    metadata:
-      labels:
-        app: fulfilmentbestelling-db
-    spec:
-      containers:
-      - name: fulfilmentbestelling-db
-        image: mysql:5.7
-        args: ["--default-authentication-plugin=mysql_native_password"]
-        env:
-        - name: MYSQL_ROOT_PASSWORD
-          value: "root"
-        - name: MYSQL_DATABASE
-          value: "Bestelling"
-        ports:
-        - containerPort: 3306
-          name: mysql
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: fulfilmentbestelling-db
-spec:
-  selector:
-    app: fulfilmentbestelling-db
-  ports:
-    - port: 3306
----
-##Service
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: fulfilmentbestelling-service
-  labels:
-    app: fulfilmentbestelling-service
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: fulfilmentbestelling-service
-  template:
-    metadata:
-      labels:
-        app: fulfilmentbestelling-service
-    spec:
-      containers:
-      - name: fulfilmentbestelling-service
-        image: vvdsompe/fulfilmentbestelmanagement:latest
-        env:
-        - name: spring.datasource.url
-          value: "jdbc:mysql://fulfilmentbestelling-db.default.svc.cluster.local:3306/Bestelling"
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: fulfilmentbestelling-service
-spec:
-  selector:
-    app: fulfilmentbestelling-service
-  ports:
-    - port: 2002
----
-#KlantenService
-##DB
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: klanten-db
-  labels:
-    app: klanten-db
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: klanten-db
-  template:
-    metadata:
-      labels:
-        app: klanten-db
-    spec:
-      containers:
-      - name: klanten-db
-        image: mysql:5.7
-        args: ["--default-authentication-plugin=mysql_native_password"]
-        env:
-        - name: MYSQL_ROOT_PASSWORD
-          value: "root"
-        - name: MYSQL_DATABASE
-          value: "Klanten"
-        ports:
-        - containerPort: 3306
-          name: mysql
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: klanten-db
-spec:
-  selector:
-    app: klanten-db
-  ports:
-    - port: 3306
----
-##Service
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: klanten-service
-  labels:
-    app: klanten-service
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: klanten-service
-  template:
-    metadata:
-      labels:
-        app: klanten-service
-    spec:
-      containers:
-      - name: klanten-service
-        image: vvdsompe/klantenservice:latest       
-        env:
-        - name: spring.datasource.url
-          value: "jdbc:mysql://klanten-db.default.svc.cluster.local:3306/Klanten"
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: klanten-service
-spec:
-  selector:
-    app: klanten-service
-  ports:
-    - port: 2003
----
-#KoerierService
-##DB
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: koerier-db
-  labels:
-    app: koerier-db
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: koerier-db
-  template:
-    metadata:
-      labels:
-        app: koerier-db
-    spec:
-      containers:
-      - name: koerier-db
-        image: mysql:5.7
-        args: ["--default-authentication-plugin=mysql_native_password"]
-        env:
-        - name: MYSQL_ROOT_PASSWORD
-          value: "root"
-        - name: MYSQL_DATABASE
-          value: "Koerier"
-        ports:
-        - containerPort: 3306
-          name: mysql
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: koerier-db
-spec:
-  selector:
-    app: koerier-db
-  ports:
-    - port: 3306
----
-##Service
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: koerier-service
-  labels:
-    app: koerier-service
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: koerier-service
-  template:
-    metadata:
-      labels:
-        app: koerier-service
-    spec:
-      containers:
-      - name: koerier-service
-        image: vvdsompe/koerierservice:latest
-        env:
-        - name: spring.datasource.url
-          value: "jdbc:mysql://koerier-db.default.svc.cluster.local:3306/Koerier"
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: koerier-service
-spec:
-  selector:
-    app: koerier-service
-  ports:
-    - port: 2004
----
-#MagazijnService
-##DB
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: magazijn-db
-  labels:
-    app: magazijn-db
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: magazijn-db
-  template:
-    metadata:
-      labels:
-        app: magazijn-db
-    spec:
-      containers:
-      - name: magazijn-db
-        image: mysql:5.7
-        args: ["--default-authentication-plugin=mysql_native_password"]
-        env:
-        - name: MYSQL_ROOT_PASSWORD
-          value: "root"
-        - name: MYSQL_DATABASE
-          value: "Magazijn"
-        ports:
-        - containerPort: 3306
-          name: mysql
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: magazijn-db
-spec:
-  selector:
-    app: magazijn-db
-  ports:
-    - port: 3306
----
-##Service
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: magazijn-service
-  labels:
-    app: magazijn-service
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: magazijn-service
-  template:
-    metadata:
-      labels:
-        app: magazijn-service
-    spec:
-      containers:
-      - name: magazijn-service
-        image: abcdefghijklmnop12345/tristan-services      
-        env:
-        - name: spring.datasource.url
-          value: "jdbc:mysql://magazijn-db.default.svc.cluster.local:3306/Pakket"
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: magazijn-service
-spec:
-  selector:
-    app: magazijn-service
-  ports:
-    - port: 2005
----
-#SorteerItemService
-##DB
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: sorteeritem-db
-  labels:
+metadata:  
+ name: sorteeritem-db-deployment  
+ labels:
+  app: sorteeritem-db
+spec:  
+ replicas: 1  
+ selector:
+  matchLabels:
+   app: sorteeritem-db
+ template:
+  metadata:
+   labels:
     app: sorteeritem-db
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: sorteeritem-db
-  template:
-    metadata:
-      labels:
-        app: sorteeritem-db
-    spec:
-      containers:
-      - name: sorteeritem-db
-        image: mysql:5.7
-        args: ["--default-authentication-plugin=mysql_native_password"]
-        env:
-        - name: MYSQL_ROOT_PASSWORD
-          value: "root"
-        - name: MYSQL_DATABASE
-          value: "SorteerItem"
-        ports:
-        - containerPort: 3306
-          name: mysql
+  spec:     
+   containers:
+    - name: sorteeritem-db
+      image: mysql:5.7
+      args: ["--default-authentication-plugin=mysql_native_password"]
+      env:
+       - name: MYSQL_ROOT_PASSWORD
+         value: "root"
+       - name: MYSQL_DATABASE
+         value: "SorteerItem"
+      ports:
+       - containerPort: 3306
+         name: mysql
 ---
 apiVersion: v1
 kind: Service
+metadata:  
+ name: sorteeritem-management
+ labels:
+  app: sorteeritem-management
+spec:  
+ selector:
+  app: sorteeritem-management
+ ports:
+  - port: 2006
+    targetPort: 2006  
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:  
+ name: sorteeritem-management-deployment  
+ labels:    
+  app: sorteeritem-management
+spec:  
+ replicas: 1
+ selector:
+  matchLabels:
+   app: sorteeritem-management 
+ template:
+  metadata:
+   labels:
+    app: sorteeritem-management
+  spec:
+   containers:
+    - name: sorteeritem-management
+      image: toonmertens/sorteeritemmanagement
+      env:
+       - name: spring.datasource.url
+         value: "jdbc:mysql://sorteeritem-db-service.default.svc.cluster.local:3306/SorteerItem"
+       - name: spring.cloud.stream.kafka.binder.brokers
+         value: "kafka-container:9092"
+       - name: spring.cloud.stream.kafka.binder.zkNodes
+         value: "zookeeper-container:2181"
+---
+## SorteerService
+apiVersion: v1
+kind: Service
 metadata:
-  name: sorteeritem-db
+  name: sorteer-db-service
 spec:
   selector:
-    app: sorteeritem-db
+    app: sorteer-db
   ports:
     - port: 3306
 ---
-##Service
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: sorteeritem-service
-  labels:
-    app: sorteeritem-service
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: sorteeritem-service
-  template:
-    metadata:
-      labels:
-        app: sorteeritem-service
-    spec:
-      containers:
-      - name: sorteeritem-service
-        image: toonmertens/sorteeritemmanagement
-        env:
-        - name: spring.datasource.url
-          value: "jdbc:mysql://sorteeritem-db.default.svc.cluster.local:3306/SorteerItem"
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: sorteeritem-service
-spec:
-  selector:
-    app: sorteeritem-service
-  ports:
-    - port: 2006
----
-#SorteerService
-##DB
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -640,14 +238,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: sorteer-db
+  name: sorteer-service
 spec:
   selector:
-    app: sorteer-db
+    app: sorteer-service
   ports:
-    - port: 3306
+    - port: 2007 
 ---
-##Service
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -669,95 +266,23 @@ spec:
         image: toonmertens/sorteerservice
         env:
         - name: spring.datasource.url
-          value: "jdbc:mysql://sorteer-db.default.svc.cluster.local:3306/Sorteer"
+          value: "jdbc:mysql://sorteer-db-service.default.svc.cluster.local:3306/Sorteer"
+        - name: spring.cloud.stream.kafka.binder.brokers
+          value: "kafka-container:9092"
+        - name: spring.cloud.stream.kafka.binder.zkNodes
+          value: "zookeeper-container:2181"  
 ---
+## VervoerService
 apiVersion: v1
 kind: Service
 metadata:
-  name: sorteer-service
+  name: vervoer-db-service
 spec:
   selector:
-    app: sorteer-service
-  ports:
-    - port: 2007
----
-#TrackAndTraceService
-##DB
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: trackandtrace-db
-  labels:
-    app: trackandtrace-db
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: trackandtrace-db
-  template:
-    metadata:
-      labels:
-        app: trackandtrace-db
-    spec:
-      containers:
-      - name: trackandtrace-db
-        image: mysql:5.7
-        args: ["--default-authentication-plugin=mysql_native_password"]
-        env:
-        - name: MYSQL_ROOT_PASSWORD
-          value: "root"
-        - name: MYSQL_DATABASE
-          value: "TrackAndTrace"
-        ports:
-        - containerPort: 3306
-          name: mysql
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: trackandtrace-db
-spec:
-  selector:
-    app: trackandtrace-db
+    app: vervoer-db
   ports:
     - port: 3306
 ---
-##Service
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: trackandtrace-service
-  labels:
-    app: trackandtrace-service
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: trackandtrace-service
-  template:
-    metadata:
-      labels:
-        app: trackandtrace-service
-    spec:
-      containers:
-      - name: trackandtrace-service
-        image: alexismartens72/trackandtraceservice:v1
-        env:
-        - name: spring.datasource.url
-          value: "jdbc:mysql://trackandtrace-db.default.svc.cluster.local:3306/TrackAndTrace"
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: trackandtrace-service
-spec:
-  selector:
-    app: trackandtrace-service
-  ports:
-    - port: 2008
----
-#VervoerService
-##DB
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -790,14 +315,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: vervoer-db
+  name: vervoer-service
 spec:
   selector:
-    app: vervoer-db
+    app: vervoer-service
   ports:
-    - port: 3306
+    - port: 2009
 ---
-##Service
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -819,20 +343,562 @@ spec:
         image: toonmertens/vervoerservice        
         env:
         - name: spring.datasource.url
-          value: "jdbc:mysql://vervoer-db.default.svc.cluster.local:3306/Vervoer"
+          value: "jdbc:mysql://vervoer-db-service.default.svc.cluster.local:3306/Vervoer"
+        - name: spring.cloud.stream.kafka.binder.brokers
+          value: "kafka-container:9092"
+        - name: spring.cloud.stream.kafka.binder.zkNodes
+          value: "zookeeper-container:2181"  
+---  
+## BestelManagement
+apiVersion: v1
+kind: Service
+metadata:
+  name: bestel-db-service
+spec:
+  selector:
+    app: bestel-db
+  ports:
+    - port: 3306
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bestel-db
+  labels:
+    app: bestel-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bestel-db
+  template:
+    metadata:
+      labels:
+        app: bestel-db
+    spec:
+      containers:
+      - name: bestel-db
+        image: mysql:5.7
+        args: ["--default-authentication-plugin=mysql_native_password"]
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "root"
+        - name: MYSQL_DATABASE
+          value: "Bestelling"
+        ports:
+        - containerPort: 3306
+          name: mysql
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: vervoer-service
+  name: bestel-service
 spec:
   selector:
-    app: vervoer-service
+    app: bestel-service
   ports:
-    - port: 2009
+    - port: 2000
 ---
-#ZendingService
-##DB
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bestel-service
+  labels:
+    app: bestel-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bestel-service
+  template:
+    metadata:
+      labels:
+        app: bestel-service
+    spec:
+      containers:
+      - name: bestel-service
+        image: alexismartens72/bestelmanagement:v1
+        env:
+        - name: spring.datasource.url
+          value: "jdbc:mysql://bestel-db-service.default.svc.cluster.local:3306/Bestelling"
+        - name: spring.cloud.stream.kafka.binder.brokers
+          value: "kafka-container:9092"
+        - name: spring.cloud.stream.kafka.binder.zkNodes
+          value: "zookeeper-container:2181"
+---
+## TrackAndTraceService
+apiVersion: v1
+kind: Service
+metadata:
+  name: trackandtrace-db-service
+spec:
+  selector:
+    app: trackandtrace-db
+  ports:
+    - port: 3306
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trackandtrace-db
+  labels:
+    app: trackandtrace-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: trackandtrace-db
+  template:
+    metadata:
+      labels:
+        app: trackandtrace-db
+    spec:
+      containers:
+      - name: trackandtrace-db
+        image: mysql:5.7
+        args: ["--default-authentication-plugin=mysql_native_password"]
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "root"
+        - name: MYSQL_DATABASE
+          value: "TrackAndTrace"
+        ports:
+        - containerPort: 3306
+          name: mysql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: trackandtrace-service
+spec:
+  selector:
+    app: trackandtrace-service
+  ports:
+    - port: 2008
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trackandtrace-service
+  labels:
+    app: trackandtrace-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: trackandtrace-service
+  template:
+    metadata:
+      labels:
+        app: trackandtrace-service
+    spec:
+      containers:
+      - name: trackandtrace-service
+        image: alexismartens72/trackandtraceservice:v1
+        env:
+        - name: spring.datasource.url
+          value: "jdbc:mysql://trackandtrace-db-service.default.svc.cluster.local:3306/TrackAndTrace"
+        - name: spring.cloud.stream.kafka.binder.brokers
+          value: "kafka-container:9092"
+        - name: spring.cloud.stream.kafka.binder.zkNodes
+          value: "zookeeper-container:2181"
+---
+## ExterneLeveringService
+apiVersion: v1
+kind: Service
+metadata:
+  name: externelevering-db-service
+spec:
+  selector:
+    app: externelevering-db
+  ports:
+    - port: 3306
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: externelevering-db
+  labels:
+    app: externelevering-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: externelevering-db
+  template:
+    metadata:
+      labels:
+        app: externelevering-db
+    spec:
+      containers:
+      - name: externelevering-db
+        image: mysql:5.7
+        args: ["--default-authentication-plugin=mysql_native_password"]
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "root"
+        - name: MYSQL_DATABASE
+          value: "ExterneLevering"
+        ports:
+        - containerPort: 3306
+          name: mysql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: externelevering-service
+spec:
+  selector:
+    app: externelevering-service
+  ports:
+    - port: 2001
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: externelevering-service
+  labels:
+    app: externelevering-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: externelevering-service
+  template:
+    metadata:
+      labels:
+        app: externelevering-service
+    spec:
+      containers:
+      - name: externelevering-service
+        image: alexismartens72/externeleveringservice:v1
+        env:
+        - name: spring.datasource.url
+          value: "jdbc:mysql://externelevering-db-service.default.svc.cluster.local:3306/ExterneLevering"  
+        - name: spring.cloud.stream.kafka.binder.brokers
+          value: "kafka-container:9092"
+        - name: spring.cloud.stream.kafka.binder.zkNodes
+          value: "zookeeper-container:2181"
+---
+## FulfilmentBestellingService
+apiVersion: v1
+kind: Service
+metadata:
+  name: fulfilmentbestelling-db-service
+spec:
+  selector:
+    app: fulfilmentbestelling-db
+  ports:
+    - port: 3306
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fulfilmentbestelling-db
+  labels:
+    app: fulfilmentbestelling-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fulfilmentbestelling-db
+  template:
+    metadata:
+      labels:
+        app: fulfilmentbestelling-db
+    spec:
+      containers:
+      - name: fulfilmentbestelling-db
+        image: mysql:5.7
+        args: ["--default-authentication-plugin=mysql_native_password"]
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "root"
+        - name: MYSQL_DATABASE
+          value: "Bestelling"
+        ports:
+        - containerPort: 3306
+          name: mysql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fulfilmentbestelling-service
+spec:
+  selector:
+    app: fulfilmentbestelling-service
+  ports:
+    - port: 2002
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fulfilmentbestelling-service
+  labels:
+    app: fulfilmentbestelling-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fulfilmentbestelling-service
+  template:
+    metadata:
+      labels:
+        app: fulfilmentbestelling-service
+    spec:
+      containers:
+      - name: fulfilmentbestelling-service
+        image: vvdsompe/fulfilmentbestelmanagement:latest
+        env:
+        - name: spring.datasource.url
+          value: "jdbc:mysql://fulfilmentbestelling-db-service.default.svc.cluster.local:3306/Bestelling"
+        - name: spring.cloud.stream.kafka.binder.brokers
+          value: "kafka-container:9092"
+        - name: spring.cloud.stream.kafka.binder.zkNodes
+          value: "zookeeper-container:2181"
+---
+## KlantenService
+apiVersion: v1
+kind: Service
+metadata:
+  name: klanten-db-service
+spec:
+  selector:
+    app: klanten-db
+  ports:
+    - port: 3306
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: klanten-db
+  labels:
+    app: klanten-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: klanten-db
+  template:
+    metadata:
+      labels:
+        app: klanten-db
+    spec:
+      containers:
+      - name: klanten-db
+        image: mysql:5.7
+        args: ["--default-authentication-plugin=mysql_native_password"]
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "root"
+        - name: MYSQL_DATABASE
+          value: "Klanten"
+        ports:
+        - containerPort: 3306
+          name: mysql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: klanten-service
+spec:
+  selector:
+    app: klanten-service
+  ports:
+    - port: 2003
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: klanten-service
+  labels:
+    app: klanten-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: klanten-service
+  template:
+    metadata:
+      labels:
+        app: klanten-service
+    spec:
+      containers:
+      - name: klanten-service
+        image: vvdsompe/klantenservice:latest       
+        env:
+        - name: spring.datasource.url
+          value: "jdbc:mysql://klanten-db-service.default.svc.cluster.local:3306/Klanten"
+        - name: spring.cloud.stream.kafka.binder.brokers
+          value: "kafka-container:9092"
+        - name: spring.cloud.stream.kafka.binder.zkNodes
+          value: "zookeeper-container:2181"
+---
+## KoerierService
+apiVersion: v1
+kind: Service
+metadata:
+  name: koerier-db-service
+spec:
+  selector:
+    app: koerier-db
+  ports:
+    - port: 3306
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: koerier-db
+  labels:
+    app: koerier-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: koerier-db
+  template:
+    metadata:
+      labels:
+        app: koerier-db
+    spec:
+      containers:
+      - name: koerier-db
+        image: mysql:5.7
+        args: ["--default-authentication-plugin=mysql_native_password"]
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "root"
+        - name: MYSQL_DATABASE
+          value: "Koerier"
+        ports:
+        - containerPort: 3306
+          name: mysql
+--- 
+apiVersion: v1
+kind: Service
+metadata:
+  name: koerier-service
+spec:
+  selector:
+    app: koerier-service
+  ports:
+    - port: 2004
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: koerier-service
+  labels:
+    app: koerier-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: koerier-service
+  template:
+    metadata:
+      labels:
+        app: koerier-service
+    spec:
+      containers:
+      - name: koerier-service
+        image: vvdsompe/koerierservice:latest
+        env:
+        - name: spring.datasource.url
+          value: "jdbc:mysql://koerier-db-service.default.svc.cluster.local:3306/Koerier"
+        - name: spring.cloud.stream.kafka.binder.brokers
+          value: "kafka-container:9092"
+        - name: spring.cloud.stream.kafka.binder.zkNodes
+          value: "zookeeper-container:2181"
+---
+## MagazijnService
+apiVersion: v1
+kind: Service
+metadata:
+  name: magazijn-db-service
+spec:
+  selector:
+    app: magazijn-db
+  ports:
+    - port: 3306
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: magazijn-db
+  labels:
+    app: magazijn-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: magazijn-db
+  template:
+    metadata:
+      labels:
+        app: magazijn-db
+    spec:
+      containers:
+      - name: magazijn-db
+        image: mysql:5.7
+        args: ["--default-authentication-plugin=mysql_native_password"]
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "root"
+        - name: MYSQL_DATABASE
+          value: "Magazijn"
+        ports:
+        - containerPort: 3306
+          name: mysql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: magazijn-service
+spec:
+  selector:
+    app: magazijn-service
+  ports:
+    - port: 2005
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: magazijn-service
+  labels:
+    app: magazijn-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: magazijn-service
+  template:
+    metadata:
+      labels:
+        app: magazijn-service
+    spec:
+      containers:
+      - name: magazijn-service
+        image: abcdefghijklmnop12345/tristan-services      
+        env:
+        - name: spring.datasource.url
+          value: "jdbc:mysql://magazijn-db-service.default.svc.cluster.local:3306/Pakket"
+        - name: spring.cloud.stream.kafka.binder.brokers
+          value: "kafka-container:9092"
+        - name: spring.cloud.stream.kafka.binder.zkNodes
+          value: "zookeeper-container:2181"
+---
+## ZendingManagement
+apiVersion: v1
+kind: Service
+metadata:
+  name: zending-db-service
+spec:
+  selector:
+    app: zending-db
+  ports:
+    - port: 3306
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -865,14 +931,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: zending-db
+  name: zending-service
 spec:
   selector:
-    app: zending-db
+    app: zending-service
   ports:
-    - port: 3306
+    - port: 2010
 ---
-##Service
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -894,48 +959,8 @@ spec:
         image: abcdefghijklmnop12345/tristan-services-zending       
         env:
         - name: spring.datasource.url
-          value: "jdbc:mysql://zending-db.default.svc.cluster.local:3306/Zending"
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: zending-service
-spec:
-  selector:
-    app: zending-service
-  ports:
-    - port: 2010
----
-#APIGateway
-##Service
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: apigateway
-  labels:
-    app: apigateway
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: apigateway
-  template:
-    metadata:
-      labels:
-        app: apigateway
-    spec:
-      containers:
-      - name: apigateway
-        image: toonmertens/apigateway
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: apigateway
-spec:
-  selector:
-    app: apigateway
-  ports:
-    - port: 8080
-      targetPort: 80
----
+          value: "jdbc:mysql://zending-db-service.default.svc.cluster.local:3306/Zending"
+        - name: spring.cloud.stream.kafka.binder.brokers
+          value: "kafka-container:9092"
+        - name: spring.cloud.stream.kafka.binder.zkNodes
+          value: "zookeeper-container:2181"  
